@@ -1,0 +1,114 @@
+{
+  "version": 1,
+  "author": "Terrarium capstone — EEE4103 logic simulation",
+  "editor": "wokwi",
+  "parts": [
+    { "id": "esp", "type": "board-esp32-devkit-c-v4", "top": 0, "left": 0, "attrs": {} },
+
+    { "id": "lblIn", "type": "wokwi-text", "top": -250, "left": -450,
+      "attrs": { "text": "INPUTS — turn the knobs to drive the logic" } },
+
+    { "id": "soil1", "type": "wokwi-potentiometer", "top": -190, "left": -420, "attrs": {} },
+    { "id": "lbl1", "type": "wokwi-text", "top": -88, "left": -430,
+      "attrs": { "text": "SOIL 1  ->  GPIO 34" } },
+
+    { "id": "soil2", "type": "wokwi-potentiometer", "top": -40, "left": -420, "attrs": {} },
+    { "id": "lbl2", "type": "wokwi-text", "top": 62, "left": -430,
+      "attrs": { "text": "SOIL 2  ->  GPIO 35" } },
+
+    { "id": "humid", "type": "wokwi-potentiometer", "top": 110, "left": -420, "attrs": {} },
+    { "id": "lbl3", "type": "wokwi-text", "top": 212, "left": -455,
+      "attrs": { "text": "HUMIDITY  ->  GPIO 32   (sim stand-in for BME280)" } },
+
+    { "id": "lux", "type": "wokwi-potentiometer", "top": 262, "left": -420, "attrs": {} },
+    { "id": "lbl4", "type": "wokwi-text", "top": 364, "left": -455,
+      "attrs": { "text": "LIGHT / LUX  ->  GPIO 33   (sim stand-in for BH1750)" } },
+
+    { "id": "float", "type": "wokwi-slide-switch", "top": 430, "left": -400, "attrs": {} },
+    { "id": "lbl5", "type": "wokwi-text", "top": 486, "left": -455,
+      "attrs": { "text": "FLOAT SWITCH  ->  GPIO 27      LEFT = tank empty" } },
+
+    { "id": "lblOut", "type": "wokwi-text", "top": -250, "left": 400,
+      "attrs": { "text": "OUTPUTS — LED lit = that MOSFET channel is ON" } },
+
+    { "id": "rWater", "type": "wokwi-resistor", "top": -186, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledWater", "type": "wokwi-led", "top": -210, "left": 520,
+      "attrs": { "color": "blue", "label": "WATER MIST 16" } },
+
+    { "id": "rMist", "type": "wokwi-resistor", "top": -106, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledMist", "type": "wokwi-led", "top": -130, "left": 520,
+      "attrs": { "color": "white", "label": "HUMID MIST 25" } },
+
+    { "id": "rLight", "type": "wokwi-resistor", "top": -26, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledLight", "type": "wokwi-led", "top": -50, "left": 520,
+      "attrs": { "color": "yellow", "label": "GROW LIGHT 19" } },
+
+    { "id": "rExh", "type": "wokwi-resistor", "top": 54, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledExh", "type": "wokwi-led", "top": 30, "left": 520,
+      "attrs": { "color": "cyan", "label": "EXHAUST FAN 17" } },
+
+    { "id": "rCirc", "type": "wokwi-resistor", "top": 134, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledCirc", "type": "wokwi-led", "top": 110, "left": 520,
+      "attrs": { "color": "cyan", "label": "CIRC FAN 18" } },
+
+    { "id": "rSpare", "type": "wokwi-resistor", "top": 214, "left": 390, "attrs": { "value": "220" } },
+    { "id": "ledSpare", "type": "wokwi-led", "top": 190, "left": 520,
+      "attrs": { "color": "green", "label": "SPARE 23" } },
+
+    { "id": "buzz", "type": "wokwi-buzzer", "top": 290, "left": 520, "attrs": { "volume": "0.1" } },
+    { "id": "lbl6", "type": "wokwi-text", "top": 372, "left": 512,
+      "attrs": { "text": "BUZZER  ->  GPIO 26" } },
+
+    { "id": "note1", "type": "wokwi-text", "top": 560, "left": -180,
+      "attrs": { "text": "Zero external libraries. Open the Serial Monitor at 115200 to watch the control logic." } },
+    { "id": "note2", "type": "wokwi-text", "top": 582, "left": -180,
+      "attrs": { "text": "Time runs 120x, so a full 24-hour day plays out in about 12 minutes." } }
+  ],
+  "connections": [
+    [ "esp:34", "soil1:SIG", "#7b61d6", [] ],
+    [ "esp:3V3", "soil1:VCC", "#e05252", [] ],
+    [ "esp:GND.1", "soil1:GND", "#6f7680", [] ],
+
+    [ "esp:35", "soil2:SIG", "#a44fd0", [] ],
+    [ "soil1:VCC", "soil2:VCC", "#e06666", [] ],
+    [ "soil1:GND", "soil2:GND", "#7d848e", [] ],
+
+    [ "esp:32", "humid:SIG", "#4fa8d0", [] ],
+    [ "soil2:VCC", "humid:VCC", "#d97b7b", [] ],
+    [ "soil2:GND", "humid:GND", "#8a8f98", [] ],
+
+    [ "esp:33", "lux:SIG", "#d0a44f", [] ],
+    [ "humid:VCC", "lux:VCC", "#c25555", [] ],
+    [ "humid:GND", "lux:GND", "#949aa4", [] ],
+
+    [ "esp:27", "float:2", "#708090", [] ],
+    [ "lux:GND", "float:1", "#656b74", [] ],
+
+    [ "esp:16", "rWater:1", "#3a9ad9", [] ],
+    [ "rWater:2", "ledWater:A", "#3a9ad9", [] ],
+    [ "ledWater:C", "esp:GND.3", "#5f6670", [] ],
+
+    [ "esp:25", "rMist:1", "#4363d8", [] ],
+    [ "rMist:2", "ledMist:A", "#4363d8", [] ],
+    [ "ledMist:C", "ledWater:C", "#666d76", [] ],
+
+    [ "esp:19", "rLight:1", "#e6a23c", [] ],
+    [ "rLight:2", "ledLight:A", "#e6a23c", [] ],
+    [ "ledLight:C", "ledMist:C", "#6d747d", [] ],
+
+    [ "esp:17", "rExh:1", "#2bb3c9", [] ],
+    [ "rExh:2", "ledExh:A", "#2bb3c9", [] ],
+    [ "ledExh:C", "ledLight:C", "#747b84", [] ],
+
+    [ "esp:18", "rCirc:1", "#20a4b8", [] ],
+    [ "rCirc:2", "ledCirc:A", "#20a4b8", [] ],
+    [ "ledCirc:C", "ledExh:C", "#7b828b", [] ],
+
+    [ "esp:23", "rSpare:1", "#3cb44b", [] ],
+    [ "rSpare:2", "ledSpare:A", "#3cb44b", [] ],
+    [ "ledSpare:C", "ledCirc:C", "#828992", [] ],
+
+    [ "esp:26", "buzz:2", "#f032e6", [] ],
+    [ "buzz:1", "ledSpare:C", "#899099", [] ]
+  ]
+}

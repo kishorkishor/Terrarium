@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terrarium — Master Build Guide</title>
+<style>
+:root{
+  --bg:#fbfaf8; --panel:#fff; --ink:#1a1917; --ink2:#4a4741; --ink3:#7a756c;
+  --line:#e3ded4; --line2:#cec7b8; --acc:#2f6f4e; --accsoft:#e8f1eb;
+  --warn:#8a5a00; --warnbg:#fdf4e1; --warnln:#e8c877;
+  --crit:#9b2c2c; --critbg:#fdeeee; --critln:#e8a5a5;
+  --info:#1f5f8b; --infobg:#e9f2f8; --infoln:#a8cbe0;
+  --mono:ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#16181a; --panel:#1e2124; --ink:#e8e6e1; --ink2:#b8b4ac; --ink3:#8a857c;
+    --line:#2e3236; --line2:#414750; --acc:#6fbf90; --accsoft:#1b2b22;
+    --warn:#e0b25e; --warnbg:#2b2317; --warnln:#5a4820;
+    --crit:#e88b8b; --critbg:#2c1a1a; --critln:#5e2f2f;
+    --info:#7ab8dd; --infobg:#16242e; --infoln:#2c4a5e;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.62 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1220px;margin:0 auto;padding:30px 18px 80px}
+h1{font-family:Georgia,serif;font-size:clamp(26px,4.4vw,40px);margin:0 0 8px;line-height:1.12}
+.sub{color:var(--ink2);margin:0 0 8px;max-width:76ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--ink3);
+  font-family:var(--mono);margin-bottom:24px}
+h2{font-family:Georgia,serif;font-size:23px;margin:44px 0 10px;
+  padding-bottom:8px;border-bottom:1px solid var(--line2);scroll-margin-top:70px}
+h2 .n{font-family:var(--mono);font-size:12px;color:var(--acc);margin-right:9px;font-weight:700}
+h3{font-size:15.5px;margin:22px 0 8px}
+p{margin:0 0 12px}.dim{color:var(--ink3);font-size:13.5px}
+a{color:var(--acc)}
+code{font-family:var(--mono);font-size:.87em;background:var(--accsoft);
+  padding:1px 5px;border-radius:3px}
+.note{border-left:3px solid;border-radius:0 6px 6px 0;padding:12px 16px;
+  margin:14px 0;font-size:14.5px}
+.note p:last-child{margin:0}
+.note b.t{display:block;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;margin-bottom:5px}
+.warn{background:var(--warnbg);border-color:var(--warnln)}.warn b.t{color:var(--warn)}
+.crit{background:var(--critbg);border-color:var(--critln)}.crit b.t{color:var(--crit)}
+.info{background:var(--infobg);border-color:var(--infoln)}.info b.t{color:var(--info)}
+
+nav.toc{background:var(--panel);border:1px solid var(--line);border-radius:9px;
+  padding:14px 18px;font-size:14px;display:flex;flex-wrap:wrap;gap:6px 22px}
+nav.toc a{text-decoration:none;color:var(--ink2)}
+nav.toc a:hover{color:var(--acc)}
+nav.toc b{color:var(--ink3);font-size:11px;letter-spacing:.1em;width:100%}
+
+.wireinfo{position:sticky;top:8px;z-index:12;background:var(--panel);
+  border:1px solid var(--line2);border-radius:9px;padding:10px 16px;
+  margin:0 0 12px;font-size:14px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.09)}
+.wireinfo .chip{width:28px;height:9px;border-radius:5px;flex:none;background:var(--line2)}
+.wireinfo b{font-family:var(--mono)}
+.dwrap{overflow:auto;border:1px solid var(--line);border-radius:11px;
+  background:var(--panel);padding:10px}
+svg{display:block;min-width:1430px;user-select:none}
+.cap{font-size:12.8px;color:var(--ink3);text-align:center;margin-top:9px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin:12px 0;font-size:13px;color:var(--ink2)}
+.legend i{width:24px;height:4px;border-radius:2px;display:inline-block;vertical-align:2px;margin-right:6px}
+
+.tsc{overflow-x:auto;border:1px solid var(--line);border-radius:9px;
+  background:var(--panel);margin:14px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th{text-align:left;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink3);padding:10px 12px;border-bottom:1px solid var(--line2)}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr[data-w]{cursor:pointer}
+tr.hl td{background:var(--accsoft)}
+td.pin{font-family:var(--mono);font-size:13px;white-space:nowrap;font-weight:600;color:var(--acc)}
+.chk{width:34px}.chk input{width:17px;height:17px;accent-color:var(--acc);cursor:pointer}
+tr.done td{opacity:.45}
+tr.done td.pin{text-decoration:line-through}
+.sw{display:inline-block;width:14px;height:14px;border-radius:4px;
+  vertical-align:-2px;border:1px solid rgba(0,0,0,.15)}
+.prog{position:sticky;top:60px;z-index:11;background:var(--panel);
+  border:1px solid var(--line2);border-radius:9px;padding:10px 16px;
+  margin:16px 0;display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--mono);font-size:14px}
+.prog b{color:var(--acc);font-size:18px}
+.prog button{font:inherit;font-size:12px;background:none;color:var(--ink2);
+  border:1px solid var(--line2);border-radius:6px;padding:4px 10px;cursor:pointer}
+
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:11px;
+  padding:18px 22px;margin:14px 0}
+.stage h3{margin:0 0 8px;display:flex;align-items:center;gap:10px}
+.stage h3 .sn{width:30px;height:30px;border-radius:50%;background:var(--accsoft);
+  color:var(--acc);display:inline-grid;place-items:center;font-family:var(--mono);
+  font-size:13px;font-weight:700;flex:none;border:1px solid var(--acc)}
+.stage ul{margin:6px 0 0;padding-left:20px}
+.stage li{margin-bottom:7px;font-size:14.6px}
+
+/* SVG */
+.bx{fill:var(--panel);stroke:var(--line2);stroke-width:1.5}
+.bxa{fill:var(--accsoft);stroke:var(--acc);stroke-width:1.7}
+.bxo{fill:var(--panel);stroke:var(--line2);stroke-width:1.4;stroke-dasharray:5 4}
+.bus{fill:var(--accsoft);stroke:var(--line2);stroke-width:1.2}
+.tt{fill:var(--ink);font-size:12.5px;font-weight:700;text-anchor:middle}
+.tl{fill:var(--acc);font-size:12.5px;font-weight:700;text-anchor:middle;text-decoration:underline;cursor:pointer}
+.ts{fill:var(--ink3);font-size:9.5px;text-anchor:middle}
+.pl{fill:var(--ink2);font-size:9px;font-family:var(--mono)}
+.plr{fill:var(--ink2);font-size:9px;font-family:var(--mono);text-anchor:end}
+.vl{fill:var(--ink3);font-size:10px;font-family:var(--mono)}
+.wire .v{fill:none;stroke-width:2.6;stroke-linejoin:round;transition:opacity .15s,stroke-width .15s}
+.wire circle.v{stroke:none}
+.wire rect.v{fill:var(--panel)}
+.wire .h{fill:none;stroke:#000;opacity:0;stroke-width:15;pointer-events:stroke;cursor:pointer}
+svg.sel .wire:not(.on) .v{opacity:.10}
+.wire.on path.v{stroke-width:5.5}
+.wire.on rect.v{stroke-width:3}
+@media print{.prog button,.wireinfo,nav.toc{display:none}
+ body{background:#fff;color:#000}.dwrap,.tsc{border-color:#999}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Terrarium — Master Build Guide</h1>
+<p class="sub">Your exact RoboticsBD cart, wired into one machine. Every component label in the
+diagram is <b>clickable</b> and opens its product page. Every wire has its own colour —
+<b>tap a wire, or a checklist row, to light up its complete run</b> and see where it goes.</p>
+<div class="meta">
+  <span><b>Controller</b> ESP32 DevKit V1 CP2102</span>
+  <span><b>Switching</b> 2× F5305S (5V + 12V)</span>
+  <span><b>Wires</b> 60, all traceable</span>
+  <span><b>Firmware</b> firmware/terrarium/</span>
+</div>
+
+<nav class="toc">
+  <b>JUMP TO</b>
+  <a href="#rules">Safety rules</a>
+  <a href="#diagram">The diagram</a>
+  <a href="#stages">Build stages</a>
+  <a href="#checklist">Wire checklist</a>
+  <a href="#parts">Component index</a>
+  <a href="#values">Values</a>
+</nav>
+
+<!-- ============================================================ RULES -->
+<h2 id="rules"><span class="n">01</span> Read these five rules first</h2>
+<div class="note crit">
+  <b class="t">Break one of these and something dies</b>
+  1 · <b>Sensors run on 3.3V, never 5V.</b> A soil sensor on 5V feeds 5V into an ADC pin and kills it.<br>
+  2 · <b>One common ground.</b> Every GND — sensors, both boards, buck, adapter — ends up connected. No exceptions.<br>
+  3 · <b>Measure 5.00V at the buck output with the multimeter before wire C9 exists.</b> This is the step that saves the ESP32.<br>
+  4 · <b>Electrolytic capacitors are polarised</b> — stripe (−) faces GND. Backwards = pop.<br>
+  5 · <b>Board A runs at 5V, Board B at 12V.</b> They look identical. Label them with tape the moment they arrive — swapping them puts 12V into the mist drivers.
+</div>
+<div class="note warn">
+  <b class="t">Two habits that prevent most first-build damage</b>
+  Unplug power before changing any wire — every time, no exceptions. And never run a mist disc dry:
+  water in the cup first, then power. The disc burns out in minutes without water.
+</div>
+
+<!-- ============================================================ DIAGRAM -->
+<h2 id="diagram"><span class="n">02</span> The complete circuit</h2>
+
+<div class="legend">
+  <span><i style="background:#e05252"></i>3.3V</span>
+  <span><i style="background:#e07020"></i>5V</span>
+  <span><i style="background:#d4af37"></i>12V</span>
+  <span><i style="background:#8a8f98"></i>GND</span>
+  <span><i style="background:#3cb44b"></i>SDA</span>
+  <span><i style="background:#c9a227"></i>SCL</span>
+  <span><i style="background:#7b61d6"></i>analog</span>
+  <span><i style="background:#3a9ad9"></i>control</span>
+  <span>● dot = connected&nbsp;&nbsp;·&nbsp;&nbsp;plain cross = NOT connected</span>
+</div>
+
+<div class="wireinfo" id="wi"><span class="chip" id="wic"></span>
+<span id="wit">Click any wire to trace it end-to-end. Click a component name to open its shop page. Click empty space to reset.</span></div>
+
+<div class="dwrap">
+<svg id="wsvg" viewBox="0 0 1430 1400" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+
+<text class="vl" x="40" y="128">SENSORS — everything on 3.3V</text>
+<text class="vl" x="920" y="128">SWITCHING — Board A = 5V · Board B = 12V</text>
+<text class="vl" x="1190" y="128">LOADS</text>
+<text class="vl" x="40" y="1135">POWER — barrel → fuse → switch → 12V bus → buck → 5V</text>
+
+<!-- ================= BUS BARS (nodes) ================= -->
+<rect class="bus" x="300" y="140" width="13" height="790" rx="4"/>
+<text class="vl" x="306" y="948" text-anchor="middle">3.3V</text>
+<rect class="bus" x="356" y="140" width="13" height="810" rx="4"/>
+<text class="vl" x="362" y="968" text-anchor="middle">GND</text>
+<rect class="bus" x="776" y="630" width="11" height="620" rx="4"/>
+<text class="vl" x="781" y="622" text-anchor="middle">12V</text>
+<rect class="bus" x="804" y="234" width="10" height="1076" rx="4"/>
+<text class="vl" x="809" y="226" text-anchor="middle">GND</text>
+<rect class="bus" x="826" y="190" width="10" height="1076" rx="4"/>
+<text class="vl" x="831" y="182" text-anchor="middle">5V</text>
+<rect class="bus" x="200" y="1305" width="950" height="11" rx="4"/>
+<text class="vl" x="205" y="1336">GND BUS — one common ground</text>
+
+<!-- ================= SENSOR BOXES ================= -->
+<rect class="bx" x="40" y="150" width="190" height="96" rx="7"/>
+<a href="https://store.roboticsbd.com/sensors/1946-gy-bme280-33v-temperature-and-humidity-sensor-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="172">GY-BME280 3.3V ↗</text></a>
+<text class="ts" x="135" y="187">air temp + RH · I2C 0x76</text>
+<text class="plr" x="225" y="175" dy="-2">VCC</text><text class="plr" x="225" y="193">GND</text>
+<text class="plr" x="225" y="211">SDA</text><text class="plr" x="225" y="229">SCL</text>
+
+<rect class="bx" x="40" y="290" width="190" height="112" rx="7"/>
+<a href="https://store.roboticsbd.com/sensors/429-bh1750fvi-digital-light-intensity-sensor-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="312">BH1750FVI ↗</text></a>
+<text class="ts" x="135" y="327">lux sensor · I2C 0x23</text>
+<text class="plr" x="225" y="315" dy="-1">VCC</text><text class="plr" x="225" y="333">GND</text>
+<text class="plr" x="225" y="351">SDA</text><text class="plr" x="225" y="369">SCL</text>
+<text class="plr" x="225" y="387">ADDR</text>
+
+<rect class="bx" x="40" y="445" width="190" height="86" rx="7"/>
+<a href="https://store.roboticsbd.com/temperature-humidity/1042-capacitive-soil-moisture-sensor-robtoics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="467">SOIL SENSOR 1 ↗</text></a>
+<text class="ts" x="135" y="481">capacitive · 3.3V ONLY</text>
+<text class="plr" x="225" y="470" dy="-1">VCC</text><text class="plr" x="225" y="488">GND</text>
+<text class="plr" x="225" y="506">AOUT</text>
+
+<rect class="bx" x="40" y="575" width="190" height="86" rx="7"/>
+<a href="https://store.roboticsbd.com/temperature-humidity/1042-capacitive-soil-moisture-sensor-robtoics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="597">SOIL SENSOR 2 ↗</text></a>
+<text class="ts" x="135" y="611">capacitive · 3.3V ONLY</text>
+<text class="plr" x="225" y="600" dy="-1">VCC</text><text class="plr" x="225" y="618">GND</text>
+<text class="plr" x="225" y="636">AOUT</text>
+
+<rect class="bx" x="40" y="705" width="190" height="72" rx="7"/>
+<a href="https://store.roboticsbd.com/sensors/1677-52mm-pp-liquid-water-level-sensor-horizontal-float-switch-down-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="727">FLOAT SWITCH ↗</text></a>
+<text class="ts" x="135" y="741">52mm · in reservoir · no polarity</text>
+<text class="plr" x="225" y="730" dy="-1">A</text><text class="plr" x="225" y="748">B</text>
+
+<rect class="bxo" x="40" y="820" width="190" height="92" rx="7"/>
+<a href="https://store.roboticsbd.com/sensors/1935-water-level-sensor-gold-coating-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="135" y="842">LEAK SENSOR ↗</text></a>
+<text class="ts" x="135" y="856">OPTIONAL · drip tray · 3.3V only</text>
+<text class="plr" x="225" y="849" dy="-1">VCC</text><text class="plr" x="225" y="867">GND</text>
+<text class="plr" x="225" y="885">AOUT</text>
+
+<!-- ================= ESP32 ================= -->
+<rect class="bx bxa" x="530" y="150" width="220" height="640" rx="9"/>
+<a href="https://store.roboticsbd.com/development-boards/2267-esp32-dev-board-cp2102-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="640" y="180">ESP32 DevKit V1 ↗</text></a>
+<text class="ts" x="640" y="195">WROOM-32 · CP2102 · find pins by label</text>
+<line x1="515" y1="200" x2="530" y2="200" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="204">3V3</text>
+<line x1="515" y1="240" x2="530" y2="240" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="244">GND</text>
+<rect x="518" y="294" width="12" height="20" fill="var(--line2)"/><text class="pl" x="535" y="306">D21 · SDA</text>
+<rect x="518" y="334" width="12" height="20" fill="var(--line2)"/><text class="pl" x="535" y="346">D22 · SCL</text>
+<line x1="515" y1="415" x2="530" y2="415" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="419">D34</text>
+<line x1="515" y1="455" x2="530" y2="455" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="459">D35</text>
+<line x1="515" y1="515" x2="530" y2="515" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="519">D27</text>
+<line x1="515" y1="575" x2="530" y2="575" stroke="var(--line2)" stroke-width="2"/><text class="pl" x="535" y="579">D32 (leak)</text>
+<text class="pl" x="535" y="625" fill="var(--ink3)">D4 — reserved (DS18B20)</text>
+<line x1="750" y1="200" x2="765" y2="200" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="204">VIN 5V</text>
+<line x1="750" y1="240" x2="765" y2="240" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="244">GND</text>
+<line x1="750" y1="330" x2="765" y2="330" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="334">D16 (RX2)</text>
+<line x1="750" y1="375" x2="765" y2="375" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="379">D25</text>
+<line x1="750" y1="420" x2="765" y2="420" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="424">D19</text>
+<line x1="750" y1="465" x2="765" y2="465" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="469">D17</text>
+<line x1="750" y1="510" x2="765" y2="510" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="514">D18</text>
+<line x1="750" y1="570" x2="765" y2="570" stroke="var(--line2)" stroke-width="2"/><text class="plr" x="745" y="574">D26</text>
+<text class="plr" x="745" y="640" fill="var(--ink3)">D23 — spare</text>
+
+<!-- ================= BOARD A / B ================= -->
+<rect class="bx" x="920" y="150" width="200" height="225" rx="7"/>
+<a href="https://store.roboticsbd.com/electronics-module/2940-mosfet-f5305s-4-channel-pulse-trigger-switch-controller-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1020" y="174">BOARD A — F5305S ↗</text></a>
+<text class="ts" x="1020" y="189">4-ch MOSFET · POWERED AT 5V · label it "A-5V"</text>
+<text class="pl" x="926" y="184">IN1</text><text class="pl" x="926" y="214">IN2</text>
+<text class="pl" x="926" y="244">GND</text>
+<text class="pl" x="926" y="304">DC+</text><text class="pl" x="926" y="334">DC−</text>
+<text class="plr" x="1114" y="184">OUT1+</text><text class="plr" x="1114" y="204">OUT1−</text>
+<text class="plr" x="1114" y="249">OUT2+</text><text class="plr" x="1114" y="269">OUT2−</text>
+<text class="ts" x="1020" y="356">IN3 · IN4 · OUT3 · OUT4 — spare channels, leave empty</text>
+
+<rect class="bx" x="920" y="460" width="200" height="290" rx="7"/>
+<a href="https://store.roboticsbd.com/electronics-module/2940-mosfet-f5305s-4-channel-pulse-trigger-switch-controller-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1020" y="484">BOARD B — F5305S ↗</text></a>
+<text class="ts" x="1020" y="499">4-ch MOSFET · POWERED AT 12V · label it "B-12V"</text>
+<text class="ts" x="1020" y="512">(or one D4184 per channel — same wiring)</text>
+<text class="pl" x="926" y="499" dy="-2">IN1</text><text class="pl" x="926" y="539">IN2</text>
+<text class="pl" x="926" y="579">IN3</text><text class="pl" x="926" y="619">GND</text>
+<text class="pl" x="926" y="679">DC+</text><text class="pl" x="926" y="709">DC−</text>
+<text class="plr" x="1114" y="499" dy="-2">OUT1+</text><text class="plr" x="1114" y="519">OUT1−</text>
+<text class="plr" x="1114" y="564">OUT2+</text><text class="plr" x="1114" y="584">OUT2−</text>
+<text class="plr" x="1114" y="629">OUT3+</text><text class="plr" x="1114" y="649">OUT3−</text>
+<text class="ts" x="1020" y="738">IN4 · OUT4 — spare</text>
+
+<!-- ================= LOADS ================= -->
+<rect class="bx" x="1190" y="155" width="200" height="70" rx="7"/>
+<a href="https://store.roboticsbd.com/arduino-shield/2426-usb-mini-humidifier-mist-maker-and-driver-circuit-board-diy-kits-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1290" y="177">MIST 1 — watering ↗</text></a>
+<text class="ts" x="1290" y="191">5V · disc in water FIRST</text>
+<text class="pl" x="1196" y="184">+</text><text class="pl" x="1196" y="204">−</text>
+
+<rect class="bx" x="1190" y="240" width="200" height="70" rx="7"/>
+<a href="https://store.roboticsbd.com/arduino-shield/2426-usb-mini-humidifier-mist-maker-and-driver-circuit-board-diy-kits-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1290" y="262">MIST 2 — humidity ↗</text></a>
+<text class="ts" x="1290" y="276">5V · disc in water FIRST</text>
+<text class="pl" x="1196" y="266">+</text><text class="pl" x="1196" y="286">−</text>
+
+<rect class="bx" x="1190" y="470" width="200" height="66" rx="7"/>
+<a href="https://www.daraz.com.bd/tag/plant-grow-light/" target="_blank" rel="noopener"><text class="tl" x="1290" y="492">GROW LIGHT ↗</text></a>
+<text class="ts" x="1290" y="506">12V 5050 strip · ≤1A · Daraz</text>
+<text class="pl" x="1196" y="499">+</text><text class="pl" x="1196" y="519">−</text>
+
+<rect class="bx" x="1190" y="535" width="200" height="66" rx="7"/>
+<a href="https://store.roboticsbd.com/3d-printer/727-12v-mini-cooling-fan-40x40x10mm-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1290" y="557">EXHAUST FAN ↗</text></a>
+<text class="ts" x="1290" y="571">12V 40mm · blows OUT</text>
+<text class="pl" x="1196" y="564">+</text><text class="pl" x="1196" y="584">−</text>
+
+<rect class="bx" x="1190" y="600" width="200" height="66" rx="7"/>
+<a href="https://store.roboticsbd.com/3d-printer/727-12v-mini-cooling-fan-40x40x10mm-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="1290" y="622">CIRC FAN ↗</text></a>
+<text class="ts" x="1290" y="636">12V 40mm · stirs inside air</text>
+<text class="pl" x="1196" y="629">+</text><text class="pl" x="1196" y="649">−</text>
+
+<rect class="bxo" x="560" y="860" width="175" height="76" rx="7"/>
+<a href="https://store.roboticsbd.com/audio-voice-piezo-buzzer-speech-module/2301-active-buzzer-module-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="647" y="884">BUZZER MODULE ↗</text></a>
+<text class="ts" x="647" y="898">OPTIONAL · active type</text>
+<text class="pl" x="566" y="891" dy="-3">+</text><text class="pl" x="566" y="909">−</text>
+<text class="plr" x="729" y="927">S</text>
+
+<!-- ================= POWER ROW ================= -->
+<rect class="bx" x="40" y="1170" width="90" height="60" rx="7"/>
+<text class="tt" x="85" y="1195">MAINS</text><text class="ts" x="85" y="1209">220V plug</text>
+<rect class="bx" x="170" y="1170" width="170" height="60" rx="7"/>
+<a href="https://store.roboticsbd.com/chargers-balancer/3020-12v-5a-power-supply-adapter-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="255" y="1193">12V 5A ADAPTER ↗</text></a>
+<text class="ts" x="255" y="1207">isolated SMPS</text>
+<line x1="340" y1="1200" x2="380" y2="1200" stroke="var(--ink3)" stroke-width="2" stroke-dasharray="4 3"/>
+<text class="vl" x="342" y="1192">plugs in</text>
+<line x1="130" y1="1200" x2="170" y2="1200" stroke="var(--ink3)" stroke-width="2" stroke-dasharray="4 3"/>
+<rect class="bx" x="380" y="1174" width="120" height="52" rx="7"/>
+<a href="https://store.roboticsbd.com/tools-accessories/1587-barrel-connector-female-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="440" y="1194" font-size="11.5">BARREL JACK ↗</text></a>
+<text class="ts" x="440" y="1208">female pigtail — adapter plugs in</text>
+<rect class="bx" x="540" y="1180" width="90" height="38" rx="7"/>
+<a href="https://store.roboticsbd.com/components/2055-blx-a-cover-with-fuse-holder-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="585" y="1198" font-size="11">FUSE 3A ↗</text></a>
+<text class="ts" x="585" y="1211">BLX-A holder</text>
+<rect class="bx" x="670" y="1180" width="90" height="38" rx="7"/>
+<a href="https://store.roboticsbd.com/electronic-switches/4048-kcd1-1-bistable-illuminated-rocker-switch-red-1521mm-3pin-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="715" y="1198" font-size="11">SWITCH ↗</text></a>
+<text class="ts" x="715" y="1211">KCD1 rocker</text>
+<rect class="bx" x="880" y="1160" width="170" height="84" rx="7"/>
+<a href="https://store.roboticsbd.com/power-module-adapter/2222-lm2596s-dc-dc-24v12v-to-5v-5a-step-down-power-supply-buck-converter-charging-module-robotics-bangladesh.html" target="_blank" rel="noopener"><text class="tl" x="965" y="1184">BUCK LM2596S ↗</text></a>
+<text class="ts" x="965" y="1198">12V → fixed 5.0V</text>
+<text class="ts" x="965" y="1212" fill="var(--crit)">MEASURE 5.00V FIRST — C8</text>
+<text class="pl" x="886" y="1177" dy="-3">IN+</text><text class="pl" x="886" y="1232">IN−</text>
+<text class="plr" x="1044" y="1174">OUT+</text><text class="plr" x="1044" y="1232">OUT−</text>
+
+<!-- ============================================================ WIRES -->
+
+<!-- A · sensor stage -->
+<g class="wire" data-w="A1" data-d="3.3V rail → ESP32 3V3 — the rail's feed">
+ <path class="v" stroke="#e05252" d="M306 200 H348 Q362 186 376 200 H515"/>
+ <circle class="v" cx="306" cy="200" r="3.4" fill="#e05252"/>
+ <path class="h" d="M306 200 H515"/></g>
+<g class="wire" data-w="A2" data-d="GND rail → ESP32 GND (left side)">
+ <path class="v" stroke="#6f7680" d="M362 240 H515"/>
+ <circle class="v" cx="362" cy="240" r="3.4" fill="#6f7680"/>
+ <path class="h" d="M362 240 H515"/></g>
+<g class="wire" data-w="A3" data-d="BME280 VCC → 3.3V rail">
+ <path class="v" stroke="#e06666" d="M230 172 H306"/>
+ <circle class="v" cx="306" cy="172" r="3.4" fill="#e06666"/>
+ <path class="h" d="M230 172 H306"/></g>
+<g class="wire" data-w="A4" data-d="BME280 GND → GND rail (hops over the 3.3V rail — not connected to it)">
+ <path class="v" stroke="#8a8f98" d="M230 190 H293 Q306 176 320 190 H362"/>
+ <circle class="v" cx="362" cy="190" r="3.4" fill="#8a8f98"/>
+ <path class="h" d="M230 190 H362"/></g>
+<g class="wire" data-w="A5" data-d="BME280 SDA → GPIO21 (D21) — I2C data">
+ <path class="v" stroke="#3cb44b" d="M230 208 H420 V300 H518"/>
+ <path class="h" d="M230 208 H420 V300 H518"/></g>
+<g class="wire" data-w="A6" data-d="BME280 SCL → GPIO22 (D22) — I2C clock">
+ <path class="v" stroke="#c9a227" d="M230 226 H436 V340 H518"/>
+ <path class="h" d="M230 226 H436 V340 H518"/></g>
+<g class="wire" data-w="A7" data-d="BH1750 VCC → 3.3V rail">
+ <path class="v" stroke="#d97b7b" d="M230 312 H306"/>
+ <circle class="v" cx="306" cy="312" r="3.4" fill="#d97b7b"/>
+ <path class="h" d="M230 312 H306"/></g>
+<g class="wire" data-w="A8" data-d="BH1750 GND → GND rail (hop)">
+ <path class="v" stroke="#a0a6b0" d="M230 330 H293 Q306 316 320 330 H362"/>
+ <circle class="v" cx="362" cy="330" r="3.4" fill="#a0a6b0"/>
+ <path class="h" d="M230 330 H362"/></g>
+<g class="wire" data-w="A9" data-d="BH1750 SDA → GPIO21 (D21) — joins BME280 on the same pin">
+ <path class="v" stroke="#2e8b57" d="M230 348 H452 V308 H518"/>
+ <path class="h" d="M230 348 H452 V308 H518"/></g>
+<g class="wire" data-w="A10" data-d="BH1750 SCL → GPIO22 (D22) — same bus">
+ <path class="v" stroke="#808000" d="M230 366 H466 V348 H518"/>
+ <path class="h" d="M230 366 H466 V348 H518"/></g>
+<g class="wire" data-w="A11" data-d="BH1750 ADDR → GND rail — guarantees I2C address 0x23">
+ <path class="v" stroke="#8f96a3" d="M230 384 H293 Q306 370 320 384 H362"/>
+ <circle class="v" cx="362" cy="384" r="3.4" fill="#8f96a3"/>
+ <path class="h" d="M230 384 H362"/></g>
+<g class="wire" data-w="A12" data-d="SOIL1 VCC → 3.3V rail — NEVER 5V">
+ <path class="v" stroke="#c25555" d="M230 467 H306"/>
+ <circle class="v" cx="306" cy="467" r="3.4" fill="#c25555"/>
+ <path class="h" d="M230 467 H306"/></g>
+<g class="wire" data-w="A13" data-d="SOIL1 GND → GND rail (hop)">
+ <path class="v" stroke="#949aa4" d="M230 485 H293 Q306 471 320 485 H362"/>
+ <circle class="v" cx="362" cy="485" r="3.4" fill="#949aa4"/>
+ <path class="h" d="M230 485 H362"/></g>
+<g class="wire" data-w="A14" data-d="SOIL1 AOUT → GPIO34 (D34) — analog, ADC1">
+ <path class="v" stroke="#7b61d6" d="M230 503 H480 V415 H515"/>
+ <path class="h" d="M230 503 H480 V415 H515"/></g>
+<g class="wire" data-w="A15" data-d="SOIL2 VCC → 3.3V rail">
+ <path class="v" stroke="#e08585" d="M230 597 H306"/>
+ <circle class="v" cx="306" cy="597" r="3.4" fill="#e08585"/>
+ <path class="h" d="M230 597 H306"/></g>
+<g class="wire" data-w="A16" data-d="SOIL2 GND → GND rail (hop)">
+ <path class="v" stroke="#7d848e" d="M230 615 H293 Q306 601 320 615 H362"/>
+ <circle class="v" cx="362" cy="615" r="3.4" fill="#7d848e"/>
+ <path class="h" d="M230 615 H362"/></g>
+<g class="wire" data-w="A17" data-d="SOIL2 AOUT → GPIO35 (D35) — analog, ADC1">
+ <path class="v" stroke="#a44fd0" d="M230 633 H492 V455 H515"/>
+ <path class="h" d="M230 633 H492 V455 H515"/></g>
+<g class="wire" data-w="A18" data-d="FLOAT wire A → GPIO27 (D27) — either wire, no polarity">
+ <path class="v" stroke="#708090" d="M230 727 H504 V515 H515"/>
+ <path class="h" d="M230 727 H504 V515 H515"/></g>
+<g class="wire" data-w="A19" data-d="FLOAT wire B → GND rail (hop)">
+ <path class="v" stroke="#656b74" d="M230 745 H293 Q306 731 320 745 H362"/>
+ <circle class="v" cx="362" cy="745" r="3.4" fill="#656b74"/>
+ <path class="h" d="M230 745 H362"/></g>
+
+<!-- B · control stage -->
+<g class="wire" data-w="B1" data-d="GPIO16 (silk RX2) → Board A IN1 — watering mist">
+ <path class="v" stroke="#3a9ad9" d="M765 330 H856 V180 H920"/>
+ <path class="h" d="M765 330 H856 V180 H920"/></g>
+<g class="wire" data-w="B2" data-d="GPIO25 (D25) → Board A IN2 — humidity mist">
+ <path class="v" stroke="#4363d8" d="M765 375 H868 V210 H920"/>
+ <path class="h" d="M765 375 H868 V210 H920"/></g>
+<g class="wire" data-w="B3" data-d="ESP32 GND → Board A signal GND — reference for the triggers">
+ <path class="v" stroke="#9aa0aa" d="M765 240 H920"/>
+ <circle class="v" cx="809" cy="240" r="3.4" fill="#9aa0aa"/>
+ <path class="h" d="M765 240 H920"/></g>
+<g class="wire" data-w="B4" data-d="GPIO19 (D19) → Board B IN1 — grow light, PWM dims it">
+ <path class="v" stroke="#2bb3c9" d="M765 420 H880 V495 H920"/>
+ <path class="h" d="M765 420 H880 V495 H920"/></g>
+<g class="wire" data-w="B5" data-d="GPIO17 (D17) → Board B IN2 — exhaust fan">
+ <path class="v" stroke="#5a7fd8" d="M765 465 H892 V535 H920"/>
+ <path class="h" d="M765 465 H892 V535 H920"/></g>
+<g class="wire" data-w="B6" data-d="GPIO18 (D18) → Board B IN3 — circulation fan">
+ <path class="v" stroke="#7fb3e8" d="M765 510 H902 V575 H920"/>
+ <path class="h" d="M765 510 H902 V575 H920"/></g>
+<g class="wire" data-w="B7" data-d="Board A signal GND → Board B signal GND — chained onward">
+ <path class="v" stroke="#848a94" d="M910 240 V615 H920"/>
+ <circle class="v" cx="910" cy="240" r="3.4" fill="#848a94"/>
+ <path class="h" d="M910 240 V615 H920"/></g>
+<g class="wire" data-w="B8" data-d="10kΩ pulldown, IN to GND — fit ONE AT EVERY IN terminal (5 total). Stops outputs pulsing while the ESP32 boots">
+ <path class="v" stroke="#3a9ad9" stroke-width="1.6" d="M898 180 V190 M898 218 V240"/>
+ <rect class="v" x="892" y="190" width="12" height="28" stroke="#3a9ad9" stroke-width="1.6"/>
+ <circle class="v" cx="898" cy="180" r="3" fill="#3a9ad9"/>
+ <circle class="v" cx="898" cy="240" r="3" fill="#3a9ad9"/>
+ <text class="vl" x="864" y="208" text-anchor="end">10k ×5</text>
+ <path class="h" d="M898 175 V245"/></g>
+
+<!-- C · power stage -->
+<g class="wire" data-w="C1" data-d="Barrel jack + lead → fuse holder — fuse comes FIRST">
+ <path class="v" stroke="#e0b25e" d="M500 1190 H520 V1199 H540"/>
+ <path class="h" d="M500 1190 H540"/></g>
+<g class="wire" data-w="C2" data-d="Fuse holder → rocker switch">
+ <path class="v" stroke="#b89030" d="M630 1199 H670"/>
+ <path class="h" d="M630 1199 H670"/></g>
+<g class="wire" data-w="C3" data-d="Rocker switch → 12V bus — everything 12V hangs off this bar">
+ <path class="v" stroke="#d4af37" d="M760 1199 H776"/>
+ <circle class="v" cx="776" cy="1199" r="3.4" fill="#d4af37"/>
+ <path class="h" d="M755 1199 H776"/></g>
+<g class="wire" data-w="C4" data-d="Barrel jack − lead → GND bus">
+ <path class="v" stroke="#767c86" d="M500 1216 H520 V1305"/>
+ <circle class="v" cx="520" cy="1305" r="3.4" fill="#767c86"/>
+ <path class="h" d="M500 1216 H520 V1305"/></g>
+<g class="wire" data-w="C5" data-d="12V bus → buck IN+">
+ <path class="v" stroke="#b8860b" d="M787 1173 H880"/>
+ <circle class="v" cx="787" cy="1173" r="3.4" fill="#b8860b"/>
+ <path class="h" d="M787 1173 H880"/></g>
+<g class="wire" data-w="C6" data-d="GND return bar → buck IN−">
+ <path class="v" stroke="#8a9098" d="M814 1228 H880"/>
+ <circle class="v" cx="814" cy="1228" r="3.4" fill="#8a9098"/>
+ <path class="h" d="M810 1228 H880"/></g>
+<g class="wire" data-w="C7" data-d="Buck OUT− → GND return bar — completes the 5V loop">
+ <path class="v" stroke="#5f6670" d="M1050 1228 H1068 V1282 H814"/>
+ <circle class="v" cx="814" cy="1282" r="3.4" fill="#5f6670"/>
+ <path class="h" d="M1050 1228 H1068 V1282 H814"/></g>
+<g class="wire" data-w="C9" data-d="Buck OUT+ → 5V rail — ONLY after C8's 5.00V measurement passes">
+ <path class="v" stroke="#e07020" d="M1050 1173 H1084 V1258 H836"/>
+ <circle class="v" cx="836" cy="1258" r="3.4" fill="#e07020"/>
+ <path class="h" d="M1050 1173 H1084 V1258 H836"/></g>
+<g class="wire" data-w="C10" data-d="5V rail → ESP32 VIN — powers the board">
+ <path class="v" stroke="#f08040" d="M826 200 H765"/>
+ <circle class="v" cx="826" cy="200" r="3.4" fill="#f08040"/>
+ <path class="h" d="M765 200 H826"/></g>
+<g class="wire" data-w="C11" data-d="5V rail → Board A DC+ — the mist board runs at 5V">
+ <path class="v" stroke="#f58231" d="M836 300 H920"/>
+ <circle class="v" cx="836" cy="300" r="3.4" fill="#f58231"/>
+ <path class="h" d="M836 300 H920"/></g>
+<g class="wire" data-w="C12" data-d="GND return bar → Board A DC−">
+ <path class="v" stroke="#6b7280" d="M814 330 H920"/>
+ <circle class="v" cx="814" cy="330" r="3.4" fill="#6b7280"/>
+ <path class="h" d="M810 330 H920"/></g>
+<g class="wire" data-w="C13" data-d="12V bus → Board B DC+ — light + fans run at 12V">
+ <path class="v" stroke="#e0c060" d="M787 675 H920"/>
+ <circle class="v" cx="787" cy="675" r="3.4" fill="#e0c060"/>
+ <path class="h" d="M787 675 H920"/></g>
+<g class="wire" data-w="C14" data-d="GND return bar → Board B DC−">
+ <path class="v" stroke="#59606a" d="M814 705 H920"/>
+ <circle class="v" cx="814" cy="705" r="3.4" fill="#59606a"/>
+ <path class="h" d="M810 705 H920"/></g>
+<g class="wire" data-w="C15" data-d="Capacitor C1 · 1000µF 25V across 5V rail ↔ GND bar at ESP32 level — stripe (−) to GND">
+ <path class="v" stroke="#f08040" stroke-width="1.6" d="M826 216 H823"/>
+ <path class="v" stroke="#5f6670" stroke-width="1.6" d="M814 216 H817"/>
+ <line class="v" x1="817" y1="208" x2="817" y2="224" stroke="var(--ink)" stroke-width="2.6"/>
+ <line class="v" x1="823" y1="208" x2="823" y2="224" stroke="var(--ink)" stroke-width="2.6"/>
+ <circle class="v" cx="826" cy="216" r="2.6" fill="#f08040"/>
+ <circle class="v" cx="814" cy="216" r="2.6" fill="#5f6670"/>
+ <text class="vl" x="848" y="220">C1 1000µF · + to 5V</text>
+ <path class="h" d="M808 216 H846"/></g>
+<g class="wire" data-w="C16" data-d="Capacitor C2 · 1000µF 25V across Board A DC+ ↔ DC− — absorbs mist-driver noise">
+ <path class="v" stroke="#f58231" stroke-width="1.6" d="M900 300 V308"/>
+ <path class="v" stroke="#6b7280" stroke-width="1.6" d="M900 330 V322"/>
+ <line class="v" x1="893" y1="308" x2="907" y2="308" stroke="var(--ink)" stroke-width="2.6"/>
+ <line class="v" x1="893" y1="322" x2="907" y2="322" stroke="var(--ink)" stroke-width="2.6"/>
+ <circle class="v" cx="900" cy="300" r="2.6" fill="#f58231"/>
+ <circle class="v" cx="900" cy="330" r="2.6" fill="#6b7280"/>
+ <text class="vl" x="880" y="318" text-anchor="end">C2</text>
+ <path class="h" d="M900 296 V334"/></g>
+<g class="wire" data-w="C17" data-d="Capacitor C3 · 1000µF 25V across Board B DC+ ↔ DC−">
+ <path class="v" stroke="#e0c060" stroke-width="1.6" d="M900 675 V683"/>
+ <path class="v" stroke="#59606a" stroke-width="1.6" d="M900 705 V697"/>
+ <line class="v" x1="893" y1="683" x2="907" y2="683" stroke="var(--ink)" stroke-width="2.6"/>
+ <line class="v" x1="893" y1="697" x2="907" y2="697" stroke="var(--ink)" stroke-width="2.6"/>
+ <circle class="v" cx="900" cy="675" r="2.6" fill="#e0c060"/>
+ <circle class="v" cx="900" cy="705" r="2.6" fill="#59606a"/>
+ <text class="vl" x="880" y="693" text-anchor="end">C3</text>
+ <path class="h" d="M900 671 V709"/></g>
+
+<!-- D · loads stage -->
+<g class="wire" data-w="D1" data-d="Board A OUT1+ → Mist 1 red (+) — watering unit">
+ <path class="v" stroke="#ff6b6b" d="M1120 180 H1190"/>
+ <path class="h" d="M1120 180 H1190"/></g>
+<g class="wire" data-w="D2" data-d="Board A OUT1− → Mist 1 black (−)">
+ <path class="v" stroke="#868d99" d="M1120 200 H1190"/>
+ <path class="h" d="M1120 200 H1190"/></g>
+<g class="wire" data-w="D3" data-d="Board A OUT2+ → Mist 2 red (+) — humidity unit">
+ <path class="v" stroke="#f032e6" d="M1120 245 H1155 V262 H1190"/>
+ <path class="h" d="M1120 245 H1155 V262 H1190"/></g>
+<g class="wire" data-w="D4" data-d="Board A OUT2− → Mist 2 black (−)">
+ <path class="v" stroke="#8d939d" d="M1120 265 H1162 V282 H1190"/>
+ <path class="h" d="M1120 265 H1162 V282 H1190"/></g>
+<g class="wire" data-w="D5" data-d="Board B OUT1+ → Grow light +">
+ <path class="v" stroke="#e6a23c" d="M1120 495 H1190"/>
+ <path class="h" d="M1120 495 H1190"/></g>
+<g class="wire" data-w="D6" data-d="Board B OUT1− → Grow light −">
+ <path class="v" stroke="#70767f" d="M1120 515 H1190"/>
+ <path class="h" d="M1120 515 H1190"/></g>
+<g class="wire" data-w="D7" data-d="Board B OUT2+ → Exhaust fan red (+)">
+ <path class="v" stroke="#35b8b8" d="M1120 560 H1190"/>
+ <path class="h" d="M1120 560 H1190"/></g>
+<g class="wire" data-w="D8" data-d="Board B OUT2− → Exhaust fan black (−)">
+ <path class="v" stroke="#7b8288" d="M1120 580 H1190"/>
+ <path class="h" d="M1120 580 H1190"/></g>
+<g class="wire" data-w="D9" data-d="1N5819 flyback diode across EXHAUST FAN — stripe (cathode) to the + wire. Motors kick voltage backwards at switch-off; this eats it">
+ <path class="v" stroke="#d048b6" stroke-width="1.6" d="M1170 560 V568 M1170 592 V580"/>
+ <polygon class="v" points="1164,580 1176,580 1170,568" stroke="#d048b6" stroke-width="1.6" fill="var(--panel)"/>
+ <line class="v" x1="1164" y1="568" x2="1176" y2="568" stroke="#d048b6" stroke-width="2.4"/>
+ <circle class="v" cx="1170" cy="560" r="2.6" fill="#d048b6"/>
+ <circle class="v" cx="1170" cy="580" r="2.6" fill="#d048b6"/>
+ <text class="vl" x="1152" y="576" text-anchor="end">1N5819</text>
+ <path class="h" d="M1170 555 V595"/></g>
+<g class="wire" data-w="D10" data-d="Board B OUT3+ → Circulation fan red (+)">
+ <path class="v" stroke="#2f9e77" d="M1120 625 H1190"/>
+ <path class="h" d="M1120 625 H1190"/></g>
+<g class="wire" data-w="D11" data-d="Board B OUT3− → Circulation fan black (−)">
+ <path class="v" stroke="#828992" d="M1120 645 H1190"/>
+ <path class="h" d="M1120 645 H1190"/></g>
+<g class="wire" data-w="D12" data-d="1N5819 flyback diode across CIRC FAN — stripe to the + wire">
+ <path class="v" stroke="#b465d8" stroke-width="1.6" d="M1170 625 V633 M1170 657 V645"/>
+ <polygon class="v" points="1164,645 1176,645 1170,633" stroke="#b465d8" stroke-width="1.6" fill="var(--panel)"/>
+ <line class="v" x1="1164" y1="633" x2="1176" y2="633" stroke="#b465d8" stroke-width="2.4"/>
+ <circle class="v" cx="1170" cy="625" r="2.6" fill="#b465d8"/>
+ <circle class="v" cx="1170" cy="645" r="2.6" fill="#b465d8"/>
+ <path class="h" d="M1170 620 V660"/></g>
+
+<g class="wire" data-w="C18" data-d="Rocker pin 3 → GND bus — lights the switch's built-in lamp when ON (skip it and the switch still works, just unlit)">
+ <path class="v" stroke="#a09468" d="M715 1218 V1305"/>
+ <circle class="v" cx="715" cy="1305" r="3.4" fill="#a09468"/>
+ <path class="h" d="M715 1218 V1305"/></g>
+<g class="wire" data-w="C19" data-d="Sensor GND rail → GND bus — direct bonding wire. The rail already reaches ground through the ESP32's plane, but on veroboard run this too">
+ <path class="v" stroke="#6a7178" d="M362 948 V1305"/>
+ <circle class="v" cx="362" cy="948" r="3.4" fill="#6a7178"/>
+ <circle class="v" cx="362" cy="1305" r="3.4" fill="#6a7178"/>
+ <path class="h" d="M362 948 V1305"/></g>
+
+<!-- E · optional stage -->
+<g class="wire" data-w="E1" data-d="OPTIONAL · Leak sensor VCC → 3.3V rail">
+ <path class="v" stroke="#d4707a" d="M230 846 H306"/>
+ <circle class="v" cx="306" cy="846" r="3.4" fill="#d4707a"/>
+ <path class="h" d="M230 846 H306"/></g>
+<g class="wire" data-w="E2" data-d="OPTIONAL · Leak sensor GND → GND rail (hop)">
+ <path class="v" stroke="#8d99a6" d="M230 864 H293 Q306 850 320 864 H362"/>
+ <circle class="v" cx="362" cy="864" r="3.4" fill="#8d99a6"/>
+ <path class="h" d="M230 864 H362"/></g>
+<g class="wire" data-w="E3" data-d="OPTIONAL · Leak sensor AOUT → GPIO32 (D32)">
+ <path class="v" stroke="#9575cd" d="M230 882 H512 V575 H515"/>
+ <path class="h" d="M230 882 H512 V575 H515"/></g>
+<g class="wire" data-w="E4" data-d="OPTIONAL · Buzzer + → 3.3V rail">
+ <path class="v" stroke="#cc6699" d="M306 888 H348 Q362 874 376 888 H560"/>
+ <circle class="v" cx="306" cy="888" r="3.4" fill="#cc6699"/>
+ <path class="h" d="M306 888 H560"/></g>
+<g class="wire" data-w="E5" data-d="OPTIONAL · Buzzer − → GND rail">
+ <path class="v" stroke="#79828c" d="M362 906 H560"/>
+ <circle class="v" cx="362" cy="906" r="3.4" fill="#79828c"/>
+ <path class="h" d="M362 906 H560"/></g>
+<g class="wire" data-w="E6" data-d="OPTIONAL · GPIO26 (D26) → Buzzer S — alarm signal">
+ <path class="v" stroke="#b06ab0" d="M765 570 H798 V924 H735"/>
+ <path class="h" d="M765 570 H798 V924 H735"/></g>
+</svg>
+</div>
+<p class="cap">Positions are logical, not physical — find every ESP32 pin by its <b>printed label</b>
+(GPIO16 is printed <code>RX2</code> on 30-pin boards, <code>16</code> on 38-pin).
+Dashed boxes are optional parts. Component names open their shop pages in a new tab.</p>
+
+<!-- ============================================================ STAGES -->
+<h2 id="stages"><span class="n">03</span> Build it in six stages</h2>
+<p class="lede dim">Each stage ends with a test that proves it worked. Never move on with a failing test —
+a fault found in stage 2 costs minutes; the same fault found in stage 6 costs hardware.</p>
+
+<div class="note info">
+  <b class="t">Your multimeter — the only two modes you need</b>
+  <b>Continuity ♪</b> (the beep symbol): beeps when the probes touch a connected path.
+  <b>Use only with power OFF and USB unplugged</b> — never on a live circuit.
+  <b>DC Volts ⎓</b> (20V range on the UT33B+): black probe sits on GND, red probe touches the test
+  point. Safe on a live circuit — that's its job. Every stage below ends with exact
+  probe placements and the number you should see.
+</div>
+
+<div class="stage"><h3><span class="sn">0</span>Before any wiring — flash and smoke-test the bare board</h3>
+<ul>
+<li>Install the firmware toolchain following <code>firmware/terrarium/README.md</code>
+  (Arduino IDE → esp32 boards → <i>Adafruit BME280</i> + <i>BH1750</i> libraries).</li>
+<li>Plug the bare ESP32 into USB with a <b>data</b> cable. Upload the firmware with your Wi-Fi
+  name/password set in <code>config.h</code>. Serial Monitor at 115200 prints an IP → open it on
+  your phone. You now have the app running with no wiring at all — sensors just read "--".</li>
+<li>Do the same once for the spare board, then put it back in its bag.</li>
+<li>No <a href="https://store.roboticsbd.com/digital-multimeters-roboticsbd/910-ut33b-digital-multimeter-robotics-bangladesh.html" target="_blank" rel="noopener">multimeter</a>?
+  Get one now — stages 3 and 4 are impossible without it.</li>
+<li><b>🔎 METER (DC V, USB plugged):</b> red probe on the pin printed <code>3V3</code>, black on
+  <code>GND</code> → <b>3.25–3.35V</b>. That's the board's own regulator working. Anything under 3.1V
+  with nothing connected = bad board — swap for the spare, claim warranty.</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">1</span>Sensors on a breadboard — group A wires, USB power only</h3>
+<ul>
+<li>Push the ESP32 into a <a href="https://store.roboticsbd.com/components/133-breadboard-full-size-bare-830-tie-points-robotics-bangladesh.html" target="_blank" rel="noopener">breadboard</a>;
+  use the breadboard's red/blue strips as the 3.3V and GND rails from the diagram.</li>
+<li>Wire group <b>A1–A19</b> with jumpers (M-F to the sensor modules). Tick each row below as you go.</li>
+<li><b>Test:</b> the phone app shows live temperature, humidity, lux, and both soil percentages.
+  Squeeze a soil sensor's paddle in your fist — its number moves. Lift the float — the tank warning
+  clears. If a sensor reads "--", its wires are on the wrong pins; nothing is damaged, fix and retry.</li>
+<li><b>Calibrate here:</b> write down each soil sensor's raw value dry and dipped in water
+  (Serial Monitor shows them), and put those numbers into <code>config.h</code>. Do it per sensor —
+  two sensors from one batch differ.</li>
+<li><b>🔎 METER (continuity, USB UNPLUGGED, before first power):</b>
+  ① ESP <code>3V3</code> pin ↔ 3.3V rail → <b>beep</b>.
+  ② ESP <code>GND</code> ↔ GND rail → <b>beep</b>.
+  ③ 3.3V rail ↔ GND rail → <b>must NOT beep</b> — a beep here is a short; find it before plugging
+  anything in. This 10-second trio catches the classic first-build mistake for free.</li>
+<li><b>🔎 METER (DC V, USB plugged):</b> ④ across any sensor's VCC↔GND → <b>3.3V</b>.
+  ⑤ SOIL AOUT ↔ GND → roughly <b>2.2–3.0V in dry air</b>, falling to <b>1.0–1.5V</b> dipped in water.
+  If it sits pinned near 3.3V and never moves, the AOUT wire is on the wrong pin.
+  ⑥ Float switch (continuity, on its two wires, sensor unplugged from ESP): beeps in one float
+  position, silent in the other — <b>write down which position beeps</b>; that's your empty/full
+  orientation for config.</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">2</span>Control signals — group B, still USB power</h3>
+<ul>
+<li>Label the boards with tape first: <b>"A-5V"</b> and <b>"B-12V"</b>. They look identical. Rule 5.</li>
+<li>Wire <b>B1–B7</b>, and solder a 10kΩ from every IN terminal to GND (<b>B8</b> — 5 places).</li>
+<li><b>Test:</b> app → MANUAL mode → toggle each output. Multimeter in continuity/diode mode across
+  each board's OUT terminals clicks between open and closed as you toggle. No load power is connected
+  yet — you're proving the signals land on the right channels.</li>
+<li><b>🔎 METER (DC V, USB plugged, app in MANUAL):</b> black probe on GND. Red probe on each
+  board IN terminal in turn — toggle that output in the app:
+  <b>ON = 3.3V · OFF = 0.0V</b>. Test all five: A·IN1, A·IN2, B·IN1, B·IN2, B·IN3.
+  A channel stuck at 0V when ON = wrong GPIO wire. Floating around 1–2V when OFF = its 10k
+  pulldown is missing (B8).</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">3</span>Power — group C, the careful stage</h3>
+<ul>
+<li>Build the chain in order: barrel jack → fuse holder (3A fitted) → rocker → 12V bus (C1–C4).</li>
+<li>Feed the buck (C5–C6). Now <b>C8: plug in, switch on, measure the buck's OUT terminals.
+  It must read 5.0V ±0.1 with NOTHING connected to it.</b> Wrong voltage → stop, nothing is damaged yet.</li>
+<li>Unplug. Only now wire C9–C14 (5V to ESP32 + Board A · 12V to Board B) and fit the three
+  capacitors C15–C17, stripes to GND.</li>
+<li><b>Test:</b> unplug USB entirely. Power from the wall. The ESP32 boots, the app loads, sensors
+  read. Your build is now mains-powered and self-contained.</li>
+<li><b>🔎 METER (continuity, BEFORE the first wall plug-in):</b>
+  12V bus ↔ GND bus → <b>no beep</b>. 5V rail ↔ GND bar → <b>no beep</b>.
+  A beep = short circuit; the fuse would blow the moment you plug in. Fix first.</li>
+<li><b>🔎 METER (DC V, powered, black probe on GND bus) — walk the chain left to right:</b>
+  barrel + lead <b>≈12V</b> → fuse output <b>12V</b> (0V here = blown or badly seated fuse) →
+  rocker output <b>12V with the lamp lit</b> → buck IN+ <b>12V</b> →
+  <b>C8: buck OUT+ = 4.9–5.1V, nothing connected to it</b>.
+  After C9–C17: ESP <code>VIN</code> <b>5V</b>, ESP <code>3V3</code> <b>3.3V</b>,
+  Board A DC+ <b>5V</b>, Board B DC+ <b>12V</b>. If Board A reads 12V — STOP, the boards are
+  swapped (Rule 5); the mist drivers survive only because nothing is connected yet.</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">4</span>Loads — group D, water in the cups first</h3>
+<ul>
+<li>Wire the mist units (D1–D4), light (D5–D6), fans + their diodes (D7–D12). Screw terminals — no
+  bare twisted joints.</li>
+<li><b>Mist test:</b> discs sitting in water, MANUAL mode, toggle Watering — mist rises instantly
+  (these kits auto-start; the built-in 4-hour timer is irrelevant because the board power-cycles them
+  every burst). Toggle Humidity — same.</li>
+<li><b>Interlock test:</b> lift the float switch out of the water — both mist channels must die
+  instantly and refuse to switch on even in MANUAL. Put it back — control returns. This is your
+  proposal's safety demo.</li>
+<li>Fans spin, light lights, brightness slider dims it. Done — the machine works.</li>
+<li><b>🔎 METER (DC V, probes ACROSS each load's two terminals, app in MANUAL):</b>
+  output OFF → <b>≈0V</b> across the load. Output ON → <b>full supply across it</b>:
+  mist units <b>≈5V</b>, light and fans <b>≈12V</b>. A load showing half-voltage or running weak =
+  wrong board voltage or a missing ground. A fan that twitches but won't spin = check its
+  diode isn't backwards (stripe to +).</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">5</span>Make it permanent — veroboard</h3>
+<ul>
+<li>Re-build the breadboard layout on
+  <a href="https://store.roboticsbd.com/robotics-parts/1363-veroboard-line-type-robotics-bangladesh.html" target="_blank" rel="noopener">veroboard</a>:
+  two rows of 19 <a href="https://store.roboticsbd.com/connector/1122-female-pin-header-254mm-pitch-blue-robotics-bangladesh.html" target="_blank" rel="noopener">female headers</a>
+  as a socket (the ESP32 stays removable), copper strips as the 3.3V/GND rails,
+  <a href="https://store.roboticsbd.com/tools-accessories/1184-2-pin-pitch-50mm-straight-pin-screw-pcb-terminal-block-connector-robotics-bangladesh.html" target="_blank" rel="noopener">screw terminals</a>
+  for every sensor and load cable.</li>
+<li>Heat-shrink every wire-to-wire joint. Hot glue as strain relief where cables leave the board.</li>
+<li>Re-run the stage 1–4 tests after the move. Solder bridges hide here — find them now.</li>
+<li>Mount the finished board in a dry box <b>above</b> the water line, cables entering from below.</li>
+<li><b>🔎 METER (continuity, unpowered, after every soldering session):</b> re-run the stage-1 trio
+  (3V3↔rail beep · GND↔rail beep · 3V3↔GND <b>no</b> beep), then probe <b>every pair of
+  neighbouring copper strips</b> around your new joints — any beep between adjacent strips is a
+  solder bridge. Add C19 (rail → GND bus bond). Then re-run the stage-3 voltage walk before
+  trusting it.</li>
+</ul></div>
+
+<div class="stage"><h3><span class="sn">6</span>48-hour soak, then plants</h3>
+<ul>
+<li>Run the empty tank two days on AUTO. Watch for: condensation where it shouldn't be, tubing creep,
+  humidity stuck at 100% (move the BME280 higher, out of the mist plume), anything warm to the touch.</li>
+<li>Trigger the empty-tank state once a day on purpose. It must always win.</li>
+<li>Then substrate, plants, and the grow light's final position. Calibrate thresholds from the app
+  over the first week.</li>
+</ul></div>
+
+<!-- ============================================================ CHECKLIST -->
+<h2 id="checklist"><span class="n">04</span> Wire-by-wire checklist</h2>
+<p>Same IDs and colours as the diagram. <b>Tap a row to light its wire up.</b> Ticks save in this
+browser.</p>
+
+<div class="prog"><span>connected <b id="pc">0</b> / <b id="pt">0</b></span>
+<button id="pr">reset ticks</button></div>
+
+<h3>A · Sensors — USB power only</h3>
+<div class="tsc"><table><thead><tr><th class="chk"></th><th>#</th><th>From</th><th>To</th><th></th><th>Note</th></tr></thead><tbody>
+<tr data-w="A1"><td class="chk"><input type="checkbox"></td><td>A1</td><td class="pin">3.3V rail</td><td class="pin">ESP32 3V3</td><td><span class="sw" style="background:#e05252"></span></td><td>breadboard red strip = this rail</td></tr>
+<tr data-w="A2"><td class="chk"><input type="checkbox"></td><td>A2</td><td class="pin">GND rail</td><td class="pin">ESP32 GND</td><td><span class="sw" style="background:#6f7680"></span></td><td>blue strip</td></tr>
+<tr data-w="A3"><td class="chk"><input type="checkbox"></td><td>A3</td><td class="pin">BME280 VCC</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#e06666"></span></td><td></td></tr>
+<tr data-w="A4"><td class="chk"><input type="checkbox"></td><td>A4</td><td class="pin">BME280 GND</td><td class="pin">GND rail</td><td><span class="sw" style="background:#8a8f98"></span></td><td></td></tr>
+<tr data-w="A5"><td class="chk"><input type="checkbox"></td><td>A5</td><td class="pin">BME280 SDA</td><td class="pin">GPIO21 (D21)</td><td><span class="sw" style="background:#3cb44b"></span></td><td>I2C data</td></tr>
+<tr data-w="A6"><td class="chk"><input type="checkbox"></td><td>A6</td><td class="pin">BME280 SCL</td><td class="pin">GPIO22 (D22)</td><td><span class="sw" style="background:#c9a227"></span></td><td>I2C clock</td></tr>
+<tr data-w="A7"><td class="chk"><input type="checkbox"></td><td>A7</td><td class="pin">BH1750 VCC</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#d97b7b"></span></td><td></td></tr>
+<tr data-w="A8"><td class="chk"><input type="checkbox"></td><td>A8</td><td class="pin">BH1750 GND</td><td class="pin">GND rail</td><td><span class="sw" style="background:#a0a6b0"></span></td><td></td></tr>
+<tr data-w="A9"><td class="chk"><input type="checkbox"></td><td>A9</td><td class="pin">BH1750 SDA</td><td class="pin">GPIO21 (D21)</td><td><span class="sw" style="background:#2e8b57"></span></td><td>same pin as A5 — that's the bus</td></tr>
+<tr data-w="A10"><td class="chk"><input type="checkbox"></td><td>A10</td><td class="pin">BH1750 SCL</td><td class="pin">GPIO22 (D22)</td><td><span class="sw" style="background:#808000"></span></td><td></td></tr>
+<tr data-w="A11"><td class="chk"><input type="checkbox"></td><td>A11</td><td class="pin">BH1750 ADDR</td><td class="pin">GND rail</td><td><span class="sw" style="background:#8f96a3"></span></td><td>locks address 0x23</td></tr>
+<tr data-w="A12"><td class="chk"><input type="checkbox"></td><td>A12</td><td class="pin">SOIL1 VCC</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#c25555"></span></td><td><b>never 5V</b></td></tr>
+<tr data-w="A13"><td class="chk"><input type="checkbox"></td><td>A13</td><td class="pin">SOIL1 GND</td><td class="pin">GND rail</td><td><span class="sw" style="background:#949aa4"></span></td><td></td></tr>
+<tr data-w="A14"><td class="chk"><input type="checkbox"></td><td>A14</td><td class="pin">SOIL1 AOUT</td><td class="pin">GPIO34 (D34)</td><td><span class="sw" style="background:#7b61d6"></span></td><td></td></tr>
+<tr data-w="A15"><td class="chk"><input type="checkbox"></td><td>A15</td><td class="pin">SOIL2 VCC</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#e08585"></span></td><td></td></tr>
+<tr data-w="A16"><td class="chk"><input type="checkbox"></td><td>A16</td><td class="pin">SOIL2 GND</td><td class="pin">GND rail</td><td><span class="sw" style="background:#7d848e"></span></td><td></td></tr>
+<tr data-w="A17"><td class="chk"><input type="checkbox"></td><td>A17</td><td class="pin">SOIL2 AOUT</td><td class="pin">GPIO35 (D35)</td><td><span class="sw" style="background:#a44fd0"></span></td><td></td></tr>
+<tr data-w="A18"><td class="chk"><input type="checkbox"></td><td>A18</td><td class="pin">FLOAT wire A</td><td class="pin">GPIO27 (D27)</td><td><span class="sw" style="background:#708090"></span></td><td>either wire</td></tr>
+<tr data-w="A19"><td class="chk"><input type="checkbox"></td><td>A19</td><td class="pin">FLOAT wire B</td><td class="pin">GND rail</td><td><span class="sw" style="background:#656b74"></span></td><td></td></tr>
+</tbody></table></div>
+
+<h3>B · Control signals — still USB power</h3>
+<div class="tsc"><table><thead><tr><th class="chk"></th><th>#</th><th>From</th><th>To</th><th></th><th>Note</th></tr></thead><tbody>
+<tr data-w="B1"><td class="chk"><input type="checkbox"></td><td>B1</td><td class="pin">GPIO16</td><td class="pin">Board A · IN1</td><td><span class="sw" style="background:#3a9ad9"></span></td><td>watering mist · silk says <b>RX2</b> on 30-pin boards</td></tr>
+<tr data-w="B2"><td class="chk"><input type="checkbox"></td><td>B2</td><td class="pin">GPIO25 (D25)</td><td class="pin">Board A · IN2</td><td><span class="sw" style="background:#4363d8"></span></td><td>humidity mist</td></tr>
+<tr data-w="B3"><td class="chk"><input type="checkbox"></td><td>B3</td><td class="pin">ESP32 GND</td><td class="pin">Board A · signal GND</td><td><span class="sw" style="background:#9aa0aa"></span></td><td>triggers need a reference</td></tr>
+<tr data-w="B4"><td class="chk"><input type="checkbox"></td><td>B4</td><td class="pin">GPIO19 (D19)</td><td class="pin">Board B · IN1</td><td><span class="sw" style="background:#2bb3c9"></span></td><td>grow light, PWM-dimmable</td></tr>
+<tr data-w="B5"><td class="chk"><input type="checkbox"></td><td>B5</td><td class="pin">GPIO17 (D17)</td><td class="pin">Board B · IN2</td><td><span class="sw" style="background:#5a7fd8"></span></td><td>exhaust fan</td></tr>
+<tr data-w="B6"><td class="chk"><input type="checkbox"></td><td>B6</td><td class="pin">GPIO18 (D18)</td><td class="pin">Board B · IN3</td><td><span class="sw" style="background:#7fb3e8"></span></td><td>circulation fan</td></tr>
+<tr data-w="B7"><td class="chk"><input type="checkbox"></td><td>B7</td><td class="pin">Board A signal GND</td><td class="pin">Board B signal GND</td><td><span class="sw" style="background:#848a94"></span></td><td>chained</td></tr>
+<tr data-w="B8"><td class="chk"><input type="checkbox"></td><td>B8</td><td class="pin">10kΩ ×5</td><td class="pin">every IN ↔ GND</td><td>—</td><td>A·IN1, A·IN2, B·IN1, B·IN2, B·IN3 — stops boot-glitch pulses</td></tr>
+</tbody></table></div>
+
+<h3>C · Power — multimeter in hand</h3>
+<div class="tsc"><table><thead><tr><th class="chk"></th><th>#</th><th>From</th><th>To</th><th></th><th>Note</th></tr></thead><tbody>
+<tr data-w="C1"><td class="chk"><input type="checkbox"></td><td>C1</td><td class="pin">Barrel jack + lead</td><td class="pin">Fuse holder</td><td><span class="sw" style="background:#e0b25e"></span></td><td>3A fast-blow fitted · fuse comes FIRST</td></tr>
+<tr data-w="C2"><td class="chk"><input type="checkbox"></td><td>C2</td><td class="pin">Fuse holder</td><td class="pin">Rocker switch</td><td><span class="sw" style="background:#b89030"></span></td><td></td></tr>
+<tr data-w="C3"><td class="chk"><input type="checkbox"></td><td>C3</td><td class="pin">Rocker switch</td><td class="pin">12V bus</td><td><span class="sw" style="background:#d4af37"></span></td><td>a screw-terminal strip is the bus</td></tr>
+<tr data-w="C4"><td class="chk"><input type="checkbox"></td><td>C4</td><td class="pin">Barrel jack − lead</td><td class="pin">GND bus</td><td><span class="sw" style="background:#767c86"></span></td><td></td></tr>
+<tr data-w="C5"><td class="chk"><input type="checkbox"></td><td>C5</td><td class="pin">12V bus</td><td class="pin">Buck IN+</td><td><span class="sw" style="background:#b8860b"></span></td><td></td></tr>
+<tr data-w="C6"><td class="chk"><input type="checkbox"></td><td>C6</td><td class="pin">GND bar</td><td class="pin">Buck IN−</td><td><span class="sw" style="background:#8a9098"></span></td><td></td></tr>
+<tr data-w="C8"><td class="chk"><input type="checkbox"></td><td>C8</td><td class="pin" colspan="2">MEASURE: buck OUT = 5.0V ± 0.1, nothing connected</td><td>—</td><td><b>the step that saves the ESP32</b></td></tr>
+<tr data-w="C9"><td class="chk"><input type="checkbox"></td><td>C9</td><td class="pin">Buck OUT+</td><td class="pin">5V rail</td><td><span class="sw" style="background:#e07020"></span></td><td>only after C8 passes</td></tr>
+<tr data-w="C7"><td class="chk"><input type="checkbox"></td><td>C7</td><td class="pin">Buck OUT−</td><td class="pin">GND bar</td><td><span class="sw" style="background:#5f6670"></span></td><td>run beside C9 as a pair</td></tr>
+<tr data-w="C10"><td class="chk"><input type="checkbox"></td><td>C10</td><td class="pin">5V rail</td><td class="pin">ESP32 VIN</td><td><span class="sw" style="background:#f08040"></span></td><td>USB can stay plugged — diode-protected</td></tr>
+<tr data-w="C11"><td class="chk"><input type="checkbox"></td><td>C11</td><td class="pin">5V rail</td><td class="pin">Board A · DC+</td><td><span class="sw" style="background:#f58231"></span></td><td>mist board = 5V</td></tr>
+<tr data-w="C12"><td class="chk"><input type="checkbox"></td><td>C12</td><td class="pin">GND bar</td><td class="pin">Board A · DC−</td><td><span class="sw" style="background:#6b7280"></span></td><td></td></tr>
+<tr data-w="C13"><td class="chk"><input type="checkbox"></td><td>C13</td><td class="pin">12V bus</td><td class="pin">Board B · DC+</td><td><span class="sw" style="background:#e0c060"></span></td><td>light + fans = 12V</td></tr>
+<tr data-w="C14"><td class="chk"><input type="checkbox"></td><td>C14</td><td class="pin">GND bar</td><td class="pin">Board B · DC−</td><td><span class="sw" style="background:#59606a"></span></td><td></td></tr>
+<tr data-w="C15"><td class="chk"><input type="checkbox"></td><td>C15</td><td class="pin">Cap 1000µF</td><td class="pin">5V rail ↔ GND (at ESP32)</td><td>—</td><td>stripe to GND</td></tr>
+<tr data-w="C16"><td class="chk"><input type="checkbox"></td><td>C16</td><td class="pin">Cap 1000µF</td><td class="pin">Board A DC+ ↔ DC−</td><td>—</td><td>stripe to DC−</td></tr>
+<tr data-w="C17"><td class="chk"><input type="checkbox"></td><td>C17</td><td class="pin">Cap 1000µF</td><td class="pin">Board B DC+ ↔ DC−</td><td>—</td><td>stripe to DC−</td></tr>
+<tr data-w="C18"><td class="chk"><input type="checkbox"></td><td>C18</td><td class="pin">Rocker pin 3</td><td class="pin">GND bus</td><td><span class="sw" style="background:#a09468"></span></td><td>lights the switch's lamp — optional but nice</td></tr>
+<tr data-w="C19"><td class="chk"><input type="checkbox"></td><td>C19</td><td class="pin">Sensor GND rail</td><td class="pin">GND bus</td><td><span class="sw" style="background:#6a7178"></span></td><td>direct bond — do this on the veroboard build</td></tr>
+</tbody></table></div>
+
+<h3>D · Loads — after stage 3's test passes</h3>
+<div class="tsc"><table><thead><tr><th class="chk"></th><th>#</th><th>From</th><th>To</th><th></th><th>Note</th></tr></thead><tbody>
+<tr data-w="D1"><td class="chk"><input type="checkbox"></td><td>D1</td><td class="pin">A · OUT1+</td><td class="pin">Mist 1 red</td><td><span class="sw" style="background:#ff6b6b"></span></td><td>watering unit</td></tr>
+<tr data-w="D2"><td class="chk"><input type="checkbox"></td><td>D2</td><td class="pin">A · OUT1−</td><td class="pin">Mist 1 black</td><td><span class="sw" style="background:#868d99"></span></td><td></td></tr>
+<tr data-w="D3"><td class="chk"><input type="checkbox"></td><td>D3</td><td class="pin">A · OUT2+</td><td class="pin">Mist 2 red</td><td><span class="sw" style="background:#f032e6"></span></td><td>humidity unit</td></tr>
+<tr data-w="D4"><td class="chk"><input type="checkbox"></td><td>D4</td><td class="pin">A · OUT2−</td><td class="pin">Mist 2 black</td><td><span class="sw" style="background:#8d939d"></span></td><td></td></tr>
+<tr data-w="D5"><td class="chk"><input type="checkbox"></td><td>D5</td><td class="pin">B · OUT1+</td><td class="pin">Grow light +</td><td><span class="sw" style="background:#e6a23c"></span></td><td>12V strip</td></tr>
+<tr data-w="D6"><td class="chk"><input type="checkbox"></td><td>D6</td><td class="pin">B · OUT1−</td><td class="pin">Grow light −</td><td><span class="sw" style="background:#70767f"></span></td><td></td></tr>
+<tr data-w="D7"><td class="chk"><input type="checkbox"></td><td>D7</td><td class="pin">B · OUT2+</td><td class="pin">Exhaust fan red</td><td><span class="sw" style="background:#35b8b8"></span></td><td></td></tr>
+<tr data-w="D8"><td class="chk"><input type="checkbox"></td><td>D8</td><td class="pin">B · OUT2−</td><td class="pin">Exhaust fan black</td><td><span class="sw" style="background:#7b8288"></span></td><td></td></tr>
+<tr data-w="D9"><td class="chk"><input type="checkbox"></td><td>D9</td><td class="pin">1N5819</td><td class="pin">across exhaust fan</td><td><span class="sw" style="background:#d048b6"></span></td><td><b>stripe to the + wire</b></td></tr>
+<tr data-w="D10"><td class="chk"><input type="checkbox"></td><td>D10</td><td class="pin">B · OUT3+</td><td class="pin">Circ fan red</td><td><span class="sw" style="background:#2f9e77"></span></td><td></td></tr>
+<tr data-w="D11"><td class="chk"><input type="checkbox"></td><td>D11</td><td class="pin">B · OUT3−</td><td class="pin">Circ fan black</td><td><span class="sw" style="background:#828992"></span></td><td></td></tr>
+<tr data-w="D12"><td class="chk"><input type="checkbox"></td><td>D12</td><td class="pin">1N5819</td><td class="pin">across circ fan</td><td><span class="sw" style="background:#b465d8"></span></td><td>stripe to +</td></tr>
+</tbody></table></div>
+
+<h3>E · Optional — leak sensor + buzzer</h3>
+<div class="tsc"><table><thead><tr><th class="chk"></th><th>#</th><th>From</th><th>To</th><th></th><th>Note</th></tr></thead><tbody>
+<tr data-w="E1"><td class="chk"><input type="checkbox"></td><td>E1</td><td class="pin">Leak VCC</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#d4707a"></span></td><td>3.3V only</td></tr>
+<tr data-w="E2"><td class="chk"><input type="checkbox"></td><td>E2</td><td class="pin">Leak GND</td><td class="pin">GND rail</td><td><span class="sw" style="background:#8d99a6"></span></td><td></td></tr>
+<tr data-w="E3"><td class="chk"><input type="checkbox"></td><td>E3</td><td class="pin">Leak AOUT</td><td class="pin">GPIO32 (D32)</td><td><span class="sw" style="background:#9575cd"></span></td><td>set <code>ENABLE_LEAK 1</code> in config.h</td></tr>
+<tr data-w="E4"><td class="chk"><input type="checkbox"></td><td>E4</td><td class="pin">Buzzer +</td><td class="pin">3.3V rail</td><td><span class="sw" style="background:#cc6699"></span></td><td></td></tr>
+<tr data-w="E5"><td class="chk"><input type="checkbox"></td><td>E5</td><td class="pin">Buzzer −</td><td class="pin">GND rail</td><td><span class="sw" style="background:#79828c"></span></td><td></td></tr>
+<tr data-w="E6"><td class="chk"><input type="checkbox"></td><td>E6</td><td class="pin">GPIO26 (D26)</td><td class="pin">Buzzer S</td><td><span class="sw" style="background:#b06ab0"></span></td><td>set <code>ENABLE_BUZZER 1</code></td></tr>
+</tbody></table></div>
+
+<!-- ============================================================ PARTS -->
+<h2 id="parts"><span class="n">05</span> Component index — everything, clickable</h2>
+<div class="tsc"><table>
+<thead><tr><th>Part</th><th>Qty</th><th>Role</th><th>Shop page</th></tr></thead>
+<tbody>
+<tr><td><b>ESP32 DevKit V1 CP2102</b></td><td>2</td><td>the brain (+1 spare)</td><td><a href="https://store.roboticsbd.com/development-boards/2267-esp32-dev-board-cp2102-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2267</a></td></tr>
+<tr><td><b>GY-BME280 3.3V</b></td><td>2</td><td>air temp + humidity (+1 spare)</td><td><a href="https://store.roboticsbd.com/sensors/1946-gy-bme280-33v-temperature-and-humidity-sensor-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1946</a></td></tr>
+<tr><td><b>BH1750FVI</b></td><td>1</td><td>lux sensor</td><td><a href="https://store.roboticsbd.com/sensors/429-bh1750fvi-digital-light-intensity-sensor-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 429</a></td></tr>
+<tr><td><b>Capacitive soil sensor</b></td><td>2</td><td>root-zone moisture</td><td><a href="https://store.roboticsbd.com/temperature-humidity/1042-capacitive-soil-moisture-sensor-robtoics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1042</a></td></tr>
+<tr><td><b>52mm float switch</b></td><td>1</td><td>tank-empty interlock</td><td><a href="https://store.roboticsbd.com/sensors/1677-52mm-pp-liquid-water-level-sensor-horizontal-float-switch-down-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1677</a></td></tr>
+<tr><td>Leak sensor (gold)</td><td>1</td><td>optional drip-tray alarm</td><td><a href="https://store.roboticsbd.com/sensors/1935-water-level-sensor-gold-coating-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1935</a></td></tr>
+<tr><td><b>USB mist maker kit</b></td><td>2</td><td>watering + humidity</td><td><a href="https://store.roboticsbd.com/arduino-shield/2426-usb-mini-humidifier-mist-maker-and-driver-circuit-board-diy-kits-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2426</a></td></tr>
+<tr><td><b>F5305S 4-ch MOSFET board</b></td><td>2</td><td>Board A @5V · Board B @12V</td><td><a href="https://store.roboticsbd.com/electronics-module/2940-mosfet-f5305s-4-channel-pulse-trigger-switch-controller-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2940</a></td></tr>
+<tr><td>D4184 module</td><td>alt</td><td>per-channel alternative to Board B</td><td><a href="https://store.roboticsbd.com/electronics-module/2757-d4184-mosfet-control-module-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2757</a></td></tr>
+<tr><td><b>12V fan 40mm</b></td><td>2</td><td>exhaust + circulation</td><td><a href="https://store.roboticsbd.com/3d-printer/727-12v-mini-cooling-fan-40x40x10mm-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 727</a></td></tr>
+<tr><td><b>12V 5A adapter</b></td><td>1</td><td>main power</td><td><a href="https://store.roboticsbd.com/chargers-balancer/3020-12v-5a-power-supply-adapter-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 3020</a></td></tr>
+<tr><td><b>LM2596S buck, 5V out</b></td><td>2</td><td>12V→5V (+1 spare)</td><td><a href="https://store.roboticsbd.com/power-module-adapter/2222-lm2596s-dc-dc-24v12v-to-5v-5a-step-down-power-supply-buck-converter-charging-module-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2222</a></td></tr>
+<tr><td><b>KCD1 illuminated rocker</b></td><td>1</td><td>12V master switch</td><td><a href="https://store.roboticsbd.com/electronic-switches/4048-kcd1-1-bistable-illuminated-rocker-switch-red-1521mm-3pin-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 4048</a></td></tr>
+<tr><td><b>BLX-A fuse holder + 3A fuse</b></td><td>2</td><td>protects everything</td><td><a href="https://store.roboticsbd.com/components/2055-blx-a-cover-with-fuse-holder-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2055</a> · fuses from Katabon/Dunia</td></tr>
+<tr><td><b>Barrel jack female pigtail</b></td><td>2</td><td>adapter connection</td><td><a href="https://store.roboticsbd.com/tools-accessories/1587-barrel-connector-female-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1587</a></td></tr>
+<tr><td><b>1000µF 25V capacitor</b></td><td>3</td><td>C1 C2 C3 — rail smoothing</td><td><a href="https://store.roboticsbd.com/capacitor/4225-1000uf-25v-capacitor-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 4225</a></td></tr>
+<tr><td><b>10kΩ ¼W resistors</b></td><td>5+</td><td>gate pulldowns (B8)</td><td><a href="https://store.roboticsbd.com/components/245-34-resistor-robotics-bangladesh.html#/25-resistor_pack_of_5-10_k" target="_blank" rel="noopener">RoboticsBD 245 (10k pack)</a></td></tr>
+<tr><td>4.7kΩ ¼W resistor</td><td>1</td><td>future DS18B20 pull-up</td><td><a href="https://store.roboticsbd.com/components/245-35-resistor-robotics-bangladesh.html#/26-resistor_pack_of_5-47_k" target="_blank" rel="noopener">RoboticsBD 245 (4.7k pack)</a></td></tr>
+<tr><td><b>1N5819 Schottky diode</b></td><td>10</td><td>fan flyback (D9, D12) + spares</td><td><a href="https://store.roboticsbd.com/diode/3376-1n5819-schottky-diode-40v-1a-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 3376</a></td></tr>
+<tr><td><b>Veroboard line type</b></td><td>3</td><td>the permanent board</td><td><a href="https://store.roboticsbd.com/robotics-parts/1363-veroboard-line-type-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1363</a></td></tr>
+<tr><td><b>Female pin header</b></td><td>4</td><td>ESP32 socket + sensor plugs</td><td><a href="https://store.roboticsbd.com/connector/1122-female-pin-header-254mm-pitch-blue-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1122</a></td></tr>
+<tr><td><b>Screw terminal 2-pin</b></td><td>16</td><td>every cable lands on one</td><td><a href="https://store.roboticsbd.com/tools-accessories/1184-2-pin-pitch-50mm-straight-pin-screw-pcb-terminal-block-connector-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 1184</a></td></tr>
+<tr><td><b>Jumper wires M-M / M-F</b></td><td>1+1</td><td>breadboard stage</td><td><a href="https://store.roboticsbd.com/robotics-parts/31-3-jumper-wire-40-pcs-set-20cm-robotics-bangladesh.html" target="_blank" rel="noopener">M-M 31</a> · <a href="https://store.roboticsbd.com/connector/2104-male-to-female-jumper-wires-40-pin-30cm-robotics-bangladesh.html" target="_blank" rel="noopener">M-F 2104</a></td></tr>
+<tr><td><b>Heat shrink A/B/C</b></td><td>30</td><td>every joint</td><td><a href="https://store.roboticsbd.com/assorted-kit/984-99--heat-shrink-tube-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 984</a></td></tr>
+<tr><td>Active buzzer module</td><td>1</td><td>optional alarm</td><td><a href="https://store.roboticsbd.com/audio-voice-piezo-buzzer-speech-module/2301-active-buzzer-module-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 2301</a></td></tr>
+<tr><td>ESP32-CAM + MB</td><td>1</td><td>optional camera — standalone Wi-Fi, no wires to main board</td><td><a href="https://store.roboticsbd.com/development-boards/4493-esp32-cam-wifi-bluetooth-development-board-with-mb-programmer-shield-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 4493</a></td></tr>
+<tr><td>Breadboard 830pt</td><td>1</td><td>stages 1–4 happen on this</td><td><a href="https://store.roboticsbd.com/components/133-breadboard-full-size-bare-830-tie-points-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 133</a></td></tr>
+<tr><td>Multimeter UT33B+</td><td>1</td><td>C8 and every test</td><td><a href="https://store.roboticsbd.com/digital-multimeters-roboticsbd/910-ut33b-digital-multimeter-robotics-bangladesh.html" target="_blank" rel="noopener">RoboticsBD 910</a></td></tr>
+<tr><td>Grow light — 12V 5050 strip</td><td>~1m</td><td>buy last, after measuring the tank</td><td><a href="https://www.daraz.com.bd/tag/plant-grow-light/" target="_blank" rel="noopener">Daraz</a></td></tr>
+<tr><td>18AWG wire, fuses, glue gun</td><td>—</td><td>power wiring + strain relief</td><td>Katabon market</td></tr>
+</tbody></table></div>
+
+<!-- ============================================================ VALUES -->
+<h2 id="values"><span class="n">06</span> Values at a glance</h2>
+<div class="tsc"><table>
+<thead><tr><th>Thing</th><th>Value</th><th>How to recognise it</th></tr></thead>
+<tbody>
+<tr><td>Pulldown resistor</td><td class="pin">10kΩ · ¼W · ±5%</td><td>colour bands <b>brown-black-orange-gold</b></td></tr>
+<tr><td>DS18B20 pull-up (future)</td><td class="pin">4.7kΩ</td><td><b>yellow-violet-red-gold</b></td></tr>
+<tr><td>Capacitors C1–C3</td><td class="pin">1000µF · 25V</td><td>the printed <b>stripe marks the − leg</b> → faces GND</td></tr>
+<tr><td>Diodes D9/D12</td><td class="pin">1N5819</td><td>the <b>silver band = cathode</b> → faces the + wire</td></tr>
+<tr><td>Fuse</td><td class="pin">3A fast-blow · 5×20mm</td><td>first thing after the barrel jack</td></tr>
+<tr><td>Buck output</td><td class="pin">5.0V ± 0.1</td><td>measured at C8, before anything connects</td></tr>
+<tr><td>Board A supply</td><td class="pin">5V</td><td>label it — mist modules die at 12V</td></tr>
+<tr><td>Board B supply</td><td class="pin">12V</td><td>light + fans</td></tr>
+<tr><td>Wire</td><td class="pin">18AWG power · 22AWG signal</td><td>power = adapter/buck/loads; signal = everything at the ESP32</td></tr>
+</tbody></table></div>
+
+<div class="note info">
+  <b class="t">Where everything else lives</b>
+  Firmware + phone app: <code>firmware/terrarium/</code> (README has flash steps) ·
+  app preview with simulated tank: <code>firmware/dashboard-preview.html</code> ·
+  logic simulation on emulated ESP32: <code>wokwi/logic-sim/</code> ·
+  full parts research & prices: <code>terrarium-build-guide.html</code> ·
+  shop PDF: <code>terrarium-component-list.pdf</code>
+</div>
+
+</div>
+<script>
+(function(){
+var KEY="terrarium-master-v1";
+var boxes=[].slice.call(document.querySelectorAll("tbody input[type=checkbox]"));
+var pc=document.getElementById("pc"),pt=document.getElementById("pt");
+pt.textContent=boxes.length;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(boxes.map(function(b){return b.checked?1:0})))}catch(e){}}
+function paintChk(){var n=0;boxes.forEach(function(b){b.closest("tr").classList.toggle("done",b.checked);if(b.checked)n++});pc.textContent=n}
+boxes.forEach(function(b){b.addEventListener("change",function(){paintChk();save()});
+ b.addEventListener("click",function(e){e.stopPropagation()})});
+try{var s=JSON.parse(localStorage.getItem(KEY));
+if(s&&s.length===boxes.length){boxes.forEach(function(b,i){b.checked=!!s[i]})}}catch(e){}
+paintChk();
+document.getElementById("pr").onclick=function(){boxes.forEach(function(b){b.checked=false});paintChk();save()};
+
+var svg=document.getElementById("wsvg");
+var wit=document.getElementById("wit"),wic=document.getElementById("wic");
+function selWire(id){
+ svg.querySelectorAll(".wire.on").forEach(function(g){g.classList.remove("on")});
+ document.querySelectorAll("tr.hl").forEach(function(r){r.classList.remove("hl")});
+ if(!id){svg.classList.remove("sel");
+  wit.textContent="Click any wire to trace it end-to-end. Click a component name to open its shop page. Click empty space to reset.";
+  wic.style.background="var(--line2)";return}
+ var g=svg.querySelector('.wire[data-w="'+id+'"]');
+ if(!g){selWire(null);return}
+ g.classList.add("on");svg.classList.add("sel");
+ var v=g.querySelector(".v");
+ wic.style.background=v?(v.getAttribute("stroke")||"var(--line2)"):"var(--line2)";
+ wit.innerHTML="<b>"+id+"</b> &nbsp;"+(g.dataset.d||"");
+ var row=document.querySelector('tr[data-w="'+id+'"]');
+ if(row)row.classList.add("hl");
+}
+svg.querySelectorAll("g.wire").forEach(function(g){
+ g.addEventListener("click",function(e){e.stopPropagation();
+  selWire(g.classList.contains("on")?null:g.dataset.w)})});
+svg.addEventListener("click",function(){selWire(null)});
+svg.querySelectorAll("a").forEach(function(a){
+ a.addEventListener("click",function(e){e.stopPropagation()})});
+document.querySelectorAll("tr[data-w]").forEach(function(r){
+ r.addEventListener("click",function(){selWire(r.dataset.w)})});
+})();
+</script>
+</body>
+</html>

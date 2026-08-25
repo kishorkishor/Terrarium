@@ -1,0 +1,3 @@
+waiting for COM3 to be released...
+port state: TIMEOUT
+gave up waiting

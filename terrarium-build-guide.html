@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Automated Tropical Terrarium — Verified Build Guide</title>
+<style>
+:root{
+  --bg:#fbfaf8; --panel:#ffffff; --ink:#1a1917; --ink-2:#4a4741; --ink-3:#7a756c;
+  --line:#e3ded4; --line-2:#cec7b8;
+  --accent:#2f6f4e; --accent-soft:#e8f1eb;
+  --warn:#8a5a00; --warn-bg:#fdf4e1; --warn-line:#e8c877;
+  --crit:#9b2c2c; --crit-bg:#fdeeee; --crit-line:#e8a5a5;
+  --info:#1f5f8b; --info-bg:#e9f2f8; --info-line:#a8cbe0;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --serif:ui-serif,Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#16181a; --panel:#1e2124; --ink:#e8e6e1; --ink-2:#b8b4ac; --ink-3:#8a857c;
+    --line:#2e3236; --line-2:#414750;
+    --accent:#6fbf90; --accent-soft:#1b2b22;
+    --warn:#e0b25e; --warn-bg:#2b2317; --warn-line:#5a4820;
+    --crit:#e88b8b; --crit-bg:#2c1a1a; --crit-line:#5e2f2f;
+    --info:#7ab8dd; --info-bg:#16242e; --info-line:#2c4a5e;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+
+/* ---------- header ---------- */
+header.mast{
+  border-bottom:2px solid var(--ink); padding-bottom:22px; margin-bottom:34px;
+}
+.eyebrow{
+  font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:600; margin:0 0 10px;
+}
+h1{
+  font-family:var(--serif); font-size:clamp(27px,4.6vw,42px); line-height:1.14;
+  margin:0 0 12px; font-weight:600; letter-spacing:-.015em;
+}
+.sub{color:var(--ink-2); font-size:16px; margin:0; max-width:62ch}
+.meta{
+  display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:18px;
+  font-size:12.5px; color:var(--ink-3); font-family:var(--mono);
+}
+.meta b{color:var(--ink-2); font-weight:600}
+
+/* ---------- structure ---------- */
+section{margin:0 0 46px; scroll-margin-top:20px}
+h2{
+  font-family:var(--serif); font-size:24px; font-weight:600; letter-spacing:-.01em;
+  margin:0 0 6px; padding-bottom:8px; border-bottom:1px solid var(--line-2);
+  display:flex; align-items:baseline; gap:12px;
+}
+h2 .num{
+  font-family:var(--mono); font-size:12px; color:var(--accent);
+  font-weight:700; letter-spacing:.05em;
+}
+h3{font-size:15.5px; font-weight:650; margin:26px 0 8px; letter-spacing:-.005em}
+.lede{color:var(--ink-2); margin:10px 0 20px; max-width:70ch}
+p{margin:0 0 12px}
+a{color:var(--accent); text-decoration:none; border-bottom:1px solid color-mix(in srgb,var(--accent) 35%,transparent)}
+a:hover{border-bottom-color:var(--accent)}
+code{
+  font-family:var(--mono); font-size:.87em; background:var(--accent-soft);
+  color:var(--ink); padding:1.5px 5px; border-radius:3px;
+}
+
+/* ---------- toc ---------- */
+nav.toc{
+  background:var(--panel); border:1px solid var(--line); border-radius:8px;
+  padding:16px 20px; margin-bottom:38px;
+}
+nav.toc ol{margin:0; padding:0; list-style:none; display:grid; gap:2px 26px;
+  grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); counter-reset:t}
+nav.toc li{counter-increment:t; font-size:14px}
+nav.toc li::before{
+  content:counter(t,decimal-leading-zero); font-family:var(--mono);
+  font-size:10.5px; color:var(--ink-3); margin-right:9px;
+}
+nav.toc a{border:0; color:var(--ink-2)}
+nav.toc a:hover{color:var(--accent)}
+
+/* ---------- callouts ---------- */
+.note{
+  border-left:3px solid; border-radius:0 6px 6px 0; padding:13px 17px;
+  margin:16px 0; font-size:14.6px; line-height:1.58;
+}
+.note p:last-child{margin-bottom:0}
+.note .tag{
+  display:block; font-size:10.5px; letter-spacing:.11em; text-transform:uppercase;
+  font-weight:700; margin-bottom:5px;
+}
+.note.warn{background:var(--warn-bg); border-color:var(--warn-line)}
+.note.warn .tag{color:var(--warn)}
+.note.crit{background:var(--crit-bg); border-color:var(--crit-line)}
+.note.crit .tag{color:var(--crit)}
+.note.info{background:var(--info-bg); border-color:var(--info-line)}
+.note.info .tag{color:var(--info)}
+
+/* ---------- tables ---------- */
+.tscroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:16px 0;
+  border:1px solid var(--line); border-radius:8px; background:var(--panel)}
+table{border-collapse:collapse; width:100%; font-size:14.2px; min-width:520px}
+th{
+  text-align:left; font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:700; padding:11px 14px;
+  border-bottom:1px solid var(--line-2); white-space:nowrap; background:var(--panel);
+}
+td{padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+.num-col,.r{text-align:right; font-family:var(--mono); font-size:13px; white-space:nowrap}
+td.pin{font-family:var(--mono); font-weight:600; color:var(--accent); white-space:nowrap}
+.mono{font-family:var(--mono); font-size:12.6px}
+
+/* ---------- shopping ---------- */
+.buy-head{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:14px; background:var(--panel); border:1px solid var(--line-2);
+  border-radius:8px; padding:14px 18px; margin:18px 0 22px;
+  position:sticky; top:0; z-index:20; backdrop-filter:blur(6px);
+}
+.totals{display:flex; gap:26px; flex-wrap:wrap}
+.tot{line-height:1.25}
+.tot .lbl{display:block; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--ink-3); font-weight:700; margin-bottom:2px}
+.tot .val{font-family:var(--mono); font-size:19px; font-weight:600; color:var(--ink)}
+.tot .val.acc{color:var(--accent)}
+.btn{
+  font:inherit; font-size:12.5px; font-weight:600; cursor:pointer;
+  background:transparent; color:var(--ink-2); border:1px solid var(--line-2);
+  padding:6px 13px; border-radius:5px;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+
+table.buy{min-width:600px}
+table.buy td{vertical-align:middle}
+table.buy tr.off td:not(.chk){opacity:.42}
+.chk{width:38px; padding-left:16px}
+.chk input{width:17px; height:17px; accent-color:var(--accent); cursor:pointer; margin:0; display:block}
+.qty{font-family:var(--mono); font-size:13px; color:var(--ink-3); width:38px; text-align:right}
+.part{font-weight:550; line-height:1.4}
+.part .hint{display:block; font-weight:400; font-size:12.5px; color:var(--ink-3); margin-top:2px}
+.est{color:var(--warn); cursor:help}
+.badge{
+  display:inline-block; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase;
+  font-weight:700; padding:2px 6px; border-radius:3px; vertical-align:1.5px; margin-left:6px;
+}
+.badge.opt{background:var(--info-bg); color:var(--info); border:1px solid var(--info-line)}
+.badge.alt{background:var(--warn-bg); color:var(--warn); border:1px solid var(--warn-line)}
+.shop{font-size:12.5px; white-space:nowrap}
+
+/* ---------- checks ---------- */
+.checks{list-style:none; margin:16px 0 0; padding:0; counter-reset:c}
+.checks li{
+  counter-increment:c; position:relative; padding:14px 0 14px 46px;
+  border-bottom:1px solid var(--line); font-size:14.8px; line-height:1.58;
+}
+.checks li:last-child{border-bottom:0}
+.checks li::before{
+  content:counter(c); position:absolute; left:0; top:14px;
+  width:28px; height:28px; border-radius:50%; display:grid; place-items:center;
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  background:var(--accent-soft); color:var(--accent); border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.checks li.hot::before{background:var(--crit-bg); color:var(--crit); border-color:var(--crit-line)}
+.checks b{font-weight:650}
+
+/* ---------- diagram ---------- */
+figure{margin:20px 0; padding:0}
+.dwrap{overflow-x:auto; border:1px solid var(--line); border-radius:8px; background:var(--panel); padding:18px 14px}
+svg{display:block; margin:0 auto; max-width:100%; height:auto}
+figcaption{font-size:12.8px; color:var(--ink-3); margin-top:9px; text-align:center}
+.sv-box{fill:var(--panel); stroke:var(--line-2); stroke-width:1.4}
+.sv-box.pw{fill:var(--accent-soft); stroke:var(--accent); stroke-width:1.6}
+.sv-box.hi{fill:var(--warn-bg); stroke:var(--warn-line); stroke-width:1.6}
+.sv-t{fill:var(--ink); font-family:var(--sans); font-size:11.5px; font-weight:600; text-anchor:middle}
+.sv-s{fill:var(--ink-3); font-family:var(--mono); font-size:9.5px; text-anchor:middle}
+.sv-l{stroke:var(--line-2); stroke-width:1.6; fill:none}
+.sv-l.p{stroke:var(--accent); stroke-width:2}
+.sv-lbl{fill:var(--ink-3); font-family:var(--mono); font-size:9.5px}
+
+/* ---------- misc ---------- */
+.grid2{display:grid; gap:18px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px 18px}
+.card h4{margin:0 0 8px; font-size:13.5px; font-weight:650; letter-spacing:-.005em}
+.card ul{margin:0; padding-left:18px; font-size:14px; color:var(--ink-2)}
+.card li{margin-bottom:5px}
+.pinsum{
+  display:flex; flex-wrap:wrap; gap:10px; margin:16px 0 0;
+}
+.pinsum div{
+  flex:1 1 180px; background:var(--panel); border:1px solid var(--line);
+  border-radius:7px; padding:11px 14px;
+}
+.pinsum .k{font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); font-weight:700}
+.pinsum .v{font-family:var(--mono); font-size:13px; margin-top:4px; line-height:1.5}
+.pinsum .v.ok{color:var(--accent)} .pinsum .v.no{color:var(--crit)}
+footer{
+  margin-top:56px; padding-top:22px; border-top:1px solid var(--line-2);
+  font-size:13px; color:var(--ink-3);
+}
+footer a{color:var(--ink-2)}
+
+/* ---------- print ---------- */
+@media print{
+  :root{--bg:#fff;--panel:#fff;--ink:#000;--ink-2:#333;--ink-3:#666;--line:#ccc;--line-2:#999;--accent:#1a5c3a;--accent-soft:#f0f0f0}
+  body{font-size:10.5pt}
+  .wrap{max-width:100%;padding:0}
+  nav.toc,.btn{display:none}
+  .buy-head{position:static; backdrop-filter:none}
+  section{break-inside:avoid-page; margin-bottom:24px}
+  h2{break-after:avoid}
+  .tscroll,.dwrap{overflow:visible; border:1px solid #bbb}
+  table{min-width:0; font-size:9pt}
+  a{color:#000; border:0}
+  tr.off{display:none}
+  .note{break-inside:avoid}
+  .checks li{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">AIUB · Faculty of Engineering · EEE4103 Microprocessor &amp; Embedded Systems</p>
+  <h1>IoT-Based Automated Tropical Terrarium</h1>
+  <p class="sub">Verified component list, pin allocation, and electrical compatibility audit for the
+  course capstone prototype — every part cross-checked against the others and priced from live
+  Bangladesh suppliers.</p>
+  <div class="meta">
+    <span><b>Semester</b> Summer 2025-26</span>
+    <span><b>Controller</b> ESP32 DevKit V1 (WROOM-32)</span>
+    <span><b>GPIO used</b> 14 of 19 safe</span>
+    <span><b>Compiled</b> 5 August 2026</span>
+  </div>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#decisions">Design decisions</a></li>
+    <li><a href="#pins-myth">The pin-count correction</a></li>
+    <li><a href="#buy">Shopping list</a></li>
+    <li><a href="#pinmap">Pin map</a></li>
+    <li><a href="#power">Power architecture</a></li>
+    <li><a href="#checks">Compatibility checks</a></li>
+    <li><a href="#logic">Control logic</a></li>
+    <li><a href="#cost">Cost summary</a></li>
+    <li><a href="#tools">Tools, test gear &amp; consumables</a></li>
+    <li><a href="#sim">Simulate &amp; learn before you wire</a></li>
+    <li><a href="#bringup">Bench bring-up order</a></li>
+    <li><a href="#gaps">Unverified &amp; open</a></li>
+  </ol>
+</nav>
+
+<!-- ============ 1 ============ -->
+<section id="decisions">
+  <h2><span class="num">01</span> Design decisions</h2>
+  <p class="lede">The written proposal and the later revision specified two different machines. These
+  are the resolutions, and why each one won.</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Choice</th><th>Source</th><th>Reasoning</th></tr></thead>
+    <tbody>
+      <tr><td><b>BME280</b> over DHT22</td><td>revision</td>
+        <td>DHT22 is ±5% RH and saturates permanently above ~90% RH — useless inside a terrarium.
+        BME280 reads 0–100% RH and shares the I²C bus, costing zero extra GPIO versus DHT22's dedicated pin.</td></tr>
+      <tr><td><b>MOSFETs</b> over relays</td><td>revision</td>
+        <td>Silent, no coil back-EMF, no contact wear, and PWM-capable — so the grow light dims and the
+        fans run at partial speed. Relays give on/off only.</td></tr>
+      <tr><td><b>12V main rail</b> over all-5V</td><td>revision</td>
+        <td>5V pumps and USB grow lights are toy-grade. 12V buys a real peristaltic dosing pump and a
+        real light, with a buck converter feeding the 5V logic.</td></tr>
+      <tr><td><b>Keep the OLED</b></td><td>proposal</td>
+        <td>The revision cut it. Restored — it is the visible proof of the "continues operating without
+        Wi-Fi" claim, demonstrable to an examiner without a phone.</td></tr>
+      <tr><td><b>Drop the DS3231 RTC</b></td><td>revision</td>
+        <td>ESP32 NTP over Wi-Fi, with a <code>millis()</code> fallback schedule for offline operation.</td></tr>
+      <tr><td><b>Drop the moat/circulation pump</b></td><td>this audit</td>
+        <td>Appears in no stated objective, and adds a second pump plus tubing near water for no graded
+        benefit. A spare MOSFET channel (GPIO23) is reserved if it returns.</td></tr>
+      <tr><td><b>Camera is optional</b></td><td>this audit</td>
+        <td>Not present in any of the six project objectives. Listed separately and unticked by default.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section id="pins-myth">
+  <h2><span class="num">02</span> The pin-count correction</h2>
+
+  <div class="note crit">
+    <span class="tag">Corrects a common assumption</span>
+    <p><b>A 38-pin ESP32 gives you almost no extra usable GPIO over a 30-pin one.</b> The eight extra
+    pads are GPIO6–11 (SD0–SD3, CLK, CMD), hardwired to the SPI flash chip. Drive any of them and the
+    board fails to boot. Both variants expose roughly <b>19 usable pins</b>.</p>
+  </div>
+
+  <div class="note info">
+    <span class="tag">And sensors are cheaper in pins than expected</span>
+    <p>A BME280 needs four <i>wires</i> — but only <b>two GPIO</b>. The BH1750 and the OLED share those
+    same two pins on the I²C bus. Three devices, two pins. That is why this build fits comfortably
+    inside either board.</p>
+  </div>
+
+  <div class="pinsum">
+    <div><span class="k">Required</span><span class="v">14 GPIO</span></div>
+    <div><span class="k">Available (safe)</span><span class="v ok">19 GPIO</span></div>
+    <div><span class="k">Spare after build</span><span class="v ok">13 · 14 · 33 · 36 · 39</span></div>
+    <div><span class="k">Never use</span><span class="v no">6–11 · 0 · 2 · 5 · 12 · 15 · 1 · 3</span></div>
+  </div>
+
+  <p style="margin-top:18px">Buy the 38-pin variant anyway — not for the pin count, but for the extra
+  GND and 3V3 pads, which make wiring eight sensors substantially less painful.</p>
+
+  <div class="note warn">
+    <span class="tag">Module variant matters</span>
+    <p>Must be <b>WROOM-32, not WROVER</b>. WROVER modules use GPIO16/17 internally for PSRAM — this
+    pin map puts the irrigation pump and exhaust fan there.</p>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section id="buy">
+  <h2><span class="num">03</span> Shopping list</h2>
+  <p class="lede">Tick items as you buy them. Totals update live and persist in this browser.
+  Prices are live-listing snapshots from August 2026 and will drift.
+  <b>Core/optional now mirrors the purchase PDF</b>: unbadged rows = PDF sections A+B (the
+  mist-based build the wiring diagram and firmware implement); <i>optional</i>/<i>upgrade</i>
+  badges = section C. The "Core only" button selects exactly the PDF A+B set.</p>
+
+  <div class="buy-head">
+    <div class="totals">
+      <div class="tot"><span class="lbl">Selected</span><span class="val acc" id="t-sel">৳0</span></div>
+      <div class="tot"><span class="lbl">Items</span><span class="val" id="t-cnt">0</span></div>
+      <div class="tot"><span class="lbl">Still to buy</span><span class="val" id="t-rem">৳0</span></div>
+    </div>
+    <div>
+      <button class="btn" id="b-core">Core only</button>
+      <button class="btn" id="b-clear">Clear ticks</button>
+    </div>
+  </div>
+
+  <h3>Controller</h3>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="485" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">ESP32 DEVKIT V1 — select the <b>“38 Pin”</b> model option
+          <span class="hint">WROOM-32 dual-core, Wi-Fi + BT, 4MB flash</span></td>
+        <td class="r">৳485</td>
+        <td class="shop"><a href="https://techshopbd.com/product/esp32-devkit-v1">TechShopBD</a></td></tr>
+      <tr data-price="493"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">ESP-32S WROOM-32 38P NodeMCU <span class="badge alt">alternative</span>
+          <span class="hint">Same silicon, different vendor — buy only one of these two</span></td>
+        <td class="r">৳493</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/development-boards/1820-esp-32s-esp-wroom-32-development-board-38p-nodemcu-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Sensors</h3>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="420" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">GY-BME280 — <b>3.3V version</b>
+          <span class="hint">Air temperature + relative humidity + pressure · I²C 0x76</span></td>
+        <td class="r">৳420</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/sensors/1946-gy-bme280-33v-temperature-and-humidity-sensor-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="250" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">BH1750FVI digital light sensor
+          <span class="hint">Illuminance in lux · I²C 0x23</span></td>
+        <td class="r">৳250</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/sensors/429-bh1750fvi-digital-light-intensity-sensor-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="567" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">3</td>
+        <td class="part">Capacitive soil moisture sensor
+          <span class="hint">Two installed + one spare · ৳189 each · calibrate each individually</span></td>
+        <td class="r">৳567</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/temperature-humidity/1042-capacitive-soil-moisture-sensor-robtoics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="209"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Waterproof DS18B20 probe <span class="badge opt">optional</span>
+          <span class="hint">Substrate temperature · 1-Wire · needs 4.7kΩ pull-up</span></td>
+        <td class="r">৳209</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/robotics-parts/414-waterproof-ds18b20-digital-thermal-probe-or-sensor-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="299" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">52mm PP horizontal float switch
+          <span class="hint">Reservoir-empty interlock · passive reed contact, no power needed</span></td>
+        <td class="r">৳299</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/sensors/1677-52mm-pp-liquid-water-level-sensor-horizontal-float-switch-down-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="49"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Water level / leak detection sensor <span class="badge opt">optional</span>
+          <span class="hint">Drip-tray leak alarm · <b>power from 3.3V only</b> — see check 04</span></td>
+        <td class="r">৳49</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/sensors/683-water-level-sensor-depth-of-detection-water-sensor-for-arduinoroboticsbangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="280"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">0.96" SSD1306 OLED, I²C <span class="badge opt">optional</span>
+          <span class="hint">Local readings when Wi-Fi is down · I²C 0x3C</span></td>
+        <td class="r">৳280</td>
+        <td class="shop"><a href="https://electroxbd.com/product/0-96-inch-oled-display-electroxbd/">ElectroXBD</a> ·
+          <a href="https://store.roboticsbd.com/arduino-shield/353-096-inch-i2c-oled-display-yellow-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note crit">
+    <span class="tag">Do not buy</span>
+    <p>The <a href="https://www.bdtronics.com/bme280-5v-digital-temperature-humidity-barometric-pressure-sensor.html">5V BME280 variant</a>
+    — it pulls the I²C bus toward 5V against a 3.3V microcontroller. If you already own one, power it
+    from 3.3V and it behaves correctly.</p>
+  </div>
+
+  <h3>Actuators</h3>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="850"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">12V peristaltic dosing pump + silicone tubing <span class="badge alt">upgrade</span>
+          <span class="hint">Repeatable dose volume, cannot siphon — the reason not to use a cheap submersible</span></td>
+        <td class="r">৳850</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/motor/1964--small-peristaltic-dosing-pump-12v-silicone-tubing-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="948"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">24V ultrasonic mist maker — <b>24V 1A adapter included</b> <span class="badge alt">upgrade</span>
+          <span class="hint">0.8A draw · 350 mL/h · isolated supply keeps ultrasonic noise off the ESP32 rail</span></td>
+        <td class="r">৳948</td>
+        <td class="shop"><a href="https://www.bdtronics.com/24v-color-changing-ultrasonic-mist-maker-fogger.html">BDTronics</a></td></tr>
+      <tr data-price="300"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">12V fan, 40×40×10mm <span class="badge opt">optional</span>
+          <span class="hint">One exhaust + one internal circulation · ৳150 each · PWM speed control</span></td>
+        <td class="r">৳300</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/3d-printer/727-12v-mini-cooling-fan-40x40x10mm-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="450" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">~1m</td>
+        <td class="part">12V 5050 LED strip, natural/cool white — grow light
+          <span class="est" title="Estimate — no clean 12V grow-light SKU stocked in BD">*</span>
+          <span class="hint">Buy last, after the enclosure is measured · see §09</span></td>
+        <td class="r">৳450*</td>
+        <td class="shop"><a href="https://www.daraz.com.bd/tag/plant-grow-light/">Daraz</a></td></tr>
+      <tr data-price="598" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">5V ultrasonic mist maker kit — 20mm/113kHz disc + driver PCB
+          <span class="hint"><b>Must auto-start when power is applied — reject touch-button types.</b>
+          One waters (GPIO16), one humidifies (GPIO25) · shares the 5V rail, hence the 1000µF caps</span></td>
+        <td class="r">৳170–299 ea</td>
+        <td class="shop"><a href="https://www.daraz.com.bd/products/ultrasonic-mist-maker-atomizing-fogger-humidifier-module-d20mm-mist-maker-circuit-for-efficient-fog-generation-circuit-i264745553.html">Daraz D20</a> ·
+          <a href="https://www.bdtronics.com/diy-mist-maker-kit-5v-usb-mini-humidifier-and-driver-circuit-board-fogger-atomization-atomizer.html">BDTronics kit</a> ·
+          <a href="https://rcgearbd.com/product/usb-humidifier-atomizing-chip-circuit-driver-pcb-circuit-board-electronic-accessories-5v-spray-incubation-experimental-equipment/">RC Gear BD</a></td></tr>
+      <tr data-price="340"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">Spare 20mm atomizer discs / spare mist module <span class="badge opt">optional</span>
+          <span class="hint">The disc is a wear part. Match the frequency to your driver — easiest is a
+          second identical kit; the RoboticsBD 20mm disc is 2.4MHz and only suits 2.4MHz drivers</span></td>
+        <td class="r">~৳170 ea</td>
+        <td class="shop"><a href="https://www.daraz.com.bd/products/ultrasonic-mist-maker-atomizing-fogger-humidifier-module-d20mm-mist-maker-circuit-for-efficient-fog-generation-circuit-i264745553.html">Daraz D20</a> ·
+          <a href="https://store.roboticsbd.com/vibration-sensor-robotics-bangladesh/2249-20mm-24mhz-ultrasonic-mist-maker-fogger-atomizing-transducer-robotics-bangladesh.html">RoboticsBD 2.4MHz</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Switching &amp; power</h3>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="400" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">D4184 MOSFET module
+          <span class="est" title="Price not published in search results — confirm with supplier">*</span>
+          <span class="hint">One drives the 12V grow light + one spare (pump/fogger later) ·
+          2.5–20V logic in, 6–36V / 10A out · ~৳200 each</span></td>
+        <td class="r">৳400*</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/electronics-module/2757-d4184-mosfet-control-module-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="400" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">4-channel F5305S MOSFET board
+          <span class="est" title="Price not published in search results — confirm with supplier">*</span>
+          <span class="hint">Powered at 5V: both mist modules + two spare channels (fans later) ·
+          3–20V trigger, isolated, PWM-capable</span></td>
+        <td class="r">৳400*</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/relay-mosfet-switching-module/2223-mosfet-electronic-switch-dc-controlling-board-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="450" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">12V 5A power adapter
+          <span class="hint">Main rail · 1.75A worst-case load = 2.8× headroom</span></td>
+        <td class="r">৳450</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/chargers-balancer/3020-12v-5a-power-supply-adapter-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="380" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">LM2596S 12V→5V <b>fixed</b> buck module
+          <span class="hint">Feeds ESP32 VIN · fixed output — no pot to mis-set</span></td>
+        <td class="r">৳380</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/power-module-adapter/2222-lm2596s-dc-dc-24v12v-to-5v-5a-step-down-power-supply-buck-converter-charging-module-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="30"><td class="chk"><input type="checkbox"></td><td class="qty">10</td>
+        <td class="part">1N5819 Schottky diode, 40V 1A <span class="badge opt">optional</span>
+          <span class="hint">Flyback protection · ৳3 each · <b>mandatory the day fans or the pump are
+          added</b> — not needed for mist discs or the LED strip</span></td>
+        <td class="r">৳30</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/diode/3376-1n5819-schottky-diode-40v-1a-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="15"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Active buzzer <span class="badge opt">optional</span>
+          <span class="hint">Audible alarm for empty reservoir and leak states</span></td>
+        <td class="r">৳15</td>
+        <td class="shop"><a href="https://www.techshopbd.com/detail?product_id=177">TechShopBD</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note crit">
+    <span class="tag">Buy the fixed 5V module, not the adjustable one</span>
+    <p>The <a href="https://store.roboticsbd.com/robotics-parts/395--xl4015-dc-dc-step-down-adjustable-power-supply-module-5a-max-robotics-bangladesh.html">XL4015</a>
+    (৳180–650) ships at whatever voltage its trimmer was last left at — frequently 20V or more.
+    One slip and the ESP32 is dead. If you buy it regardless, set it to exactly <code>5.00V</code> with a
+    multimeter <b>with nothing connected to the output</b> before it ever touches the board.</p>
+  </div>
+
+  <h3>Small parts &amp; build materials</h3>
+  <p class="lede" style="font-size:13.5px;margin-bottom:10px">Cheapest as one in-person lot at Katabon
+  (~৳600–900 for everything below). The links are for ordering online instead — matches section B of
+  the purchase PDF item for item.</p>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="15" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">10</td>
+        <td class="part">Resistor 10kΩ · ¼W · ±5% carbon film
+          <span class="hint">MOSFET gate pulldowns · sold as packs</span></td>
+        <td class="r">৳14–15</td>
+        <td class="shop"><a href="https://techshopbd.com/product/10k-ohm-14w-resistor-pack-of-20">TechShopBD ×20</a> ·
+          <a href="https://store.roboticsbd.com/resistor/243-10k-ohm-14w-carbon-film-resistor-pack-of-10-robotics-bangladesh.html">RoboticsBD ×10</a></td></tr>
+      <tr data-price="10" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">Resistor 4.7kΩ · ¼W · ±5%
+          <span class="est" title="Pick from the resistor category — same pack pricing as the 10k">*</span>
+          <span class="hint">DS18B20 1-Wire pull-up + spare</span></td>
+        <td class="r">~৳10</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/118-resistor">RoboticsBD resistors</a></td></tr>
+      <tr data-price="33" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">3</td>
+        <td class="part">Capacitor 1000µF · 25V · radial electrolytic
+          <span class="hint">ESP32 supply + mist board + spare · ৳10–11 each</span></td>
+        <td class="r">৳33</td>
+        <td class="shop"><a href="https://techshopbd.com/product/1000uf-25v-capacitor">TechShopBD</a> ·
+          <a href="https://store.roboticsbd.com/capacitor/4225-1000uf-25v-capacitor-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="65" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">10</td>
+        <td class="part">Glass fuse 3A fast-blow · 5×20mm
+          <span class="hint">Spares included — a blown fuse the night before demo day</span></td>
+        <td class="r">৳65</td>
+        <td class="shop"><a href="https://www.dunia.com.bd/product/glass-fuse-5x20mm-for-electrical-circuit-ups-multi-plug-fast-blow/">Dunia ×10</a></td></tr>
+      <tr data-price="60" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Fuse holder for 5×20mm cartridge
+          <span class="est" title="Inline waterproof type is a Katabon item — link is the PCB-mount style">*</span>
+          <span class="hint">Inline on the 12V positive wire</span></td>
+        <td class="r">~৳60</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/components/2055-blx-a-cover-with-fuse-holder-robotics-bangladesh.html">RoboticsBD BLX-A</a> ·
+          <a href="https://udvabony.com/product-category/electrical-accessories/fuse-fuse-holder/">Udvabony</a></td></tr>
+      <tr data-price="70" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">Veroboard / stripboard · single-sided
+          <span class="hint">৳35 each · line type for rails, dot type also works</span></td>
+        <td class="r">৳70</td>
+        <td class="shop"><a href="https://techshopbd.com/product/veroboard-single-sided-dot-type">TechShopBD</a> ·
+          <a href="https://store.roboticsbd.com/robotics-parts/1363-veroboard-line-type-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="60" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">4</td>
+        <td class="part">Female pin header · 1×40 · 2.54mm
+          <span class="hint">৳15 each · two rows of 19 = the ESP32 socket, rest for sensor plugs</span></td>
+        <td class="r">৳60</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/connector/656-female-pin-header-single-row-254mm-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="200" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">10</td>
+        <td class="part">Screw terminal block · 2-pin · 5.0/5.08mm
+          <span class="hint">৳20 each · every load lands on one, labelled</span></td>
+        <td class="r">৳200</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/tools-accessories/1184-2-pin-pitch-50mm-straight-pin-screw-pcb-terminal-block-connector-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="250" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">6m</td>
+        <td class="part">Hook-up wire 18AWG · 3m red + 3m black
+          <span class="est" title="Katabon by the metre is far cheaper than online silicone wire">*</span>
+          <span class="hint">Adapter, buck and load wiring</span></td>
+        <td class="r">~৳250</td>
+        <td class="shop">Katabon ·
+          <a href="https://www.daraz.com.bd/tag/silicone-wire-18-awg/">Daraz</a></td></tr>
+      <tr data-price="180" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Jumper wire pack · 65 pcs · 22AWG
+          <span class="hint">M-M, M-F, F-F assorted — all the signal wiring</span></td>
+        <td class="r">৳150–300</td>
+        <td class="shop"><a href="https://techshopbd.com/product/breadboard-jumper-wire-pack-65-pcs">TechShopBD</a></td></tr>
+      <tr data-price="66" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">2</td>
+        <td class="part">DC barrel jack pigtail · female · 5.5×2.1mm
+          <span class="hint">৳33 each · mates with the 12V adapter plug</span></td>
+        <td class="r">৳66</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/tools-accessories/1587-barrel-connector-female-robotics-bangladesh.html">RoboticsBD</a> ·
+          <a href="https://store.roboticsbd.com/tools-accessories/1832-barrel-connector-male-female-pair-robotics-bangladesh.html">M+F pair</a></td></tr>
+      <tr data-price="250" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Heat-shrink tubing assortment
+          <span class="est" title="Kit prices vary by size count">*</span>
+          <span class="hint">1.5–10mm mixed · every wire-to-wire joint</span></td>
+        <td class="r">~৳250</td>
+        <td class="shop"><a href="https://techshopbd.com/product/heat-shrink-kit">TechShopBD kit</a> ·
+          <a href="https://store.roboticsbd.com/assorted-kit/984-100--heat-shrink-tube-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+      <tr data-price="30" data-core="1"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">Rocker switch · 12V line master
+          <span class="hint">Illuminated preferred (lamp = rail is live) · KCD1 type</span></td>
+        <td class="r">৳13–30</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/electronic-switches/994-rocker-switch-onoff-kcd1-101-2pin-robotics-bangladesh.html">RoboticsBD</a> ·
+          <a href="https://www.dunia.com.bd/product/4-pin-2-position-illuminated-ac-power-rocker-switch-kcd1-104n-dpst-on-off/">Dunia illuminated</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Optional — camera subsystem</h3>
+  <div class="tscroll"><table class="buy">
+    <thead><tr><th class="chk"></th><th class="qty">Qty</th><th>Part</th><th class="r">Unit</th><th>Supplier</th></tr></thead>
+    <tbody>
+      <tr data-price="820"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">ESP32-CAM with OV2640 <span class="badge opt">optional</span>
+          <span class="hint">Standalone Wi-Fi device — no wiring to the main ESP32 · needs its own 5V/500mA + 1000µF at the pin</span></td>
+        <td class="r">৳820</td>
+        <td class="shop"><a href="https://www.bdtronics.com/esp32-cam-wifi-bluetooth-camera-module-ov2640-2mp-development-board.html">BDTronics</a></td></tr>
+      <tr data-price="220"><td class="chk"><input type="checkbox"></td><td class="qty">1</td>
+        <td class="part">ESP32-CAM-MB USB programmer <span class="badge opt">optional</span>
+          <span class="hint">Reusable — flash one camera, unclip, flash the next</span></td>
+        <td class="r">৳220</td>
+        <td class="shop"><a href="https://store.roboticsbd.com/internet-of-things-iot/2044-esp32-cam-mb-micro-usb-download-module-for-esp32-cam-development-board-robotics-bangladesh.html">RoboticsBD</a></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <span class="tag">Skip this one</span>
+    <p>The <a href="https://www.bdtronics.com/esp32-38-pin-expansion-board-gpio-breakout-board-red.html">38-pin expansion board</a>
+    (৳487). Its listing specifies the <i>keyes</i> ESP32 core board, and row spacing varies between
+    38-pin variants — it may not seat on yours. Its 7–12V input also duplicates the buck converter,
+    through a linear regulator that will overheat dropping 12V to 5V. Veroboard and female headers are
+    safer and cheaper, and the original proposal already specifies veroboard.</p>
+  </div>
+
+  <p style="font-size:13px;color:var(--ink-3);margin-top:14px">
+    <span class="est">*</span> Estimated price — not confirmed on a live listing. See §09.</p>
+</section>
+
+<!-- ============ 4 ============ -->
+<section id="pinmap">
+  <h2><span class="num">04</span> Pin map</h2>
+  <p class="lede">Fourteen GPIO. Every analog input sits on ADC1, and every pin choice below has a
+  reason attached.</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>GPIO</th><th>Connected to</th><th>Mode</th><th>Why this pin</th></tr></thead>
+    <tbody>
+      <tr><td class="pin">21</td><td>SDA — BME280 + BH1750 + OLED</td><td class="mono">I²C</td><td>Hardware default SDA; three devices share it</td></tr>
+      <tr><td class="pin">22</td><td>SCL — same three devices</td><td class="mono">I²C</td><td>Hardware default SCL</td></tr>
+      <tr><td class="pin">34</td><td>Soil moisture 1 (AOUT)</td><td class="mono">Analog in</td><td>ADC1 — input-only is fine, it receives a sensor output</td></tr>
+      <tr><td class="pin">35</td><td>Soil moisture 2 (AOUT)</td><td class="mono">Analog in</td><td>ADC1</td></tr>
+      <tr><td class="pin">32</td><td>Leak sensor (AOUT)</td><td class="mono">Analog in</td><td>ADC1</td></tr>
+      <tr><td class="pin">4</td><td>DS18B20 data</td><td class="mono">1-Wire</td><td>4.7kΩ to 3.3V required; no strapping function on this pin</td></tr>
+      <tr><td class="pin">27</td><td>Float switch → GND</td><td class="mono">INPUT_PULLUP</td><td><b>Cannot be 34–39</b> — those have no internal pull-up</td></tr>
+      <tr><td class="pin">16</td><td>Irrigation pump</td><td class="mono">Digital out</td><td>D4184 #1 · WROOM-32 only (WROVER uses this for PSRAM)</td></tr>
+      <tr><td class="pin">25</td><td>Mist maker</td><td class="mono">Digital out</td><td>D4184 #2 on the isolated 24V rail</td></tr>
+      <tr><td class="pin">17</td><td>Exhaust fan</td><td class="mono">PWM out</td><td>4-channel board CH1</td></tr>
+      <tr><td class="pin">18</td><td>Circulation fan</td><td class="mono">PWM out</td><td>4-channel board CH2</td></tr>
+      <tr><td class="pin">19</td><td>Grow light</td><td class="mono">PWM out</td><td>4-channel board CH3 — dimmable</td></tr>
+      <tr><td class="pin">23</td><td>Spare (moat pump / 2nd light zone)</td><td class="mono">Digital out</td><td>4-channel board CH4, reserved</td></tr>
+      <tr><td class="pin">26</td><td>Buzzer</td><td class="mono">Digital out</td><td>Alarm output</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid2" style="margin-top:20px">
+    <div class="card">
+      <h4>Free after the build</h4>
+      <ul><li><code>13</code> <code>14</code> <code>33</code> <code>36</code> <code>39</code> — five spare safe pins</li>
+      <li>36 and 39 are ADC1 input-only — good for a third soil sensor</li></ul>
+    </div>
+    <div class="card">
+      <h4>Never use</h4>
+      <ul><li><code>6–11</code> — SPI flash, board will not boot</li>
+      <li><code>0 2 5 12 15</code> — boot strapping pins</li>
+      <li><code>1 3</code> — USB serial (TX0/RX0)</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section id="power">
+  <h2><span class="num">05</span> Power architecture</h2>
+  <p class="lede">Two isolated supplies. The 24V fogger keeps its own adapter so ultrasonic switching
+  noise never reaches the logic rail.</p>
+
+  <figure>
+  <div class="dwrap">
+  <svg viewBox="0 0 900 470" role="img" aria-label="Power distribution diagram">
+    <!-- mains -->
+    <rect class="sv-box" x="20" y="200" width="106" height="46" rx="5"/>
+    <text class="sv-t" x="73" y="220">AC Mains</text>
+    <text class="sv-s" x="73" y="234">220V · 50Hz</text>
+
+    <!-- 12V adapter -->
+    <rect class="sv-box pw" x="168" y="118" width="128" height="52" rx="5"/>
+    <text class="sv-t" x="232" y="139">12V Adapter</text>
+    <text class="sv-s" x="232" y="154">5A · fused 3A</text>
+
+    <!-- 24V adapter -->
+    <rect class="sv-box hi" x="168" y="330" width="128" height="52" rx="5"/>
+    <text class="sv-t" x="232" y="351">24V Adapter</text>
+    <text class="sv-s" x="232" y="366">1A · included</text>
+
+    <path class="sv-l p" d="M126 218 L147 218 L147 144 L168 144"/>
+    <path class="sv-l" d="M126 228 L147 228 L147 356 L168 356"/>
+
+    <!-- 4ch mosfet -->
+    <rect class="sv-box" x="360" y="40" width="140" height="58" rx="5"/>
+    <text class="sv-t" x="430" y="62">4-ch F5305S</text>
+    <text class="sv-s" x="430" y="77">3.3V trigger · PWM</text>
+
+    <!-- D4184 #1 -->
+    <rect class="sv-box" x="360" y="126" width="140" height="52" rx="5"/>
+    <text class="sv-t" x="430" y="147">D4184 #1</text>
+    <text class="sv-s" x="430" y="162">10A · opto</text>
+
+    <!-- buck -->
+    <rect class="sv-box pw" x="360" y="206" width="140" height="58" rx="5"/>
+    <text class="sv-t" x="430" y="228">LM2596S buck</text>
+    <text class="sv-s" x="430" y="243">fixed 5.0V out</text>
+
+    <!-- D4184 #2 -->
+    <rect class="sv-box" x="360" y="330" width="140" height="52" rx="5"/>
+    <text class="sv-t" x="430" y="351">D4184 #2</text>
+    <text class="sv-s" x="430" y="366">rated to 36V</text>
+
+    <path class="sv-l p" d="M296 144 L328 144 L328 69 L360 69"/>
+    <path class="sv-l p" d="M296 144 L328 144 L328 152 L360 152"/>
+    <path class="sv-l p" d="M296 144 L328 144 L328 235 L360 235"/>
+    <path class="sv-l" d="M296 356 L360 356"/>
+    <text class="sv-lbl" x="302" y="112">12V bus</text>
+    <text class="sv-lbl" x="302" y="348">24V</text>
+
+    <!-- loads -->
+    <rect class="sv-box" x="580" y="20" width="150" height="34" rx="4"/>
+    <text class="sv-t" x="655" y="41">Exhaust fan 12V</text>
+    <rect class="sv-box" x="580" y="60" width="150" height="34" rx="4"/>
+    <text class="sv-t" x="655" y="81">Circulation fan 12V</text>
+    <rect class="sv-box" x="580" y="100" width="150" height="34" rx="4"/>
+    <text class="sv-t" x="655" y="121">Grow light 12V</text>
+    <rect class="sv-box" x="580" y="140" width="150" height="34" rx="4"/>
+    <text class="sv-t" x="655" y="161">Peristaltic pump</text>
+    <rect class="sv-box" x="580" y="330" width="150" height="34" rx="4"/>
+    <text class="sv-t" x="655" y="351">Mist maker 24V</text>
+
+    <path class="sv-l" d="M500 69 L540 69 L540 37 L580 37"/>
+    <path class="sv-l" d="M500 69 L540 69 L540 77 L580 77"/>
+    <path class="sv-l" d="M500 69 L540 69 L540 117 L580 117"/>
+    <path class="sv-l" d="M500 152 L540 152 L540 157 L580 157"/>
+    <path class="sv-l" d="M500 356 L540 356 L540 347 L580 347"/>
+
+    <!-- esp32 -->
+    <rect class="sv-box pw" x="580" y="206" width="150" height="58" rx="5"/>
+    <text class="sv-t" x="655" y="228">ESP32 DevKit V1</text>
+    <text class="sv-s" x="655" y="243">VIN 5V → AMS1117</text>
+    <path class="sv-l p" d="M500 235 L580 235"/>
+    <text class="sv-lbl" x="512" y="228">5V</text>
+
+    <!-- 3v3 rail -->
+    <rect class="sv-box" x="580" y="284" width="290" height="34" rx="4"/>
+    <text class="sv-t" x="725" y="299">3.3V sensor rail — 43mA total</text>
+    <text class="sv-s" x="725" y="312">BME280 · BH1750 · OLED · 2× soil · DS18B20 · leak</text>
+    <path class="sv-l p" d="M655 264 L655 284"/>
+
+    <!-- diodes note -->
+    <text class="sv-lbl" x="545" y="188">1N5819 flyback across</text>
+    <text class="sv-lbl" x="545" y="200">every motor load</text>
+
+    <!-- star ground -->
+    <rect class="sv-box" x="360" y="410" width="370" height="38" rx="5"/>
+    <text class="sv-t" x="545" y="428">Star ground — 12V GND · 24V GND · ESP32 GND</text>
+    <text class="sv-s" x="545" y="441">tied at one point on the veroboard</text>
+    <path class="sv-l" d="M430 264 L430 410"/>
+    <path class="sv-l" d="M430 382 L430 410"/>
+    <path class="sv-l" d="M655 318 L655 392 L640 392 L640 410"/>
+  </svg>
+  </div>
+  <figcaption>Two isolated supplies, one star ground. Both adapters are isolated SMPS secondaries,
+  so bonding their grounds is safe — and required for low-side MOSFET switching to work.</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>12V rail budget</h4>
+      <ul>
+        <li>Peristaltic pump — 0.40A</li>
+        <li>Two 40mm fans — 0.20A</li>
+        <li>Grow light — ~1.00A</li>
+        <li>Buck converter draw — 0.15A</li>
+        <li><b>Worst case 1.75A on a 5A supply</b> — 2.8× headroom</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>3.3V rail budget</h4>
+      <ul>
+        <li>OLED — 20mA · soil ×2 — 10mA</li>
+        <li>Leak sensor — 10mA · DS18B20 — 1.5mA</li>
+        <li>BME280 — 1mA · BH1750 — 0.2mA</li>
+        <li><b>≈43mA total</b> — well inside the onboard AMS1117</li>
+        <li>No separate 3.3V regulator needed</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section id="checks">
+  <h2><span class="num">06</span> Compatibility checks</h2>
+  <p class="lede">Every part verified against every other part. These are the ones that would actually
+  have caused failures — red-numbered items destroy hardware or silently corrupt data.</p>
+
+  <ol class="checks">
+    <li class="hot"><b>ADC2 stops working when Wi-Fi is on.</b> GPIO 0/2/4/12–15/25–27 share silicon
+      with the radio, and the radio wins. Every analog input in this build is on <b>ADC1</b>
+      (32 / 34 / 35). This is the most common ESP32 IoT bug and it is silent — the code compiles,
+      the board runs, and the numbers are simply wrong.</li>
+
+    <li><b>GPIO34–39 have no internal pull-up.</b> They are input-only and unpulled, so the float
+      switch cannot live there. It is on GPIO27, which supports <code>INPUT_PULLUP</code>.</li>
+
+    <li class="hot"><b>Power the soil sensors from 3.3V, not 5V.</b> At 5V their analog output swings
+      to roughly 3.0V — sitting right at the ESP32's ADC ceiling with no margin for a bad batch.
+      At 3.3V the output physically cannot exceed the limit.</li>
+
+    <li class="hot"><b>Power the leak sensor from 3.3V, not 5V.</b> The listing states 5–18V, but the
+      module is interdigitated traces plus a resistor — its output tracks Vcc when wet. At 5V it puts
+      5V directly into GPIO32 and destroys that pin. At 3.3V it detects water perfectly well, and
+      wet-versus-dry is all an alarm needs.</li>
+
+    <li><b>I²C addresses do not collide.</b> BME280 <code>0x76</code> · BH1750 <code>0x23</code> ·
+      OLED <code>0x3C</code>. Three devices, two pins, zero conflicts. Each module carries its own
+      pull-ups; three in parallel gives roughly 1.6kΩ, which the ESP32 drives comfortably.</li>
+
+    <li><b>3.3V current budget clears.</b> Total sensor draw ≈43mA against an AMS1117 with substantial
+      headroom. No auxiliary regulator required.</li>
+
+    <li><b>12V current budget clears.</b> 1.75A worst case against a 5A adapter.</li>
+
+    <li class="hot"><b>Boot glitch — the failure that floods the terrarium.</b> Every GPIO is
+      high-impedance during reset, and a floating MOSFET input can read HIGH, running the pump while
+      the board boots. Fit a <b>10kΩ resistor from each of GPIO 16/17/18/19/23/25/26 to GND</b>.
+      About ৳20 of parts; without it, every power cycle is a coin flip.</li>
+
+    <li class="hot"><b>Flyback diodes are mandatory.</b> The pump and fans are inductive, and low-side
+      MOSFET switching means the coil kicks the drain above +12V at turn-off. Fit a <b>1N5819 across
+      each motor, cathode to +12V</b>. Neither MOSFET module includes one.</li>
+
+    <li><b>Both switching modules accept 3.3V logic.</b> D4184: 2.5–20V input, 6–36V output, 10A —
+      covers the 12V pump and the 24V fogger alike. F5305S 4-channel: 3–20V input, 5–36V output,
+      isolated, PWM-capable.</li>
+
+    <li><b>The 24V adapter runs at 80% load.</b> The fogger draws 0.8A from its included 1A supply.
+      Acceptable — but hang nothing else on that rail.</li>
+
+    <li><b>Ground everything at one star point.</b> 12V GND, 24V GND and ESP32 GND meet at a single
+      node on the veroboard. Both adapters are isolated SMPS secondaries, so this is safe and required
+      for low-side switching.</li>
+
+    <li><b>The DS18B20 needs an external 4.7kΩ pull-up</b> from data to 3.3V. The bare probe does not
+      include one.</li>
+
+    <li><b>Float switch polarity is orientation-dependent.</b> The "down" mount variant may read
+      normally-open or normally-closed depending on how it is fitted. Test it before writing the
+      interlock, then invert in software if needed.</li>
+  </ol>
+</section>
+
+<!-- ============ 7 ============ -->
+<section id="logic">
+  <h2><span class="num">07</span> Control logic</h2>
+  <p class="lede">Threshold plus hysteresis, with two interlocks that cannot be manually bypassed.</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Condition</th><th>Automatic action</th><th>Stop / reset</th><th>Safety rule</th></tr></thead>
+    <tbody>
+      <tr><td>Soil moisture below calibrated minimum</td><td>Pump ON, 2–5s</td>
+        <td>Timed cycle ends; re-check after soak delay</td><td>Blocked by empty reservoir or leak state</td></tr>
+      <tr><td>Humidity below lower threshold</td><td>Mist maker ON, limited interval</td>
+        <td>Humidity reaches upper threshold, or timer expires</td><td>Max runtime + reservoir check</td></tr>
+      <tr><td>Temperature or humidity above upper threshold</td><td>Exhaust fan ON</td>
+        <td>Values fall below lower thresholds</td><td>Remains available while the app is offline</td></tr>
+      <tr><td>Low lux during the daytime schedule</td><td>Grow light ON</td>
+        <td>Lux rises, or daytime window ends</td><td>Maximum daily lighting duration enforced</td></tr>
+      <tr><td><b>Reservoir empty</b></td><td>Pump and mist OFF; buzzer + app alert</td>
+        <td>Reservoir refilled and state acknowledged</td><td><b>No manual bypass for water outputs</b></td></tr>
+      <tr><td><b>Leak detected</b></td><td>Pump and mist OFF; alert</td>
+        <td>Leak cleared and manual reset performed</td><td><b>Highest-priority shutdown</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <span class="tag">Offline behaviour</span>
+    <p>Automation lives on the board, not in the cloud. If Wi-Fi drops, the ESP32 continues the full
+    control loop and shows connection status on the OLED. NTP sets the clock when a network is present;
+    a <code>millis()</code> schedule carries the photoperiod when it is not.</p>
+  </div>
+
+  <div class="note warn">
+    <span class="tag">Design caution worth writing into your evaluation section</span>
+    <p>Every RH sensor, BME280 included, drifts in permanently condensing air. Mount it high in the air
+    space, away from the glass and outside the mist plume — otherwise it reads 100% forever and the
+    misting logic never releases.</p>
+  </div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section id="cost">
+  <h2><span class="num">08</span> Cost summary</h2>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Section</th><th class="r">Cost (BDT)</th></tr></thead>
+    <tbody>
+      <tr><td>Controller</td><td class="r">485</td></tr>
+      <tr><td>Sensors — 7 types, 8 units</td><td class="r">2,075</td></tr>
+      <tr><td>Actuators — pump, fogger, 2 fans, light</td><td class="r">2,548</td></tr>
+      <tr><td>Switching &amp; power</td><td class="r">1,675</td></tr>
+      <tr><td>Passives &amp; build materials</td><td class="r">750</td></tr>
+      <tr style="background:var(--accent-soft)"><td><b>Electronics total</b></td><td class="r"><b>≈ 7,533</b></td></tr>
+      <tr><td>Glass tank, acrylic lid, ABS box, substrate, plants, tubing</td><td class="r">3,500–6,000</td></tr>
+      <tr style="background:var(--accent-soft)"><td><b>Complete system</b></td><td class="r"><b>11,000–13,500</b></td></tr>
+      <tr><td>Camera subsystem (optional)</td><td class="r">+1,040</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note info">
+    <span class="tag">Useful for your results section</span>
+    <p>This lands inside the <b>BDT 8,001–12,000</b> and <b>12,001–16,000</b> bands that question 20 of
+    your survey asks about — so the measured build cost can be compared directly against respondents'
+    stated acceptable price range.</p>
+  </div>
+  <div class="note warn">
+    <span class="tag">Simplified mist-based build (purchase PDF sections A+B)</span>
+    <p>The table above is the full capstone system. Your current build — two 5V mist modules instead of
+    pump + 24V fogger, fans/OLED/DS18B20/diodes/buzzer deferred — totals roughly
+    <b>৳5,900–6,300 in electronics</b>. Press <i>Core only</i> in §03 and the live counter shows the
+    exact figure from today's prices.</p>
+  </div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section id="tools">
+  <h2><span class="num">09</span> Tools, test gear &amp; consumables</h2>
+  <p class="lede">None of this ends up inside the enclosure, so none of it appears in the §08 total —
+  but two items on this list are things your own evaluation metrics cannot be filled in without.
+  The <b>Need</b> column tells you what to actually buy versus what you probably already have or can borrow.</p>
+
+  <h3>Test &amp; measurement</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>What it is actually for here</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>Digital multimeter</b><span class="hint">Uni-T UT33B+ or any continuity + DC volts model</span></td>
+        <td><b>Mandatory</b></td><td class="r">৳620+</td>
+        <td>Setting the buck converter to exactly 5.00V · recording soil-sensor dry/wet ADC endpoints ·
+          determining whether your float switch is NO or NC · finding shorts <i>before</i> first power-up.
+          <a href="https://store.roboticsbd.com/digital-multimeters-roboticsbd/910-ut33b-digital-multimeter-robotics-bangladesh.html">RoboticsBD</a> ·
+          <a href="https://techshopbd.com/category/instruments/digital-multimeters">TechShopBD</a></td></tr>
+      <tr><td class="part"><b>Reference thermometer + hygrometer</b><span class="hint">HTC-2 or any LCD temp/RH meter</span></td>
+        <td><b>Mandatory</b></td><td class="r">৳207–350</td>
+        <td><b>Your evaluation metrics require this.</b> "Compare with a reference thermometer / hygrometer,
+          report mean absolute error" cannot be answered without a second instrument to compare against.
+          <a href="https://store.roboticsbd.com/instruments/1220-digital-temperature-humidity-meter-with-lcd-robotics-bangladesh.html">RoboticsBD ৳207</a> ·
+          <a href="https://www.bdstall.com/details/htc-2-digital-temperature-humidity-meter-with-clock-16724/">HTC-2 ৳350</a></td></tr>
+      <tr><td class="part"><b>Graduated syringe, 20–50mL</b><span class="hint">Any pharmacy</span></td>
+        <td><b>Mandatory</b></td><td class="r">~৳20</td>
+        <td>The "irrigation volume — measure water delivered per timed cycle" metric. Pump into it,
+          record mL per cycle, repeat ten times for the repeatability figure.</td></tr>
+      <tr><td class="part">Stopwatch</td><td>Have it</td><td class="r">—</td>
+        <td>Actuator response time metric. Your phone is fine.</td></tr>
+      <tr><td class="part">USB logic analyzer, 8-channel</td><td>Optional</td><td class="r">~৳600</td>
+        <td>Makes I²C debugging trivial when three devices share one bus and one refuses to answer.
+          Saves hours the first time it happens.</td></tr>
+      <tr><td class="part">USB power meter</td><td>Optional</td><td class="r">~৳400</td>
+        <td>Real measured current draw — a nice extra row in your results table.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Prototyping — before anything gets soldered</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>USB cable matching your board</b></td><td><b>Mandatory</b></td><td class="r">৳100–200</td>
+        <td>The classic DevKit V1 is <b>micro-USB</b>; the Type-C variant is <b>Type-C</b>. Check which one
+          you ordered. Nothing at all happens on day one without it.</td></tr>
+      <tr><td class="part"><b>Spare ESP32</b></td><td><b>Strongly advised</b></td><td class="r">৳485</td>
+        <td>Buy two boards. Checks 01, 03, 04 and 08 in §06 all exist because people destroy the first one.
+          ৳485 against losing a week of a 13-week schedule.</td></tr>
+      <tr><td class="part">Breadboard, 830 point ×2</td><td>Mandatory</td><td class="r">~৳150 ea</td>
+        <td>Prototype and calibrate every sensor separately before committing to veroboard.
+          <a href="https://techshopbd.com/product/breadboard-830-point">TechShopBD</a></td></tr>
+      <tr><td class="part">Jumper wires — M-M, M-F, F-F</td><td>Mandatory</td><td class="r">৳150–300</td>
+        <td><a href="https://techshopbd.com/product/breadboard-jumper-wire-pack-65-pcs">65-pc pack, TechShopBD</a></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Soldering &amp; hand tools</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>Temperature-adjustable soldering iron, 60–80W</b></td><td>Mandatory</td><td class="r">৳1,200+</td>
+        <td>A fixed-temperature iron will lift veroboard pads.
+          <a href="https://www.bdtronics.com/atetool-ae561d-professional-digital-soldering-iron-kit.html">ATETOOL AE561D, BDTronics</a></td></tr>
+      <tr><td class="part">21-in-1 soldering kit with PU bag <span class="badge alt">bundle</span></td><td>Alternative</td><td class="r">~৳1,500</td>
+        <td>Covers iron, stand, wick, pump, tweezers in one purchase.
+          <a href="https://store.roboticsbd.com/tools-accessories/1245-soldering-iron-kit-21-in-1-with-pu-bag-robotics-bangladesh.html">RoboticsBD</a>.
+          An <a href="https://store.roboticsbd.com/electronics-robotics-kit/1748-80w-soldering-iron-kit-set-multimeter-with-pu-bag-robotics-bangladesh.html">80W kit bundled with a multimeter is ৳4,650</a> — covers two rows at once.</td></tr>
+      <tr><td class="part">Solder wire 0.8mm 63/37 rosin-core</td><td>Mandatory</td><td class="r">~৳250</td><td>—</td></tr>
+      <tr><td class="part">Flux paste</td><td>Mandatory</td><td class="r">~৳120</td><td>Makes veroboard joints far more forgiving.</td></tr>
+      <tr><td class="part">Desoldering pump <i>or</i> wick</td><td>Mandatory</td><td class="r">~৳150</td><td>You will make mistakes. Plan for them.</td></tr>
+      <tr><td class="part">Helping hands / PCB vise</td><td>Advised</td><td class="r">~৳400</td><td>Two hands are not enough for through-hole work.</td></tr>
+      <tr><td class="part">Side cutters · wire strippers · precision screwdrivers · tweezers</td><td>Mandatory</td><td class="r">~৳700</td><td>Often cheaper as one kit.</td></tr>
+      <tr><td class="part">Isopropyl alcohol 99% + stiff brush</td><td>Advised</td><td class="r">~৳200</td><td>Flux residue is mildly conductive and hygroscopic — bad news in a humid build.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Mechanical &amp; mounting</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>Hot glue gun + sticks</b></td><td>Mandatory</td><td class="r">৳360</td>
+        <td>Strain relief on every wire leaving the veroboard, tacking sensors into position, filling
+          gaps around cable glands. <a href="https://techshopbd.com/product/glue-gun">TechShopBD</a></td></tr>
+      <tr><td class="part"><b>100% silicone sealant — aquarium grade</b></td><td>Mandatory</td><td class="r">~৳400</td>
+        <td>See the warning below. This is the single easiest thing on the list to buy wrong.</td></tr>
+      <tr><td class="part">Cable glands, PG7 / PG9 ×6</td><td>Mandatory</td><td class="r">~৳300</td>
+        <td>Every wire crossing the acrylic lid. Keeps humid air in and keeps wires from sawing on the edge.</td></tr>
+      <tr><td class="part">M3 standoff / screw / nut assortment</td><td>Mandatory</td><td class="r">~৳300</td>
+        <td>Mounting the ESP32 and MOSFET boards inside the ABS box. Never let boards float loose.</td></tr>
+      <tr><td class="part">Heat-shrink assortment + lighter or heat gun</td><td>Mandatory</td><td class="r">~৳250</td><td>Every soldered wire-to-wire joint.</td></tr>
+      <tr><td class="part">Zip ties + adhesive anchors · double-sided foam tape · electrical tape</td><td>Mandatory</td><td class="r">~৳300</td><td>Cable management is a marked criterion in most capstone rubrics.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note crit">
+    <span class="tag">The sealant trap</span>
+    <p>Buy <b>100% silicone with no anti-mould or fungicide additive</b>. Standard bathroom and kitchen
+    sealant is sold as "mould resistant" precisely because it contains biocides — which leach out in a
+    warm sealed enclosure and kill your plants and moss. Check the tube says aquarium-safe, or that the
+    ingredients list nothing beyond silicone. Cure it fully with the lid off for 48 hours before
+    planting.</p>
+  </div>
+
+  <h3>Consumables &amp; protection</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>Distilled or deionised water</b> — for the mist maker</td><td><b>Mandatory</b></td><td class="r">~৳80/L</td>
+        <td>Dhaka tap water is hard. Its minerals clog the ultrasonic disc within days and then blow a
+          fine white mineral dust over your plants and glass. Distilled only, in the mist chamber.
+          Tap water is fine for the irrigation reservoir.</td></tr>
+      <tr><td class="part"><b>Conformal coating, clear epoxy, or clear nail polish</b></td><td><b>Mandatory</b></td><td class="r">~৳200</td>
+        <td>Coat the <b>upper electronics end</b> of each capacitive soil sensor. Do <b>not</b> coat the
+          long sensing area — that destroys the reading. Uncoated sensors corrode in wet substrate within weeks.</td></tr>
+      <tr><td class="part">Spare 3A fuses ×5</td><td>Advised</td><td class="r">~৳50</td><td>A blown fuse at 11pm before demo day is not the time to go shopping.</td></tr>
+      <tr><td class="part">Spare silicone tubing, matching pump ID</td><td>Advised</td><td class="r">~৳150</td>
+        <td>Peristaltic tubing is a <b>wear part</b> — it flattens where the rollers squeeze and eventually
+          splits. Expect to replace it during the project.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Power input — the part you asked about</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Item</th><th>Need</th><th class="r">Cost</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b>Surge-protected power strip</b></td><td>Mandatory</td><td class="r">৳600–1,200</td>
+        <td>BD mains fluctuates and dips. A sag drops the 12V rail, drops the buck output, and browns out
+          the ESP32 — potentially mid-pump-cycle with the MOSFET latched on. Both adapters go into one
+          protected strip, and that strip is your single physical off switch.</td></tr>
+      <tr><td class="part"><a href="https://store.roboticsbd.com/electronic-switches/994-rocker-switch-onoff-kcd1-101-2pin-robotics-bangladesh.html">Illuminated rocker switch, 12V line</a>
+        <span class="hint"><a href="https://www.dunia.com.bd/product/4-pin-2-position-illuminated-ac-power-rocker-switch-kcd1-104n-dpst-on-off/">illuminated KCD1-104n at Dunia</a> — now also in §03 small parts</span></td><td>Advised</td><td class="r">৳13–80</td>
+        <td>Cuts the 12V bus without unplugging anything. The lamp tells you the rail is live at a glance.</td></tr>
+      <tr><td class="part">Inline fuse holder + 3A fast-blow <span class="badge alt">in BOM</span></td><td>Mandatory</td><td class="r">—</td>
+        <td>Already in §03. Fit it on the 12V positive line <b>immediately</b> after the adapter, before
+          anything else — that is the only position where it protects the whole system.</td></tr>
+      <tr><td class="part">Screw-terminal distribution block</td><td>Advised</td><td class="r">~৳120</td>
+        <td>One tidy 12V+ and GND bus instead of six wires twisted into one screw terminal.</td></tr>
+      <tr><td class="part">Second 12V 5A adapter <span class="badge opt">optional</span></td><td>Optional</td><td class="r">৳450</td>
+        <td>Wall adapters are the most common single point of failure in builds like this. Cheap insurance
+          if your demo date is fixed.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <span class="tag">Rough tooling budget</span>
+    <p>If you own none of it: <b>৳5,500–7,000</b>, dominated by the soldering setup and multimeter.
+    If your department lab has irons and meters you can borrow — which most do — the genuinely
+    unavoidable personal spend drops to about <b>৳2,000</b>: reference hygrometer, syringe, hot glue gun,
+    aquarium silicone, distilled water, conformal coating, glands and fasteners.</p>
+  </div>
+</section>
+
+<!-- ============ 10 ============ -->
+<section id="sim">
+  <h2><span class="num">10</span> Simulate &amp; learn before you wire</h2>
+  <p class="lede">Your proposal names Wokwi, and that is the right choice — but it answers only half of
+  what you want. Wokwi proves your <b>firmware and pin map</b> are correct. It cannot tell you whether a
+  connection will destroy something, because it does not simulate electricity at all. Those are two
+  different problems and they need two different tools.</p>
+
+  <div class="note crit">
+    <span class="tag">Understand this before you rely on it</span>
+    <p><b>Wokwi is a functional simulator, not an electrical one.</b> Connect 12V to a 3.3V pin in Wokwi
+    and it will happily keep running. It models no current, no voltage limits, no reverse polarity, no
+    magic smoke. Nothing in this section replaces the multimeter checks in §11 — simulation catches
+    <i>logic</i> mistakes, and the bring-up order catches <i>electrical</i> ones.</p>
+  </div>
+
+  <h3>Which tool for which question</h3>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Tool</th><th>Cost</th><th>Answers</th><th>Cannot answer</th></tr></thead>
+    <tbody>
+      <tr><td class="part"><b><a href="https://wokwi.com/esp32">Wokwi</a></b>
+          <span class="hint">Browser · no install · real ESP32 emulation</span></td>
+        <td>Free</td>
+        <td>Is my pin map right? Does the hysteresis work? Do the interlocks actually block the pump?
+          Do three I²C devices coexist? Does the sketch compile and run?</td>
+        <td>Anything electrical. Also has no BME280 or BH1750 part — see substitutions below.</td></tr>
+      <tr><td class="part"><b><a href="https://www.falstad.com/circuit/">Falstad CircuitJS</a></b>
+          <span class="hint">Browser · real analog solver</span></td>
+        <td>Free</td>
+        <td><b>Will this burn?</b> Low-side MOSFET switching, the flyback diode clamping the pump's
+          back-EMF, the 10kΩ gate pulldown holding the gate low, leak-sensor divider maths.</td>
+        <td>No microcontroller. You model the power section by hand, not the firmware.</td></tr>
+      <tr><td class="part"><a href="https://www.tinkercad.com/circuits">Tinkercad Circuits</a>
+          <span class="hint">Browser · breadboard view</span></td>
+        <td>Free</td>
+        <td>Practising the MOSFET + motor + flyback subcircuit on a virtual breadboard before doing it
+          for real. Genuinely good for building the muscle memory.</td>
+        <td><b>No ESP32</b> — Arduino only. Useless for your pin map.</td></tr>
+      <tr><td class="part">Proteus 8
+          <span class="hint">Desktop · check whether your department has a licence</span></td>
+        <td>Paid</td>
+        <td>Formal schematic plus mixed-signal simulation in one document. Common in AIUB-style
+          coursework, so it may be what your supervisor expects to see.</td>
+        <td><b>No Wi-Fi simulation.</b> ESP32 needs a third-party library added manually.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <span class="tag">Recommended path</span>
+    <p>Start in <b>Wokwi</b> — it costs nothing, needs no install, and it is what your proposal already
+    commits to. Use <b>Falstad</b> for one afternoon on the switching section alone. Only reach for
+    Proteus if your department requires it as a deliverable.</p>
+  </div>
+
+  <h3>Ready-made Wokwi project</h3>
+  <p>Two files sit in <code>TERRARIUM/wokwi/</code> next to this guide. Open
+  <a href="https://wokwi.com/projects/new/esp32">wokwi.com/projects/new/esp32</a>, click the
+  <b>diagram.json</b> tab, and paste each file into its matching tab. The whole board comes up wired.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>diagram.json</h4>
+      <ul>
+        <li>ESP32 DevKit wired to all 14 pins from §04</li>
+        <li>Three potentiometers — soil 1, soil 2, leak. Turn the knob to simulate wet and dry</li>
+        <li>Slide switch as the reservoir float</li>
+        <li>Six LEDs standing in for the MOSFET outputs, plus the buzzer</li>
+        <li>OLED and an I²C sensor on the real 21/22 bus</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>sketch.ino — verification, not control firmware</h4>
+      <ul>
+        <li>Scans the I²C bus and names each address it finds</li>
+        <li>Prints every input with its GPIO number, once per cycle</li>
+        <li>Pulses outputs <b>one at a time</b> — swapped wires become obvious</li>
+        <li>Warns if any analog input pins at full scale, which means a sensor is on 5V</li>
+        <li><b>Run it again on the real board</b> at step 9 of §11</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note warn">
+    <span class="tag">Substitutions — Wokwi has no BME280 and no BH1750 part</span>
+    <p>Eleven of your fourteen pins are simulated <b>pin-for-pin identical</b> to the real build. Two
+    sensors have no Wokwi equivalent, so the project uses stand-ins on two extra pins that
+    <b>do not exist in the real hardware</b>:</p>
+  </div>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Real part</th><th>Real pin</th><th>Wokwi stand-in</th><th>Sim pin</th><th></th></tr></thead>
+    <tbody>
+      <tr><td>BME280 — temp + humidity</td><td class="pin">21 / 22</td><td>BMP180 on I²C + DHT22 for humidity</td><td class="pin">21 / 22 + 14</td><td>partial</td></tr>
+      <tr><td>BH1750 — lux</td><td class="pin">21 / 22</td><td>Photoresistor, analog</td><td class="pin">33</td><td>partial</td></tr>
+      <tr><td>SSD1306 OLED</td><td class="pin">21 / 22</td><td>board-ssd1306</td><td class="pin">21 / 22</td><td><b>exact</b></td></tr>
+      <tr><td>DS18B20</td><td class="pin">4</td><td>wokwi-ds18b20</td><td class="pin">4</td><td><b>exact</b></td></tr>
+      <tr><td>Soil moisture ×2</td><td class="pin">34 / 35</td><td>Potentiometers</td><td class="pin">34 / 35</td><td><b>exact</b></td></tr>
+      <tr><td>Leak sensor</td><td class="pin">32</td><td>Potentiometer</td><td class="pin">32</td><td><b>exact</b></td></tr>
+      <tr><td>Float switch</td><td class="pin">27</td><td>Slide switch</td><td class="pin">27</td><td><b>exact</b></td></tr>
+      <tr><td>All six MOSFET outputs</td><td class="pin">16 · 25 · 17 · 18 · 19 · 23</td><td>LEDs + 220Ω</td><td class="pin">same</td><td><b>exact</b></td></tr>
+      <tr><td>Buzzer</td><td class="pin">26</td><td>wokwi-buzzer</td><td class="pin">26</td><td><b>exact</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p style="margin-top:14px">Substituting an LED for each MOSFET output is exactly what your proposal
+  already specifies — <i>"LEDs will represent the pump, mist maker, fan, and grow light"</i> — and
+  potentiometers for the analog sensors matches it too. The simulation plan in your document is sound;
+  this just implements it.</p>
+
+  <div class="note info">
+    <span class="tag">If a pin name errors on load</span>
+    <p>Wokwi part pin labels occasionally shift between versions. If a connection fails to resolve,
+    hover the part in the editor to read its actual pin names and correct that one line. The layout and
+    every other wire stay valid.</p>
+  </div>
+
+  <h3>Where each half of the project gets simulated</h3>
+  <p>Wokwi's free tier connects to a virtual Wi-Fi access point called <code>Wokwi-GUEST</code> and
+  allows <b>outgoing</b> internet, but <b>not incoming</b> — so you cannot open the ESP32's dashboard
+  from your browser without a paid Private Gateway. That splits the work in two, and both halves are
+  covered:</p>
+
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>To test…</th><th>Use</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Pin map, sensors, control logic, interlocks</td>
+        <td><b>Wokwi</b> — paste <code>wokwi/diagram.json</code> + <code>wokwi/sketch.ino</code></td>
+        <td>free</td></tr>
+      <tr><td><b>The phone app itself</b> — layout, buttons, auto-watering behaviour</td>
+        <td><b><code>firmware/dashboard-preview.html</code></b> — double-click it. Same interface as the
+          real board serves, with a simulated terrarium behind it and a speed slider so a full day
+          runs in under a minute.</td>
+        <td>free</td></tr>
+      <tr><td>MOSFET switching, capacitor placement, "will this burn"</td>
+        <td><a href="https://www.falstad.com/circuit/">Falstad CircuitJS</a></td>
+        <td>free</td></tr>
+      <tr><td>The full firmware serving its real dashboard in-simulator</td>
+        <td>Wokwi <a href="https://docs.wokwi.com/guides/esp32-wifi">Private IoT Gateway</a> +
+          VS Code extension, then <code>http://localhost:9080</code></td>
+        <td>paid</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <span class="tag">The preview file is presentation material too</span>
+    <p><code>dashboard-preview.html</code> runs the same control logic as <code>terrarium.ino</code>
+    against a simulated tank. Set the speed slider to 300× and your examiner watches soil dry out,
+    watering trigger, the soak delay hold, and the grow light follow the photoperiod — a full day in
+    about a minute, with no hardware on the desk. The buttons marked
+    <i>Empty the tank</i> and <i>Dry the soil</i> demonstrate the safety interlock on demand.</p>
+  </div>
+
+  <h3>Test cases to run in the simulator</h3>
+  <p>Your proposal lists these — drive each one with the potentiometers and the slide switch, and
+  confirm the correct output LED responds:</p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Normal operation</h4>
+      <ul>
+        <li>Dry soil → pump LED for 2–5s, then soak delay before re-checking</li>
+        <li>Low humidity → mist LED, capped by max runtime</li>
+        <li>High temperature → exhaust fan LED</li>
+        <li>Low light during the day window → grow-light LED</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>The failure cases that matter more</h4>
+      <ul>
+        <li>Float switch flipped → pump and mist must <b>refuse to run</b>, buzzer on</li>
+        <li>Leak pot raised → both water outputs off, and <b>manual mode must not override it</b></li>
+        <li>Both faults at once → leak takes priority</li>
+        <li>Simulated Wi-Fi loss → automatic control continues unaffected</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Tutorials — a learning path, in order</h3>
+  <p class="lede">Every link below was checked to exist. Work down the list; each stage assumes
+  the one above it.</p>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px;color:var(--ink-2)">Stage 0 — hand skills, before any component arrives</h4>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Learn</th><th>Source</th><th>Why it matters here</th></tr></thead>
+    <tbody>
+      <tr><td>Soldering</td>
+        <td><a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering">Adafruit Guide To Excellent Soldering</a></td>
+        <td>The standard illustrated guide. Set a temperature-controlled iron to <b>370°C</b> for 60/40
+          solder. It also shows what a cold joint looks like — the failure you will actually hit.</td></tr>
+      <tr><td>Breadboards</td>
+        <td><a href="https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard/all">SparkFun · How to Use a Breadboard</a></td>
+        <td>Which holes connect to which. Prototype every sensor here before soldering anything.</td></tr>
+      <tr><td>Multimeter</td>
+        <td><a href="https://learn.sparkfun.com/tutorials/how-to-use-a-multimeter/all">SparkFun · How to Use a Multimeter</a></td>
+        <td>Continuity and DC volts are the only two modes you need — that is bring-up steps 1, 2 and 7.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px;color:var(--ink-2)">Stage 1 — the board</h4>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Learn</th><th>Source</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>ESP32 + Arduino IDE from zero</td>
+        <td><a href="https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/">RNT · Install the ESP32 board in Arduino IDE</a></td>
+        <td>Windows instructions, matching your setup</td></tr>
+      <tr><td>The whole ESP32 catalogue</td>
+        <td><a href="https://randomnerdtutorials.com/esp32-guides-sensors-modules/">RNT · 36 free guides for sensors and modules</a></td>
+        <td><b>Bookmark this one.</b> It is the hub for everything below</td></tr>
+      <tr><td>ESP32 pinout reference</td>
+        <td><a href="https://randomnerdtutorials.com/esp32-pinout-reference-gpios/">RNT · ESP32 pinout reference</a></td>
+        <td>Which pins are safe to use — the source of §04's constraints</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4 style="font-size:13.5px;margin:18px 0 6px;color:var(--ink-2)">Stage 2 — your exact components</h4>
+  <div class="tscroll">
+  <table>
+    <thead><tr><th>Component</th><th>Tutorial</th><th>Watch for</th></tr></thead>
+    <tbody>
+      <tr><td>BME280</td>
+        <td><a href="https://randomnerdtutorials.com/esp32-bme280-arduino-ide-pressure-temperature-humidity/">RNT · ESP32 with BME280</a></td>
+        <td>Address is 0x76 <i>or</i> 0x77 depending on the module — the firmware tries both</td></tr>
+      <tr><td>BH1750</td>
+        <td><a href="https://randomnerdtutorials.com/esp32-bh1750-ambient-light-sensor/">RNT · ESP32 with BH1750</a></td>
+        <td>Confirms our wiring: leaving ADDR unconnected selects 0x23, tying it to 3.3V gives 0x5C.
+          Ground it to be certain</td></tr>
+      <tr><td>Capacitive soil moisture</td>
+        <td><a href="https://esp32io.com/tutorials/esp32-soil-moisture-sensor">ESP32IO · Soil moisture sensor</a> ·
+            <a href="https://diyi0t.com/soil-moisture-sensor-tutorial-for-arduino-and-esp8266/">DIYI0T · deeper theory</a></td>
+        <td>The calibration method — its dry/wet ADC endpoints go straight into <code>config.h</code></td></tr>
+      <tr><td>MOSFET switching</td>
+        <td><a href="https://dronebotworkshop.com/transistors-mosfets/">DroneBot Workshop · High-current interfacing with transistors &amp; MOSFETs</a></td>
+        <td>The clearest explanation of low-side switching and why inductive loads need a flyback diode</td></tr>
+      <tr><td>ESP32 web server</td>
+        <td><a href="https://randomnerdtutorials.com/esp32-web-server-arduino-ide/">RNT · ESP32 web server</a></td>
+        <td>The pattern <code>terrarium.ino</code> uses to serve your phone dashboard</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <span class="tag">The search that solves most problems</span>
+    <p>When something misbehaves, search <code>randomnerdtutorials ESP32 &lt;part name&gt;</code>.
+    That site has a step-by-step with wiring photos for essentially every component in §03 — which is
+    the specific reason the ESP32 DevKit V1 was chosen over newer or cheaper boards. The answer
+    already exists, and it has pictures.</p>
+  </div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section id="bringup">
+  <h2><span class="num">11</span> Bench bring-up order</h2>
+  <p class="lede">Test in this order and a mistake costs you one component instead of the whole board.
+  Nothing gets connected to the terrarium until step 11.</p>
+
+  <ol class="checks">
+    <li class="hot"><b>Multimeter on the 12V adapter, nothing connected.</b> Confirm voltage and centre-pin
+      polarity. Barrel jacks are not standardised — a reverse-polarity adapter destroys everything
+      downstream in one second.</li>
+    <li class="hot"><b>Buck converter alone, output floating.</b> Feed it 12V, measure the output,
+      confirm it reads 5.0V before <i>anything</i> is attached. If you bought the adjustable XL4015
+      against advice, this is the step that saves your board.</li>
+    <li><b>ESP32 alone on USB.</b> Upload a blink sketch. Proves the board and toolchain work before any
+      wiring exists to blame.</li>
+    <li><b>I²C scan, one device at a time.</b> BME280 first — expect <code>0x76</code>. Add BH1750 —
+      <code>0x23</code>. Add the OLED — <code>0x3C</code>. Adding them together and getting silence tells
+      you nothing about which one is dead.</li>
+    <li><b>Each analog sensor separately, powered from 3.3V.</b> Print the raw ADC value. Confirm it moves
+      with wet/dry and never pins at the rail.</li>
+    <li><b>Soil calibration — record the numbers.</b> For each sensor individually: ADC reading in dry air,
+      then fully submerged. Those two endpoints per sensor are report data, and they differ between
+      sensors from the same batch.</li>
+    <li><b>Float switch on the multimeter.</b> Continuity in both orientations. Write down whether yours is
+      normally-open or normally-closed before you code the interlock.</li>
+    <li><b>DS18B20 with its 4.7kΩ pull-up fitted.</b> Confirm a plausible room temperature. No pull-up
+      means it reads <code>-127</code> or <code>85</code>.</li>
+    <li class="hot"><b>MOSFET modules driving an LED or a resistor — never the pump.</b> Run
+      <code>wokwi/sketch.ino</code> from §10 on the real board here: it pulses each output alone, so a
+      swapped pair is immediately visible. Then <b>power-cycle with the loads attached</b> and confirm
+      nothing pulses on during boot — this is where you verify the 10kΩ gate pulldowns from check 08
+      actually work.</li>
+    <li><b>Fan, then pump — dry, into a beaker.</b> Run ten timed cycles and record the mL each delivers.
+      That is your irrigation-volume metric and its repeatability figure, done.</li>
+    <li><b>Mist maker last</b>, on its own 24V adapter, disc submerged to the depth its instructions
+      specify, distilled water only.</li>
+    <li><b>48 hours running with the tank planted but unattended-safe.</b> Watch for condensation
+      collecting somewhere unintended, tubing creep, and whether the RH sensor ever falls back below your
+      upper threshold. Then trigger the empty-reservoir and leak states deliberately and confirm both
+      shut the water outputs down.</li>
+  </ol>
+
+  <div class="note warn">
+    <span class="tag">Two standing rules</span>
+    <p>Keep the electronics box <b>above</b> reservoir level for the whole build, not just the final
+    assembly — a knocked-over beaker on the bench is the same failure as a leak in the tank.
+    And do not leave the system running unattended until it has completed step 12 cleanly.</p>
+  </div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section id="gaps">
+  <h2><span class="num">12</span> Unverified &amp; open</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>Prices not confirmed on a live listing</h4>
+      <ul>
+        <li><b>D4184 module</b> and <b>4-channel F5305S board</b> — RoboticsBD returns HTTP 402 to
+        automated requests and the prices were absent from search snippets. Call
+        <b>+880 1792 007004</b> or visit House #5, Road #3, Sector #7, Uttara.</li>
+        <li>Grow light and the passives lot are bulk estimates.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Grow light — buy this last</h4>
+      <ul>
+        <li>No BD store carries a clean 12V grow-light SKU.</li>
+        <li>Fittonia, Peperomia, Selaginella and moss are low-light understory species — roughly
+        50–150 PPFD, about 1m of 5050 strip.</li>
+        <li>Wattage depends on final enclosure width, depth and height. Measure first.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Also unconfirmed</h4>
+      <ul>
+        <li>Live stock levels at RoboticsBD for any listed item.</li>
+        <li>All prices are August 2026 snapshots and will drift.</li>
+        <li>Float switch NO/NC orientation — verify with a multimeter on arrival.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Enclosure &amp; substrate (unpriced)</h4>
+      <ul>
+        <li>Glass tank ≈45 × 30 × 35cm, open top, aquarium-safe silicone</li>
+        <li>3mm acrylic lid, cut for fan / tube / cable openings</li>
+        <li>LECA or washed gravel 3–4cm → mesh → activated charcoal → coco peat + perlite + bark</li>
+        <li>ABS project box mounted <b>above</b> reservoir level</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><b>Technical references</b> —
+    <a href="https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/peripherals/gpio.html">Espressif ESP32 GPIO &amp; RTC GPIO reference</a> ·
+    <a href="https://www.amazon.com/F5305S-Channels-Trigger-Controller-Electronic/dp/B07RXDHZW7">F5305S 4-channel module specification</a> ·
+    <a href="https://www.robotistan.com/d4184-mosfet-control-module">D4184 module specification</a>
+  </p>
+  <p>Suppliers referenced: TechShopBD · RoboticsBD · BDTronics · ElectroXBD · Daraz Bangladesh.
+  Prices captured August 2026. Tick state is stored locally in this browser only.</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var KEY='terrarium-bom-v1';
+  var rows=[].slice.call(document.querySelectorAll('tr[data-price]'));
+  var selEl=document.getElementById('t-sel'),
+      cntEl=document.getElementById('t-cnt'),
+      remEl=document.getElementById('t-rem');
+
+  function fmt(n){return '৳'+n.toLocaleString('en-US');}
+
+  function save(){
+    try{
+      localStorage.setItem(KEY, JSON.stringify(rows.map(function(r){
+        return r.querySelector('input').checked?1:0;
+      })));
+    }catch(e){}
+  }
+
+  function render(){
+    var sel=0,cnt=0,rem=0;
+    rows.forEach(function(r){
+      var on=r.querySelector('input').checked, p=+r.dataset.price||0;
+      r.classList.toggle('off',!on);
+      if(on){sel+=p;cnt++;} else if(r.dataset.core){rem+=p;}
+    });
+    selEl.textContent=fmt(sel);
+    cntEl.textContent=cnt;
+    remEl.textContent=fmt(rem);
+  }
+
+  function setCore(){
+    rows.forEach(function(r){ r.querySelector('input').checked=!!r.dataset.core; });
+    render(); save();
+  }
+
+  rows.forEach(function(r){
+    r.querySelector('input').addEventListener('change',function(){render();save();});
+  });
+
+  document.getElementById('b-core').addEventListener('click',setCore);
+  document.getElementById('b-clear').addEventListener('click',function(){
+    rows.forEach(function(r){r.querySelector('input').checked=false;});
+    render(); save();
+  });
+
+  var stored=null;
+  try{ stored=JSON.parse(localStorage.getItem(KEY)); }catch(e){}
+  if(stored && stored.length===rows.length){
+    rows.forEach(function(r,i){ r.querySelector('input').checked=!!stored[i]; });
+    render();
+  } else {
+    setCore();
+  }
+})();
+</script>
+</body>
+</html>

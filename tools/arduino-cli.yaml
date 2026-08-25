@@ -1,0 +1,5 @@
+board_manager:
+    additional_urls: []
+directories:
+    data: C:\Users\kisho\Documents\ArduinoData
+    user: C:\Users\kisho\Documents\Arduino

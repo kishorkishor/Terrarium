@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Terrarium Console</title>
+<style>
+:root{--bg:#0e1512;--card:#16211b;--line:#24352c;--ink:#dfe9e2;--dim:#8fa89a;
+--acc:#4cc98a;--warn:#e0b25e;--bad:#e57f7f;--blue:#6fb3e0}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:16px;max-width:1180px;margin:0 auto}
+h1{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:2px}
+h2{font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 8px}
+#sub{color:var(--dim);font-size:12px}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#24352c;color:var(--dim)}
+.pill.ok{background:#183a2a;color:var(--acc)}.pill.warn{background:#3a2f18;color:var(--warn)}.pill.fail{background:#3a1f1f;color:var(--bad)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.chk{display:flex;gap:10px;align-items:flex-start}
+.dot{width:11px;height:11px;border-radius:50%;background:#3a4a41;flex:0 0 auto;margin-top:6px}
+.dot.ok{background:var(--acc);box-shadow:0 0 8px var(--acc)}.dot.warn{background:var(--warn)}.dot.fail{background:var(--bad);box-shadow:0 0 8px var(--bad)}
+.chk b{display:block;font-size:14px}.chk .m{font-size:13px;color:var(--dim)}
+.chk .d{font-size:12px;color:var(--dim);margin-top:4px;opacity:.8;display:none}
+.chk.open .d{display:block}
+button{font:inherit;border:0;border-radius:9px;padding:8px 14px;cursor:pointer;background:#22352b;color:var(--ink);font-size:13px}
+button:disabled{opacity:.35;cursor:default}
+button.pri{background:var(--acc);color:#08130d;font-weight:600}
+button.sm{padding:5px 10px;font-size:12px;margin-top:6px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+pre{background:#0a100d;border:1px solid var(--line);border-radius:10px;padding:10px;font:12px/1.45 ui-monospace,Consolas,monospace;height:260px;overflow:auto;white-space:pre-wrap;color:#b9c9bf}
+pre .hi{color:var(--acc)}pre .bad{color:var(--bad)}pre .warn{color:var(--warn)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:900px){.two{grid-template-columns:1fr}}
+iframe{width:100%;height:620px;border:1px solid var(--line);border-radius:12px;background:#0a100d}
+input{background:#0c120f;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:7px 9px;font:inherit;font-size:14px}
+label{font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:center}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#0f1915;border-radius:9px;margin-bottom:6px;font-size:13px}
+.row .st{width:9px;height:9px;border-radius:50%;background:#3a4a41;margin-right:8px}
+.row .st.on{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--acc);color:#08130d;padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+.note{font-size:12px;color:var(--dim)}
+</style></head><body>
+<h1>Terrarium Console <span class="pill" id="overall">starting</span></h1>
+<div id="sub">connecting to the console...</div>
+
+<h2>Checks</h2>
+<div class="bar" style="margin-bottom:10px">
+ <button class="pri" onclick="task('diagnose')">Re-check</button>
+ <button onclick="task('diagnose','full')">Re-check + scan network</button>
+ <button onclick="task('fix_all')">Fix everything it can</button>
+ <span class="note" id="taskstate"></span>
+</div>
+<div class="grid" id="checks"></div>
+
+<h2>Board</h2>
+<div class="card">
+ <div class="bar">
+  <span id="boardline">no board yet</span>
+  <a id="open" target="_blank" style="display:none"><button>Open dashboard</button></a>
+  <button id="embed" style="display:none" onclick="toggleEmbed()">Show dashboard here</button>
+  <button onclick="task('reset')">Reset board</button>
+  <button onclick="task('find_board')">Find board on network</button>
+ </div>
+ <div id="quick" style="margin-top:10px;display:none">
+  <div class="row" data-o="water"><span><span class="st"></span>Watering mist</span><button class="sm" onclick="out('water')">toggle</button></div>
+  <div class="row" data-o="hum"><span><span class="st"></span>Humidity mist</span><button class="sm" onclick="out('hum')">toggle</button></div>
+  <div class="row" data-o="light"><span><span class="st"></span>Grow light</span><button class="sm" onclick="out('light')">toggle</button></div>
+  <div class="row" data-o="fan"><span><span class="st"></span>Fan</span><button class="sm" onclick="out('fan')">toggle</button></div>
+  <div class="row" data-o="buzz"><span><span class="st"></span>Buzzer</span><button class="sm" onclick="out('buzz')">toggle</button></div>
+ </div>
+ <div id="embedwrap" style="display:none;margin-top:10px"><iframe id="frame"></iframe></div>
+</div>
+
+<h2>Flash</h2>
+<div class="card">
+ <div class="bar">
+  <button class="pri" onclick="task('flash','terrarium')">Flash terrarium firmware</button>
+  <button onclick="task('flash','bench-web')">Flash bench-web (wiring tester)</button>
+  <button onclick="task('flash','i2c-scan')">Flash I2C scanner</button>
+  <button onclick="task('install_toolchain')">Install toolchain</button>
+  <button onclick="task('install_driver')">Install USB driver</button>
+ </div>
+ <div class="bar" style="margin-top:12px">
+  <label>Wi-Fi name <input id="ssid" placeholder="SSID"></label>
+  <label>password <input id="pass" type="password" placeholder="password"></label>
+  <button onclick="saveWifi()">Save Wi-Fi to firmware</button>
+  <span class="note">then flash the terrarium firmware to apply (2.4 GHz networks only)</span>
+ </div>
+</div>
+
+<div class="two" style="margin-top:16px">
+ <div><h2 style="margin-top:0">Console log</h2><pre id="tlog"></pre></div>
+ <div><h2 style="margin-top:0">Board serial (115200)</h2><pre id="slog"></pre></div>
+</div>
+<div class="note" style="margin-top:10px" id="foot"></div>
+<div id="toast"></div>
+
+<script>
+var tseq=0, sseq=0, S=null, embedded=false;
+function g(i){return document.getElementById(i)}
+function toast(m){var t=g('toast');t.textContent=m;t.style.opacity=1;setTimeout(function(){t.style.opacity=0},1600)}
+function j(u,opt){return fetch(u,opt).then(function(r){return r.json()})}
+function task(n,a){
+ j('/api/run?task='+n+(a?'&arg='+encodeURIComponent(a):''),{method:'POST'}).then(function(d){
+  toast(d.started?('started: '+n):('busy with '+d.running))})}
+function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function colour(l){
+ var c='';if(/FAILED|crash|denied|busy|rror/.test(l))c='bad';else if(/done|OK|flashed|verified/.test(l))c='hi';else if(/warn|NOT FOUND|EMPTY|WET/.test(l))c='warn';
+ return c?'<span class="'+c+'">'+esc(l)+'</span>':esc(l)}
+function append(pre,lines){
+ if(!lines.length)return;var atEnd=pre.scrollTop+pre.clientHeight>=pre.scrollHeight-30;
+ pre.innerHTML+=lines.map(function(x){return colour(x[1])}).join('\n')+'\n';
+ if(pre.innerHTML.length>200000)pre.innerHTML=pre.innerHTML.slice(-150000);
+ if(atEnd)pre.scrollTop=pre.scrollHeight}
+function paint(d){
+ S=d;
+ var fails=d.checks.filter(function(c){return c.status=='fail'}).length,
+     warns=d.checks.filter(function(c){return c.status=='warn'}).length;
+ var o=g('overall');
+ if(!d.checks.length){o.className='pill';o.textContent='checking...'}
+ else if(fails){o.className='pill fail';o.textContent=fails+' problem'+(fails>1?'s':'')}
+ else if(warns){o.className='pill warn';o.textContent=warns+' warning'+(warns>1?'s':'')}
+ else{o.className='pill ok';o.textContent='all good'}
+ g('sub').textContent='this PC '+(d.local_ip||'offline')+' · USB '+(d.usb||'none')+' · serial '+(d.serial_ok?'live':'off')+
+   (d.task.running?' · working: '+d.task.running:'');
+ g('taskstate').textContent=d.task.running?('running '+d.task.running+' ...'):(d.task.last?('last: '+d.task.last+' '+(d.task.ok?'ok':'failed')):'');
+ var names={internet:'Internet',driver:'USB driver',usb:'Board on USB',port:'Serial port',toolchain:'Toolchain',wifi:'Board on Wi-Fi',firmware:'Firmware',sensors:'Sensors'};
+ g('checks').innerHTML=d.checks.map(function(c){
+  return '<div class="card chk" onclick="this.classList.toggle(\'open\')"><span class="dot '+c.status+'"></span><div style="flex:1"><b>'+(names[c.id]||c.id)+'</b><div class="m">'+esc(c.msg)+'</div>'+
+   (c.detail?'<div class="d">'+esc(c.detail)+'</div>':'')+
+   (c.fix?'<button class="sm pri" onclick="event.stopPropagation();task(\''+c.fix+'\')">Fix: '+c.fix.replace(/_/g,' ')+'</button>':'')+'</div></div>'}).join('');
+ var ip=d.board.ip;
+ if(ip){
+  g('boardline').innerHTML='<b>http://'+ip+'</b> · '+d.board.kind+' firmware';
+  g('open').href='http://'+ip; g('open').style.display=''; g('embed').style.display='';
+  g('quick').style.display=(d.board.kind=='terrarium')?'':'none';
+  if(d.status&&d.status.out){document.querySelectorAll('#quick .row').forEach(function(r){
+   r.querySelector('.st').className='st'+(d.status.out[r.dataset.o]?' on':'')})}
+  if(d.status&&d.board.kind=='terrarium')g('boardline').innerHTML+=' · '+d.status.temp+'°C · '+d.status.hum+'% · '+d.status.lux+' lx · soil '+d.status.soil+'% · '+d.status.mode;
+ }else{g('boardline').textContent='board not found on the network';g('open').style.display='none';g('embed').style.display='none';g('quick').style.display='none'}
+ if(!paint.seeded&&d.wifi_ssid){paint.seeded=1;g('ssid').value=d.wifi_ssid}
+ g('foot').textContent='installs + firmware copies live in '+d.state_dir+(d.frozen?' · running as the packaged exe':' · running from source');
+}
+function poll(){
+ j('/api/state').then(paint).catch(function(){g('sub').textContent='console process not responding'});
+ j('/api/log?since='+tseq).then(function(d){if(d.lines.length){tseq=d.lines[d.lines.length-1][0];append(g('tlog'),d.lines)}});
+ j('/api/serial?since='+sseq).then(function(d){if(d.lines.length){sseq=d.lines[d.lines.length-1][0];append(g('slog'),d.lines)}});
+}
+function toggleEmbed(){embedded=!embedded;g('embedwrap').style.display=embedded?'':'none';
+ if(embedded&&S&&S.board.ip)g('frame').src='http://'+S.board.ip;g('embed').textContent=embedded?'Hide dashboard':'Show dashboard here'}
+function out(n){if(!S||!S.status||!S.status.out)return;var want=S.status.out[n]?0:1;
+ j('/api/out?name='+n+'&state='+want,{method:'POST'}).then(function(d){if(d.err)toast(d.err);else{S.status=d;paint(S)}})}
+function saveWifi(){var b=new URLSearchParams();b.append('ssid',g('ssid').value);b.append('pass',g('pass').value);
+ fetch('/api/wifi',{method:'POST',body:b}).then(function(){toast('saved - now flash the terrarium firmware')})}
+setInterval(poll,1500);poll();
+</script></body></html>

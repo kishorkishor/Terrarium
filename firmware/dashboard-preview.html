@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10251b">
+<title>Terrarium — Dashboard Preview</title>
+<!-- ===========================================================================
+  OFFLINE PREVIEW of the app the ESP32 serves (firmware/terrarium/webui.h).
+  Identical interface + a simulated terrarium behind it, so you can click
+  through the whole thing with no hardware. Runs anywhere: laptop or phone.
+
+  The physics and the control logic below mirror terrarium.ino, so what you
+  see here is what the real board will do.
+  ========================================================================== -->
+<style>
+:root{--bg:#0e1512;--card:#16211b;--line:#24352c;--ink:#dfe9e2;--dim:#8fa89a;
+--acc:#4cc98a;--warn:#e0b25e;--bad:#e57f7f;font-size:16px}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;
+padding:14px;max-width:520px;margin:0 auto}
+h1{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:4px}
+h1 .dot{width:10px;height:10px;border-radius:50%;background:var(--bad)}
+h1 .dot.on{background:var(--acc)}
+#sub{color:var(--dim);font-size:12px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.card .k{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.card .v{font-size:26px;font-weight:600;margin-top:2px}
+.card .v small{font-size:13px;color:var(--dim);font-weight:400}
+.row{display:flex;align-items:center;justify-content:space-between;
+padding:10px 12px;background:var(--card);border:1px solid var(--line);
+border-radius:12px;margin-bottom:8px}
+.row .st{width:9px;height:9px;border-radius:50%;background:#3a4a41;margin-right:10px}
+.row .st.on{background:var(--acc);box-shadow:0 0 8px var(--acc)}
+.row .nm{flex:1;font-size:14px}
+button{font:inherit;border:0;border-radius:9px;padding:8px 14px;cursor:pointer;
+background:#22352b;color:var(--ink);font-size:13px}
+button:disabled{opacity:.35;cursor:not-allowed}
+button.pri{background:var(--acc);color:#08130d;font-weight:600}
+#mode{width:100%;padding:12px;font-size:15px;margin-bottom:14px}
+.warnbox{display:none;background:#33231a;border:1px solid var(--warn);color:var(--warn);
+border-radius:10px;padding:10px 12px;font-size:13px;margin-bottom:12px}
+fieldset{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+legend{font-size:12px;color:var(--dim);padding:0 6px}
+label{display:flex;justify-content:space-between;align-items:center;
+font-size:13px;color:var(--dim);margin:8px 0}
+input[type=number]{width:84px;background:#0c120f;color:var(--ink);border:1px solid var(--line);
+border-radius:7px;padding:6px 8px;font:inherit;font-size:14px;text-align:right}
+#save{width:100%;margin-top:10px}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+background:var(--acc);color:#08130d;padding:8px 16px;border-radius:9px;
+font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+/* --- preview-only panel, not part of the real app --- */
+#sim{margin-top:22px;border:1px dashed #3d5a49;border-radius:12px;padding:12px;
+background:#111a16}
+#sim h2{font-size:12px;color:var(--warn);text-transform:uppercase;
+letter-spacing:.09em;margin-bottom:4px}
+#sim .hint{font-size:12px;color:var(--dim);margin-bottom:10px;line-height:1.5}
+#sim .ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#sim input[type=range]{flex:1;min-width:130px;accent-color:var(--acc)}
+#log{margin-top:10px;background:#0a100d;border-radius:8px;padding:8px 10px;
+font:12px/1.7 ui-monospace,Menlo,Consolas,monospace;color:var(--dim);
+height:120px;overflow-y:auto}
+#log b{color:var(--acc)}
+</style>
+</head>
+<body>
+
+<h1><span class="dot" id="net"></span>Terrarium</h1>
+<div id="sub">connecting&hellip;</div>
+<div class="warnbox" id="tank">RESERVOIR EMPTY — mist disabled until refilled</div>
+
+<div class="grid">
+ <div class="card"><div class="k">Air temp</div><div class="v" id="t">--<small> &deg;C</small></div></div>
+ <div class="card"><div class="k">Humidity</div><div class="v" id="h">--<small> %</small></div></div>
+ <div class="card"><div class="k">Soil avg</div><div class="v" id="s">--<small> %</small></div>
+   <div class="k" id="s2" style="margin-top:4px">1: -- &middot; 2: --</div></div>
+ <div class="card"><div class="k">Light</div><div class="v" id="l">--<small> lx</small></div></div>
+</div>
+
+<button id="mode" class="pri">Mode: AUTO</button>
+
+<div id="outs">
+ <div class="row" data-o="water"><span class="st"></span><span class="nm">Watering mist</span><button>ON</button></div>
+ <div class="row" data-o="hum"><span class="st"></span><span class="nm">Humidity mist</span><button>ON</button></div>
+ <div class="row" data-o="light"><span class="st"></span><span class="nm">Grow light</span><button>ON</button></div>
+</div>
+
+<fieldset><legend>Thresholds (saved on the device)</legend>
+ <label>Water below soil % <input id="f_soilDry" type="number" min="5" max="80"></label>
+ <label>Mist below RH % <input id="f_humLo" type="number" min="30" max="95"></label>
+ <label>Stop mist at RH % <input id="f_humHi" type="number" min="40" max="99"></label>
+ <label>Light ON below lux <input id="f_luxOn" type="number" min="0" max="20000"></label>
+ <label>Light OFF above lux <input id="f_luxOff" type="number" min="0" max="30000"></label>
+ <label>Photoperiod start hour <input id="f_lightStart" type="number" min="0" max="23"></label>
+ <label>Photoperiod end hour <input id="f_lightEnd" type="number" min="1" max="24"></label>
+ <label>Brightness 0-255 <input id="f_bright" type="number" min="0" max="255"></label>
+ <button id="save" class="pri">Save settings</button>
+</fieldset>
+
+<div id="sim">
+  <h2>Simulator controls — not in the real app</h2>
+  <p class="hint">This panel replaces the physical terrarium. Speed up time to watch a
+  whole day of automatic watering and lighting in under a minute.</p>
+  <div class="ctl">
+    <span style="font-size:12px;color:var(--dim)">speed</span>
+    <input type="range" id="spd" min="1" max="600" value="60">
+    <span id="spdv" style="font-size:12px;font-family:ui-monospace;min-width:64px">60&times;</span>
+  </div>
+  <div class="ctl" style="margin-top:10px">
+    <button id="btnTank">Empty the tank</button>
+    <button id="btnDry">Dry the soil</button>
+    <button id="btnDark">Make it dark</button>
+  </div>
+  <div id="log"></div>
+</div>
+
+<div id="toast">saved</div>
+
+<script>
+/* ==========================================================================
+   1 · SIMULATED TERRARIUM  (stands in for the real sensors and actuators)
+   ========================================================================== */
+var sim = {
+  clock: 6 * 3600,        // seconds into the day, starts 06:00
+  speed: 60,              // sim seconds per real second
+  temp: 26.5,
+  hum: 82,
+  soil1: 58, soil2: 54,
+  sun: 0,                 // ambient lux from the window
+  tankOk: true
+};
+
+var cfg = { soilDry:35, humLo:75, humHi:90, luxOn:800, luxOff:2000,
+            lightStart:7, lightEnd:19, bright:220 };
+
+var out = { water:false, hum:false, light:false };
+var manualMode = false;
+
+/* control-logic state — mirrors terrarium.ino */
+var wPhase = "idle", wPhaseAt = 0, humAt = 0, humCooldownUntil = -1e9;
+var bootAt = Date.now();
+
+function logLine(msg){
+  var el = document.getElementById("log");
+  var hh = String(Math.floor(sim.clock/3600)%24).padStart(2,"0");
+  var mm = String(Math.floor(sim.clock/60)%60).padStart(2,"0");
+  el.innerHTML += "<div>"+hh+":"+mm+" <b>"+msg+"</b></div>";
+  el.scrollTop = el.scrollHeight;
+  while(el.children.length > 200) el.removeChild(el.firstChild);
+}
+
+/* ---- physics: how the tank responds to the actuators -------------------- */
+function physics(dt){                       // dt = simulated seconds elapsed
+  sim.clock = (sim.clock + dt) % 86400;
+  var hour = sim.clock / 3600;
+
+  /* daylight through the window: a bell curve peaking at 13:00 */
+  var day = Math.max(0, Math.sin((hour - 6) / 12 * Math.PI));
+  sim.sun = sim.sun * 0.9 + (day * 2600) * 0.1;
+
+  /* temperature follows the sun, plus a nudge from the grow light */
+  var target = 24 + day * 5 + (out.light ? 1.2 : 0);
+  sim.temp += (target - sim.temp) * Math.min(1, dt / 900);
+
+  /* humidity: falls as it warms, rises fast while misting */
+  sim.hum -= dt * (0.0016 + Math.max(0, sim.temp - 26) * 0.0009);
+  if (out.hum)   sim.hum += dt * 0.055;
+  if (out.water) sim.hum += dt * 0.02;
+  sim.hum = Math.max(35, Math.min(99, sim.hum));
+
+  /* soil: dries slowly, wets while the watering mist runs */
+  var dry = dt * 0.00055 * (1 + Math.max(0, sim.temp - 26) * 0.12);
+  sim.soil1 -= dry; sim.soil2 -= dry * 0.9;
+  if (out.water && sim.tankOk) { sim.soil1 += dt * 0.030; sim.soil2 += dt * 0.026; }
+  sim.soil1 = Math.max(0, Math.min(100, sim.soil1));
+  sim.soil2 = Math.max(0, Math.min(100, sim.soil2));
+}
+
+function soilAvg(){ return Math.round((sim.soil1 + sim.soil2) / 2); }
+function luxNow(){ return Math.round(sim.sun + (out.light ? cfg.bright * 12 : 0)); }
+
+/* ---- the SAME control logic that runs on the ESP32 ---------------------- */
+function runAuto(dt){
+  var now = sim.clock, hour = now / 3600;
+
+  /* watering: burst -> soak -> re-judge */
+  if (wPhase === "idle") {
+    if (soilAvg() < cfg.soilDry && sim.tankOk) {
+      wPhase = "run"; wPhaseAt = now; out.water = true;
+      logLine("soil " + soilAvg() + "% < " + cfg.soilDry + "% → watering mist ON");
+    }
+  } else if (wPhase === "run") {
+    if (!sim.tankOk || (now - wPhaseAt + 86400) % 86400 >= 90) {
+      out.water = false; wPhase = "soak"; wPhaseAt = now;
+      logLine("watering done → 20 min soak");
+    }
+  } else if (wPhase === "soak") {
+    if ((now - wPhaseAt + 86400) % 86400 >= 20 * 60) wPhase = "idle";
+  }
+
+  /* humidity mist: hysteresis + max runtime + cooldown */
+  if (!out.hum) {
+    if (sim.hum < cfg.humLo && sim.tankOk && now > humCooldownUntil) {
+      out.hum = true; humAt = now;
+      logLine("RH " + Math.round(sim.hum) + "% < " + cfg.humLo + "% → humidity mist ON");
+    }
+  } else {
+    var ran = (now - humAt + 86400) % 86400;
+    if (sim.hum >= cfg.humHi || !sim.tankOk || ran >= 300) {
+      out.hum = false; humCooldownUntil = now + 180;
+      logLine("humidity mist OFF (RH " + Math.round(sim.hum) + "%)");
+    }
+  }
+
+  /* grow light: photoperiod window gated by measured lux */
+  var inWindow = hour >= cfg.lightStart && hour < cfg.lightEnd;
+  var was = out.light;
+  if (!inWindow) out.light = false;
+  else if (luxNow() < cfg.luxOn)  out.light = true;
+  else if (luxNow() > cfg.luxOff) out.light = false;
+  if (was !== out.light) logLine("grow light " + (out.light ? "ON" : "OFF"));
+}
+
+/* SAFETY INTERLOCK — identical to applyOutputs() in the firmware */
+function applyInterlock(){
+  if (!sim.tankOk) {
+    if (out.water || out.hum) logLine("INTERLOCK: tank empty → mist forced OFF");
+    out.water = false; out.hum = false;
+  }
+}
+
+/* ---- the tick: replaces the ESP32's loop() ------------------------------ */
+var lastReal = Date.now();
+setInterval(function(){
+  var realDt = (Date.now() - lastReal) / 1000; lastReal = Date.now();
+  var dt = realDt * sim.speed;
+  physics(dt);
+  if (!manualMode) runAuto(dt);
+  applyInterlock();
+}, 250);
+
+/* ==========================================================================
+   2 · MOCK API  —  stands in for fetch("/api/...") against the ESP32
+   ========================================================================== */
+function api(url){
+  return new Promise(function(resolve){
+    var q = {}, qs = url.split("?")[1];
+    if (qs) qs.split("&").forEach(function(p){
+      var kv = p.split("="); q[kv[0]] = decodeURIComponent(kv[1] || "");
+    });
+
+    if (url.indexOf("/api/mode") === 0) {
+      manualMode = (q.m === "manual");
+      if (!manualMode) { out.water = false; out.hum = false; wPhase = "idle"; }
+      logLine("mode → " + (manualMode ? "MANUAL" : "AUTO"));
+    }
+    else if (url.indexOf("/api/out") === 0) {
+      if (!manualMode) return resolve({ err: "switch to manual first" });
+      var on = q.state === "1";
+      if (on && !sim.tankOk && (q.name === "water" || q.name === "hum"))
+        return resolve({ err: "tank empty - mist blocked" });
+      out[q.name] = on;
+      logLine("manual: " + q.name + " " + (on ? "ON" : "OFF"));
+    }
+    else if (url.indexOf("/api/set") === 0) {
+      ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
+        .forEach(function(k){ if (q[k] !== undefined) cfg[k] = parseInt(q[k], 10); });
+      if (cfg.humHi <= cfg.humLo) cfg.humHi = cfg.humLo + 5;
+      logLine("settings saved");
+    }
+
+    var upS = Math.floor((Date.now() - bootAt) / 1000);
+    resolve({
+      temp: sim.temp, hum: sim.hum, lux: luxNow(),
+      soil: soilAvg(), soil1: Math.round(sim.soil1), soil2: Math.round(sim.soil2),
+      tankOk: sim.tankOk, mode: manualMode ? "manual" : "auto",
+      ip: "192.168.0.42 (simulated)",
+      up: Math.floor(upS / 3600) + "h " + (Math.floor(upS / 60) % 60) + "m",
+      out: { water: out.water, hum: out.hum, light: out.light },
+      cfg: cfg
+    });
+  });
+}
+
+/* ==========================================================================
+   3 · THE APP  —  byte-for-byte the same logic as webui.h
+   ========================================================================== */
+var S = { mode: "auto", out: {} };
+function g(i){ return document.getElementById(i) }
+function toast(m){ var t = g("toast"); t.textContent = m; t.style.opacity = 1;
+  setTimeout(function(){ t.style.opacity = 0 }, 1400) }
+
+function paint(d){
+ S = d; g("net").className = "dot on";
+ g("sub").textContent = d.mode.toUpperCase() + " · " + d.ip + " · up " + d.up;
+ g("t").innerHTML = (d.temp == null ? "--" : d.temp.toFixed(1)) + "<small> &deg;C</small>";
+ g("h").innerHTML = (d.hum == null ? "--" : d.hum.toFixed(0)) + "<small> %</small>";
+ g("s").innerHTML = d.soil + "<small> %</small>";
+ g("s2").innerHTML = "1: " + d.soil1 + "% &middot; 2: " + (d.soil2 == null ? "--" : d.soil2 + "%");
+ g("l").innerHTML = (d.lux == null ? "--" : Math.round(d.lux)) + "<small> lx</small>";
+ g("tank").style.display = d.tankOk ? "none" : "block";
+ g("mode").textContent = "Mode: " + d.mode.toUpperCase() +
+   (d.mode == "auto" ? "  (tap for manual)" : "  (tap for auto)");
+ var m = d.mode == "manual";
+ document.querySelectorAll("#outs .row").forEach(function(r){
+  var o = r.dataset.o, on = d.out[o];
+  r.querySelector(".st").className = "st" + (on ? " on" : "");
+  var b = r.querySelector("button");
+  b.textContent = on ? "OFF" : "ON"; b.disabled = !m;
+ });
+ if(!paint.seeded){ paint.seeded = 1;
+  ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
+  .forEach(function(k){ g("f_" + k).value = d.cfg[k] }) }
+}
+function poll(){ api("/api/status").then(paint) }
+setInterval(poll, 700); poll();
+
+g("mode").onclick = function(){
+ api("/api/mode?m=" + (S.mode == "auto" ? "manual" : "auto")).then(paint) };
+document.querySelectorAll("#outs .row button").forEach(function(b){
+ b.onclick = function(){ var r = b.closest(".row");
+  api("/api/out?name=" + r.dataset.o + "&state=" + (S.out[r.dataset.o] ? 0 : 1))
+  .then(function(d){ if(d.err) toast(d.err); else paint(d) }) } });
+g("save").onclick = function(){
+ var q = ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
+ .map(function(k){ return k + "=" + encodeURIComponent(g("f_" + k).value) }).join("&");
+ api("/api/set?" + q).then(function(d){ paint(d); toast("saved") }) };
+
+/* ---- simulator-only controls -------------------------------------------- */
+g("spd").oninput = function(){
+  sim.speed = +this.value; g("spdv").textContent = this.value + "×" };
+g("btnTank").onclick = function(){
+  sim.tankOk = !sim.tankOk;
+  this.textContent = sim.tankOk ? "Empty the tank" : "Refill the tank";
+  logLine(sim.tankOk ? "tank refilled" : "TANK EMPTY"); };
+g("btnDry").onclick = function(){
+  sim.soil1 = 22; sim.soil2 = 20; logLine("soil dried to 21% by hand"); };
+g("btnDark").onclick = function(){
+  sim.sun = 0; logLine("ambient light blocked"); };
+logLine("simulator started at 06:00");
+</script>
+</body>
+</html>
