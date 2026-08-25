@@ -80,8 +80,10 @@ label{font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:center}
  <div class="bar" style="margin-top:12px">
   <label>Wi-Fi name <input id="ssid" placeholder="SSID"></label>
   <label>password <input id="pass" type="password" placeholder="password"></label>
-  <button onclick="saveWifi()">Save Wi-Fi to firmware</button>
-  <span class="note">then flash the terrarium firmware to apply (2.4 GHz networks only)</span>
+  <button onclick="saveWifi()">Save Wi-Fi</button>
+  <span class="note">board online &rarr; applied instantly; board offline &rarr; flash to apply.
+   No laptop at all? The board's own page (hotspot <b>Terrarium</b>/terrarium123 &rarr; 192.168.4.1)
+   has the same box. 2.4&nbsp;GHz only &mdash; a phone hotspot works.</span>
  </div>
 </div>
 
@@ -148,6 +150,8 @@ function toggleEmbed(){embedded=!embedded;g('embedwrap').style.display=embedded?
 function out(n){if(!S||!S.status||!S.status.out)return;var want=S.status.out[n]?0:1;
  j('/api/out?name='+n+'&state='+want,{method:'POST'}).then(function(d){if(d.err)toast(d.err);else{S.status=d;paint(S)}})}
 function saveWifi(){var b=new URLSearchParams();b.append('ssid',g('ssid').value);b.append('pass',g('pass').value);
- fetch('/api/wifi',{method:'POST',body:b}).then(function(){toast('saved - now flash the terrarium firmware')})}
+ fetch('/api/wifi',{method:'POST',body:b}).then(function(r){return r.json()}).then(function(d){
+  toast(d.pushed?'sent to the board - it is restarting on the new Wi-Fi'
+               :'saved - flash the terrarium firmware to apply')})}
 setInterval(poll,1500);poll();
 </script></body></html>

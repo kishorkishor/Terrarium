@@ -84,6 +84,17 @@ font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:n
  <button id="save" class="pri">Save settings</button>
 </fieldset>
 
+<fieldset><legend>Wi-Fi (saved on the device)</legend>
+ <div id="wifinow" style="font-size:12px;color:var(--dim);margin:2px 0 6px">&hellip;</div>
+ <label>Network name <input id="f_wssid" type="text" style="width:170px;text-align:left"></label>
+ <label>Password <input id="f_wpass" type="text" style="width:170px;text-align:left"></label>
+ <button id="wsave" class="pri">Save Wi-Fi &amp; restart board</button>
+ <div style="font-size:11px;color:var(--dim);margin-top:8px">
+  2.4&nbsp;GHz networks only (a phone hotspot works). If the board cannot join,
+  it makes its own hotspot <b>Terrarium</b> / terrarium123 at 192.168.4.1 —
+  open this page there and try again.</div>
+</fieldset>
+
 <div id="toast">saved</div>
 <script>
 var S={mode:"auto"};
@@ -112,9 +123,13 @@ function paint(d){
   var b=r.querySelector("button");
   b.textContent=on?"OFF":"ON"; b.disabled=false;
  });
+ if(d.ssid!==undefined){g("wifinow").innerHTML=d.ap
+   ?"<b>hotspot mode</b> — could not join &quot;"+d.ssid+"&quot;; set a network below"
+   :"joined: <b>"+d.ssid+"</b>"}
  if(!paint.seeded){paint.seeded=1;
   ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
-  .forEach(function(k){g("f_"+k).value=d.cfg[k]})}
+  .forEach(function(k){g("f_"+k).value=d.cfg[k]});
+  if(d.ssid!==undefined)g("f_wssid").value=d.ssid}
 }
 var hold=0;                       /* pause polling right after a press */
 function poll(){ if(Date.now()<hold) return;
@@ -139,5 +154,13 @@ g("save").onclick=function(){
  var q=["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
  .map(function(k){return k+"="+encodeURIComponent(g("f_"+k).value)}).join("&");
  api("/api/set?"+q).then(function(d){paint(d);toast("saved")})};
+g("wsave").onclick=function(){
+ var s=g("f_wssid").value.trim();
+ if(!s){toast("enter a network name");return}
+ if(!confirm("Save Wi-Fi \""+s+"\" and restart the board?\n\nIf it cannot join, "+
+   "it will make its own hotspot Terrarium / terrarium123 at 192.168.4.1."))return;
+ api("/api/wifi?ssid="+encodeURIComponent(s)+"&pass="+encodeURIComponent(g("f_wpass").value))
+  .then(function(d){toast(d.err?d.err:"saved — board restarting on \""+s+"\"")})
+  .catch(function(){toast("saved — board restarting")})};
 </script></body></html>
 )rawliteral";

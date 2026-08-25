@@ -40,6 +40,20 @@ the phone and survives reboots.
   (password `terrarium123`) → browse to `http://192.168.4.1`.
 - In Chrome: **⋮ → Add to Home screen** — it now opens like an app.
 
+## Changing Wi-Fi — no reflash needed
+
+The app has a **Wi-Fi** box (bottom of the page). Type the new network, save,
+and the board restarts on it — the setting is kept in the board's own flash,
+so `config.h` never needs editing again. Demo flow with a phone hotspot:
+
+1. Power the board anywhere. It can't find home Wi-Fi → hotspot appears.
+2. Phone → join **Terrarium** / `terrarium123` → open `http://192.168.4.1`.
+3. Wi-Fi box → enter the hotspot's name + password → **Save Wi-Fi & restart**.
+4. Phone back on its own hotspot → open `http://terrarium.local`. Done.
+
+If the saved network can't be joined the hotspot simply comes back — you can
+never lock yourself out. (2.4 GHz networks only.)
+
 ## What the logic does
 
 | Thing | Behaviour |

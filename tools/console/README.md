@@ -49,9 +49,12 @@ on the machine is touched. Delete that folder to uninstall.
 
 ## Security note
 
-The exe contains the firmware source, **including `config.h` with your Wi-Fi
-password**. Keep it to your own machines; don't upload it anywhere public. Change the
-Wi-Fi from the console's Wi-Fi box and reflash if you ever need to rotate it.
+The exe contains the firmware source, **including `config.h`** — whatever
+Wi-Fi is in that file at build time ships inside the exe (`build.sh` warns
+when it isn't the placeholders). The published build carries only
+`YOUR_WIFI_NAME` / `YOUR_WIFI_PASSWORD`; real credentials are entered at
+runtime (console Wi-Fi box, or the board's own dashboard) and stay on this
+machine / the board.
 
 ## Rebuilding after firmware changes
 

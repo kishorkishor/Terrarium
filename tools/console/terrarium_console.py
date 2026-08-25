@@ -24,7 +24,7 @@ import ctypes, json, os, re, shutil, socket, subprocess, sys, threading, time
 import traceback, urllib.request, webbrowser, zipfile
 from concurrent.futures import ThreadPoolExecutor
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, quote, urlparse
 
 try:
     import serial
@@ -142,28 +142,89 @@ def local_ip():
     finally:
         s.close()
 
-def ensure_work_firmware():
-    """Copy bundled sketches into a writable folder (config edits persist)."""
-    os.makedirs(WORK, exist_ok=True)
-    for name in SKETCHES.values():
-        dst = os.path.join(WORK, name)
-        if not os.path.isdir(dst):
-            shutil.copytree(os.path.join(ASSETS, "firmware", name), dst)
-    return WORK
-
-def wifi_from_config():
-    cfg = os.path.join(ensure_work_firmware(), "terrarium", "config.h")
+def _wifi_from(cfg):
     s = open(cfg, encoding="utf-8").read()
     ssid = re.search(r'WIFI_SSID\s+"([^"]*)"', s)
     pw   = re.search(r'WIFI_PASS\s+"([^"]*)"', s)
     return (ssid.group(1) if ssid else ""), (pw.group(1) if pw else "")
 
-def set_wifi(ssid, pw):
-    cfg = os.path.join(ensure_work_firmware(), "terrarium", "config.h")
+def _set_wifi_in(cfg, ssid, pw):
     s = open(cfg, encoding="utf-8").read()
     s = re.sub(r'(WIFI_SSID\s+)"[^"]*"', lambda m: m.group(1) + '"%s"' % ssid, s)
     s = re.sub(r'(WIFI_PASS\s+)"[^"]*"', lambda m: m.group(1) + '"%s"' % pw, s)
     open(cfg, "w", encoding="utf-8").write(s)
+
+def _replace_tree(src, dst):
+    """rmtree + copytree, Windows-proof: rmtree returns while Explorer /
+    Defender still hold handles, so the delete lands a beat later and a
+    naive copytree dies with 'file already exists'."""
+    if os.path.isdir(dst):
+        shutil.rmtree(dst, ignore_errors=True)
+        for _ in range(20):
+            if not os.path.exists(dst):
+                break
+            time.sleep(0.1)
+    shutil.copytree(src, dst, dirs_exist_ok=os.path.exists(dst))
+
+def ensure_work_firmware():
+    """Copy bundled sketches (and libraries) into a writable folder.
+    The exe carries a firmware snapshot; when a NEW exe runs over an OLD
+    work folder the sketches are replaced - otherwise the console would
+    silently flash outdated code - but the Wi-Fi the user already saved
+    into config.h is carried over."""
+    os.makedirs(WORK, exist_ok=True)
+    try:
+        bundled = open(os.path.join(ASSETS, "firmware", "VERSION"), encoding="utf-8").read().strip()
+    except OSError:
+        bundled = "0"
+    vfile = os.path.join(WORK, "VERSION")
+    try:
+        have = open(vfile, encoding="utf-8").read().strip()
+    except OSError:
+        have = None
+    if have != bundled:
+        old = None
+        cfg = os.path.join(WORK, "terrarium", "config.h")
+        if os.path.isfile(cfg):
+            try:
+                old = _wifi_from(cfg)
+            except OSError:
+                old = None
+        if not old or not old[0] or "YOUR_WIFI" in old[0]:
+            st = load_state()          # config.h gone? state.json remembers
+            if st.get("wifi_ssid"):
+                old = (st["wifi_ssid"], st.get("wifi_pass", ""))
+        for name in SKETCHES.values():
+            _replace_tree(os.path.join(ASSETS, "firmware", name),
+                          os.path.join(WORK, name))
+        lib_src = os.path.join(ASSETS, "libraries")
+        if os.path.isdir(lib_src):
+            _replace_tree(lib_src, os.path.join(WORK, "libraries"))
+        if old and old[0] and "YOUR_WIFI" not in old[0]:
+            _set_wifi_in(cfg, old[0], old[1])
+            save_state(wifi_ssid=old[0], wifi_pass=old[1])
+        with open(vfile, "w", encoding="utf-8") as f:
+            f.write(bundled)
+        if have is not None:
+            log("bundled firmware updated (kept Wi-Fi '%s')" % (old[0] if old else ""))
+    else:
+        for name in SKETCHES.values():          # self-heal a deleted sketch
+            dst = os.path.join(WORK, name)
+            if not os.path.isdir(dst):
+                shutil.copytree(os.path.join(ASSETS, "firmware", name), dst)
+    return WORK
+
+def bundled_libs_dir():
+    """Libraries ship inside the exe, so compiling never needs `lib install`."""
+    d = os.path.join(ensure_work_firmware(), "libraries")
+    return d if os.path.isdir(d) else None
+
+def wifi_from_config():
+    return _wifi_from(os.path.join(ensure_work_firmware(), "terrarium", "config.h"))
+
+def set_wifi(ssid, pw):
+    _set_wifi_in(os.path.join(ensure_work_firmware(), "terrarium", "config.h"), ssid, pw)
+    save_state(wifi_ssid=ssid, wifi_pass=pw)   # survives even a wiped work dir
 
 def write_bench_secret():
     ssid, pw = wifi_from_config()
@@ -328,8 +389,13 @@ def toolchain_state():
     code, out = cli(["core", "list"], timeout=90)
     if "esp32:esp32" not in out:
         return "partial", "arduino-cli present but the ESP32 core is missing"
+    if bundled_libs_dir():
+        # every sensor library ships inside this exe and is handed straight
+        # to the compiler, so there is nothing to install and nothing to miss
+        return "ok", "arduino-cli + ESP32 core present, libraries bundled"
     code, out = cli(["lib", "list"], timeout=90)
-    missing = [l for l in LIBS if l.split()[0] not in out]
+    lines = out.splitlines()
+    missing = [l for l in LIBS if not any(ln.startswith(l) for ln in lines)]
     if missing:
         return "partial", "library missing: " + ", ".join(missing)
     return "ok", "arduino-cli + ESP32 core + libraries present"
@@ -363,9 +429,13 @@ def install_toolchain():
         log("installing the ESP32 core (a few hundred MB - this is the slow part) ...")
         cli(["core", "update-index"], timeout=600, stream=True)
         cli(["core", "install", "esp32:esp32"], timeout=3600, stream=True)
-        for l in LIBS:
-            log("installing library: " + l)
-            cli(["lib", "install", l], timeout=600, stream=True)
+        if not bundled_libs_dir():
+            # only reachable on a build without bundled libraries; the index
+            # must exist before `lib install` can resolve any name
+            cli(["lib", "update-index"], timeout=600, stream=True)
+            for l in LIBS:
+                log("installing library: " + l)
+                cli(["lib", "install", l], timeout=600, stream=True)
     state, msg = toolchain_state()
     log("toolchain: " + msg)
     return state == "ok"
@@ -387,7 +457,11 @@ def flash(sketch):
     time.sleep(0.8)
     try:
         log("compiling %s ..." % name)
-        code, out = cli(["compile", "--fqbn", FQBN, src], timeout=900)
+        args = ["compile", "--fqbn", FQBN]
+        libs = bundled_libs_dir()
+        if libs:
+            args += ["--libraries", libs]
+        code, out = cli(args + [src], timeout=900)
         for l in [l for l in out.splitlines() if "Sketch uses" in l or "error" in l.lower()][-6:]:
             log("  " + l[-160:])
         if code != 0:
@@ -616,8 +690,21 @@ class H(BaseHTTPRequestHandler):
         elif u.path == "/api/wifi":
             ssid = body.get("ssid", [""])[0]; pw = body.get("pass", [""])[0]
             set_wifi(ssid, pw)
-            log("Wi-Fi set to '%s' - flash the terrarium firmware to apply it" % ssid)
-            self.send_json({"ok": True})
+            # board online right now? hand it the new network live - it saves
+            # to its own flash and restarts, no reflash needed
+            pushed = False
+            if BOARD["ip"] and BOARD["kind"] == "terrarium":
+                try:
+                    http_get("http://%s/api/wifi?ssid=%s&pass=%s"
+                             % (BOARD["ip"], quote(ssid), quote(pw)), 5)
+                    pushed = True
+                except Exception:
+                    pass
+            if pushed:
+                log("Wi-Fi set to '%s' - sent to the board, it is restarting on it" % ssid)
+            else:
+                log("Wi-Fi set to '%s' - flash the terrarium firmware to apply it" % ssid)
+            self.send_json({"ok": True, "pushed": pushed})
         elif u.path == "/api/out":
             if not BOARD["ip"]:
                 self.send_json({"err": "no board"}); return

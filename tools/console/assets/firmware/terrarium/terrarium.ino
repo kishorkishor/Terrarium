@@ -62,6 +62,9 @@ struct {
 } out;
 
 bool manualMode = false;
+String staSsid;                 // network we try to join (NVS beats config.h)
+bool apMode = false;            // true when serving from our own hotspot
+unsigned long rebootAt = 0;     // /api/wifi answers first, restarts here
 
 /* watering state machine */
 enum WaterPhase { W_IDLE, W_RUN, W_SOAK };
@@ -286,15 +289,22 @@ void sendStatus() {
            (WiFi.getMode() & WIFI_MODE_AP) ? WiFi.softAPIP().toString().c_str()
                                            : WiFi.localIP().toString().c_str());
 
-  char buf[860];
+  /* SSID goes into JSON - neutralise the two characters that would break it */
+  char ss[40];
+  snprintf(ss, sizeof(ss), "%s", staSsid.c_str());
+  for (char* c = ss; *c; ++c) if (*c == '"' || *c == '\\') *c = '\'';
+
+  char buf[940];
   snprintf(buf, sizeof(buf),
-    "{\"temp\":%s,\"hum\":%s,\"lux\":%s,"
+    "{\"ssid\":\"%s\",\"ap\":%s,"
+    "\"temp\":%s,\"hum\":%s,\"lux\":%s,"
     "\"soil\":%d,\"soil1\":%d,\"soil2\":%s,\"raw1\":%d,\"raw2\":%d,"
     "\"leak\":%d,\"leakWet\":%s,"
     "\"tankOk\":%s,\"mode\":\"%s\",\"ip\":\"%s\",\"up\":\"%s\","
     "\"out\":{\"water\":%d,\"hum\":%d,\"light\":%d,\"buzz\":%d,\"fan\":%d},"
     "\"cfg\":{\"soilDry\":%d,\"humLo\":%d,\"humHi\":%d,\"luxOn\":%d,"
     "\"luxOff\":%d,\"lightStart\":%d,\"lightEnd\":%d,\"bright\":%d}}",
+    ss, apMode ? "true" : "false",
     t, h, l,
     st.soilAvg, st.soil1, s2, st.raw1, st.raw2,
     st.leakRaw, st.leakWet ? "true" : "false",
@@ -381,6 +391,30 @@ void setupServer() {
     sendStatus();
   });
 
+  /* Save a new Wi-Fi network to NVS and restart on it. Reachable from the
+     hotspot too: join "Terrarium" / terrarium123, open http://192.168.4.1,
+     type the venue's Wi-Fi (a phone hotspot works) - no laptop, no reflash.
+     If the new network cannot be joined the hotspot simply comes back. */
+  server.on("/api/wifi", []() {
+    if (server.hasArg("clear")) {
+      prefs.remove("wssid"); prefs.remove("wpass");
+      Serial.println("[wifi] saved network cleared - restarting on config.h Wi-Fi");
+      server.send(200, "application/json",
+                  "{\"ok\":true,\"msg\":\"cleared - restarting\"}");
+    } else {
+      String s = server.arg("ssid");
+      if (!s.length()) {
+        server.send(200, "application/json", "{\"err\":\"ssid empty\"}");
+        return;
+      }
+      prefs.putString("wssid", s);
+      prefs.putString("wpass", server.arg("pass"));
+      Serial.printf("[wifi] new network \"%s\" saved - restarting\n", s.c_str());
+      server.send(200, "application/json", "{\"ok\":true}");
+    }
+    rebootAt = millis() + 800;     // let the reply reach the browser first
+  });
+
   server.begin();
 }
 
@@ -421,10 +455,15 @@ void setup() {
   Serial.printf("BH1750: %s\n", st.bhOk ? "ok" : "NOT FOUND");
 #endif
 
-  /* Wi-Fi: join home network, else raise own hotspot */
+  /* Wi-Fi: join home network, else raise own hotspot.
+     Credentials saved from the dashboard (NVS) win; config.h is only the
+     default. So a demo needs no reflash: power up anywhere, join the
+     hotspot, set the venue's Wi-Fi from the web app. */
+  staSsid = prefs.getString("wssid", WIFI_SSID);
+  String staPass = prefs.getString("wpass", WIFI_PASS);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  Serial.printf("Wi-Fi: joining %s", WIFI_SSID);
+  WiFi.begin(staSsid.c_str(), staPass.c_str());
+  Serial.printf("Wi-Fi: joining %s", staSsid.c_str());
   unsigned long t0 = millis();
   while (WiFi.status() != WL_CONNECTED && secsSince(t0) < WIFI_TIMEOUT_S) {
     delay(250); Serial.print(".");
@@ -436,6 +475,7 @@ void setup() {
     st.timeOk = getLocalTime(&t, 3000);
     Serial.printf("NTP: %s\n", st.timeOk ? "synced" : "no (schedule falls back to lux-only)");
   } else {
+    apMode = true;
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_SSID, AP_PASS);
     Serial.printf("\nNo Wi-Fi -> hotspot \"%s\" pw \"%s\" -> http://%s\n",
@@ -475,6 +515,8 @@ void printStatusLine() {
 
 void loop() {
   server.handleClient();
+
+  if (rebootAt && millis() > rebootAt) ESP.restart();   // set by /api/wifi
 
   if (millis() - lastSample >= SENSOR_PERIOD_MS) {
     lastSample = millis();
