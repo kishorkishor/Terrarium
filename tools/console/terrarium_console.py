@@ -263,39 +263,79 @@ def port_holder(port):
 
 class SerialReader(threading.Thread):
     """Keeps the board's serial output flowing into SERIAL while nobody else
-    needs the port. paused=True releases the port (for flashing)."""
+    needs the port, and carries commands to the firmware: any line sent as
+    "CMD ..." is answered by the board with "#R {json}". Those replies are
+    routed to command() instead of the log. paused=True releases the port
+    (for flashing)."""
     def __init__(self):
         super().__init__(daemon=True)
         self.paused = False
         self.port = None
         self.ok = False
         self.error = ""
+        self.ser = None
+        self.cmd_lock = threading.Lock()
+        self._want = False
+        self._resp = None
+    def _close(self):
+        if self.ser is not None:
+            try: self.ser.close()
+            except Exception: pass
+            self.ser = None
+        self.ok = False
     def run(self):
         while True:
             if self.paused or serial is None:
-                self.ok = False; time.sleep(0.5); continue
+                self._close(); time.sleep(0.5); continue
             port, _ = find_usb_port()
             if not port:
-                self.ok = False; self.port = None; time.sleep(2); continue
+                self._close(); self.port = None; time.sleep(2); continue
             self.port = port
             try:
-                with serial.Serial(port, 115200, timeout=1) as s:
-                    self.ok = True; self.error = ""
-                    buf = b""
-                    while not self.paused:
-                        chunk = s.read(256)
-                        if not chunk:
-                            continue
-                        buf += chunk
-                        while b"\n" in buf:
-                            line, buf = buf.split(b"\n", 1)
-                            txt = line.decode("utf-8", "replace").rstrip("\r")
-                            if txt.strip():
-                                SERIAL.add(txt)
+                self.ser = serial.Serial(port, 115200, timeout=1)
+                self.ok = True; self.error = ""
+                buf = b""
+                while not self.paused:
+                    chunk = self.ser.read(256)
+                    if not chunk:
+                        continue
+                    buf += chunk
+                    while b"\n" in buf:
+                        line, buf = buf.split(b"\n", 1)
+                        txt = line.decode("utf-8", "replace").rstrip("\r")
+                        if txt.startswith("#R "):
+                            if self._want:
+                                self._resp = txt[3:]
+                                self._want = False
+                        elif txt.strip():
+                            SERIAL.add(txt)
             except Exception as e:
-                self.ok = False
                 self.error = str(e)
                 time.sleep(2)
+            finally:
+                self._close()
+    def command(self, line, timeout=4.0):
+        """Send one CMD line, return the parsed #R reply (dict) or None."""
+        if not self.ok or self.ser is None:
+            return None
+        with self.cmd_lock:
+            self._resp = None
+            self._want = True
+            try:
+                self.ser.write((line + "\n").encode())
+            except Exception:
+                self._want = False
+                return None
+            t0 = time.time()
+            while time.time() - t0 < timeout:
+                if self._resp is not None:
+                    try:
+                        return json.loads(self._resp)
+                    except Exception:
+                        return None
+                time.sleep(0.05)
+            self._want = False
+            return None
 
 READER = SerialReader()
 
@@ -318,7 +358,7 @@ def reset_board():
 # ----------------------------------------------------------------------------
 #  the board on the network
 # ----------------------------------------------------------------------------
-BOARD = {"ip": None, "status": None, "kind": None, "checked": 0}
+BOARD = {"ip": None, "status": None, "kind": None, "checked": 0, "via": None}
 
 def probe(ip, timeout=0.5):
     try:
@@ -363,10 +403,40 @@ def find_board(full_scan=True):
 
 def refresh_board(full_scan=False):
     ip, kind, d = find_board(full_scan)
-    BOARD.update(ip=ip, kind=kind, status=d, checked=time.time())
     if ip:
+        BOARD.update(ip=ip, kind=kind, status=d, checked=time.time(), via="wifi")
         save_state(board_ip=ip)
+    else:
+        BOARD.update(ip=None, checked=time.time())
+        if BOARD.get("via") == "wifi":
+            BOARD["via"] = None
     return ip
+
+# ---- transport-aware board access -----------------------------------------
+def board_request(http_query, serial_cmd, timeout=5.0):
+    """Reach the board over Wi-Fi if we know its IP, else over USB serial.
+    Returns the parsed JSON reply, or None when there is no link at all."""
+    if BOARD["ip"]:
+        try:
+            d = json.loads(http_get("http://%s%s" % (BOARD["ip"], http_query), timeout))
+            if isinstance(d, dict):
+                if "tankOk" in d:
+                    BOARD.update(status=d, kind="terrarium", via="wifi",
+                                 checked=time.time())
+                return d
+        except Exception:
+            pass                      # Wi-Fi flaked - fall through to USB
+    if serial_cmd and READER.ok:
+        d = READER.command(serial_cmd)
+        if isinstance(d, dict):
+            if "tankOk" in d:
+                BOARD.update(status=d, kind="terrarium", via="usb",
+                             checked=time.time())
+            return d
+    return None
+
+def board_status():
+    return board_request("/api/status", "CMD STATUS", 4.0)
 
 # ----------------------------------------------------------------------------
 #  toolchain
@@ -556,16 +626,28 @@ def diagnose(full_scan=False):
 
     ip = refresh_board(full_scan)
     me = local_ip()
+    d = BOARD["status"] if ip else None
+    if not ip and READER.ok:
+        d = READER.command("CMD STATUS")
+        if d and "tankOk" in d:
+            BOARD.update(status=d, kind="terrarium", via="usb", checked=time.time())
     if ip:
         add("wifi", "ok", "board answering at http://%s (%s firmware)" % (ip, BOARD["kind"]))
+    elif d and "tankOk" in d and not d.get("ap") and d.get("ip") not in (None, "", "0.0.0.0"):
+        add("wifi", "warn", "board says it is on Wi-Fi '%s' at %s, but this PC "
+            "cannot reach that address - different network?" % (d.get("ssid"), d.get("ip")),
+            detail="Control still works over USB. To move the board to THIS network, type it in the Wi-Fi panel and press Send.")
+    elif d and "tankOk" in d and d.get("ap"):
+        add("wifi", "warn", "board is in hotspot mode ('Terrarium') - not joined to any router",
+            detail="Type your Wi-Fi in the Wi-Fi panel and press Send: it applies over USB instantly, no reflash. Or join the hotspot (pw terrarium123) and open 192.168.4.1.")
     else:
         ssid, _ = wifi_from_config()
         add("wifi", "fail", "board not found on this network", "find_board",
-            detail="This PC is on %s. The firmware is set to join Wi-Fi '%s'. If this laptop is on a different network, either join that Wi-Fi, or set the new Wi-Fi below and reflash. With no router the board makes its own hotspot 'Terrarium' / terrarium123 at 192.168.4.1." % (me or "no network", ssid))
+            detail="This PC is on %s. With the board on USB, set any Wi-Fi in the Wi-Fi panel - it applies instantly over the cable, no reflash. With no router at all the board makes its own hotspot 'Terrarium' / terrarium123 at 192.168.4.1." % (me or "no network"))
 
-    d = BOARD["status"]
-    if ip and BOARD["kind"] == "terrarium" and d:
-        add("firmware", "ok", "terrarium firmware, %s, up %s" % (d.get("mode"), d.get("up")))
+    if d and "tankOk" in d and (ip or BOARD.get("via") == "usb"):
+        add("firmware", "ok", "terrarium firmware via %s, %s, up %s"
+            % (BOARD.get("via") or "?", d.get("mode"), d.get("up")))
         probs = []
         if d.get("temp") is None: probs.append("BME280 not answering (temp/humidity) - check VCC->3V3, SDA->D21, SCL->D22, CSB->3V3, SDO->GND, then power-cycle the board")
         if d.get("lux") is None:  probs.append("BH1750 not answering (light) - check SDA->D21, SCL->D22, ADDR->GND, power-cycle")
@@ -663,7 +745,8 @@ class H(BaseHTTPRequestHandler):
             ssid, _ = wifi_from_config()
             port, _ = find_usb_port()
             self.send_json({
-                "checks": CHECKS, "task": TASK, "board": {"ip": BOARD["ip"], "kind": BOARD["kind"]},
+                "checks": CHECKS, "task": TASK,
+                "board": {"ip": BOARD["ip"], "kind": BOARD["kind"], "via": BOARD.get("via")},
                 "status": BOARD["status"], "usb": port, "serial_ok": READER.ok,
                 "wifi_ssid": ssid, "admin": is_admin(), "state_dir": STATE_DIR,
                 "frozen": FROZEN, "local_ip": local_ip()})
@@ -672,12 +755,13 @@ class H(BaseHTTPRequestHandler):
         elif u.path == "/api/serial":
             self.send_json({"lines": SERIAL.since(int(q.get("since", ["0"])[0]))})
         elif u.path == "/api/board":
-            if BOARD["ip"]:
-                kind, d = probe(BOARD["ip"], 3.0)
-                if d: BOARD["status"] = d
-                self.send_json(d or {"err": "no reply"})
+            d = board_status()
+            if d:
+                self.send_json({"via": BOARD.get("via"), "ip": BOARD.get("ip"),
+                                "data": d})
             else:
-                self.send_json({"err": "no board"})
+                self.send_json({"err": "no link - board not on this network "
+                                       "and not on USB"})
         else:
             self.send_json({"err": "not found"}, 404)
     def do_POST(self):
@@ -688,32 +772,49 @@ class H(BaseHTTPRequestHandler):
             name = q.get("task", [""])[0]; arg = q.get("arg", [None])[0]
             self.send_json({"started": run_task(name, arg), "running": TASK["running"]})
         elif u.path == "/api/wifi":
+            if body.get("clear", [""])[0]:
+                d = board_request("/api/wifi?clear=1", "CMD WIFI-CLEAR")
+                if d and d.get("ok"):
+                    log("board's saved Wi-Fi cleared - it is restarting")
+                    self.send_json({"ok": True, "pushed": True}); return
+                self.send_json({"err": "no link to the board"}); return
             ssid = body.get("ssid", [""])[0]; pw = body.get("pass", [""])[0]
-            set_wifi(ssid, pw)
-            # board online right now? hand it the new network live - it saves
-            # to its own flash and restarts, no reflash needed
-            pushed = False
-            if BOARD["ip"] and BOARD["kind"] == "terrarium":
-                try:
-                    http_get("http://%s/api/wifi?ssid=%s&pass=%s"
-                             % (BOARD["ip"], quote(ssid), quote(pw)), 5)
-                    pushed = True
-                except Exception:
-                    pass
+            if not ssid:
+                self.send_json({"err": "network name is empty"}); return
+            set_wifi(ssid, pw)      # future flashes carry it as the default
+            # live push: Wi-Fi if reachable, else USB serial - no reflash
+            d = board_request("/api/wifi?ssid=%s&pass=%s" % (quote(ssid), quote(pw)),
+                              "CMD WIFI %s\t%s" % (ssid, pw))
+            pushed = bool(d and d.get("ok"))
             if pushed:
-                log("Wi-Fi set to '%s' - sent to the board, it is restarting on it" % ssid)
+                via = BOARD.get("via") or "wifi"
+                log("Wi-Fi '%s' sent to the board over %s - it is restarting on it"
+                    % (ssid, "USB" if via == "usb" else "Wi-Fi"))
+                BOARD.update(ip=None, status=None)   # it will reappear shortly
             else:
-                log("Wi-Fi set to '%s' - flash the terrarium firmware to apply it" % ssid)
+                log("Wi-Fi set to '%s' - no board link right now; plug USB in "
+                    "and press Send again, or flash the firmware" % ssid)
             self.send_json({"ok": True, "pushed": pushed})
         elif u.path == "/api/out":
-            if not BOARD["ip"]:
-                self.send_json({"err": "no board"}); return
-            try:
-                name = q.get("name", [""])[0]; state = q.get("state", ["0"])[0]
-                r = http_get("http://%s/api/out?name=%s&state=%s" % (BOARD["ip"], name, state), 5)
-                self.send_json(json.loads(r))
-            except Exception as e:
-                self.send_json({"err": str(e)})
+            name = q.get("name", [""])[0]; state = q.get("state", ["0"])[0]
+            d = board_request("/api/out?name=%s&state=%s" % (name, state),
+                              "CMD OUT %s %s" % (name, state))
+            self.send_json(d or {"err": "no link to the board"})
+        elif u.path == "/api/mode":
+            m = q.get("m", ["auto"])[0]
+            d = board_request("/api/mode?m=%s" % m, "CMD MODE %s" % m)
+            self.send_json(d or {"err": "no link to the board"})
+        elif u.path == "/api/set":
+            keys = ["soilDry","humLo","humHi","luxOn","luxOff","lightStart",
+                    "lightEnd","bright","waterRun","waterSoak","waterCap",
+                    "humMax","humCool","manMax"]
+            pairs = [(k, q[k][0]) for k in keys if k in q and q[k][0] != ""]
+            if not pairs:
+                self.send_json({"err": "nothing to set"}); return
+            qs = "&".join("%s=%s" % (k, quote(v)) for k, v in pairs)
+            cmd = "CMD SET " + " ".join("%s=%s" % (k, v) for k, v in pairs)
+            d = board_request("/api/set?" + qs, cmd, 6.0)
+            self.send_json(d or {"err": "no link to the board"})
         else:
             self.send_json({"err": "not found"}, 404)
 

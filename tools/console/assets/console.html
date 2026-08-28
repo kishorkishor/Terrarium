@@ -6,13 +6,18 @@
 --acc:#4cc98a;--warn:#e0b25e;--bad:#e57f7f;--blue:#6fb3e0}
 *{box-sizing:border-box;margin:0}
 body{background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif;padding:16px;max-width:1180px;margin:0 auto}
-h1{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:2px}
-h2{font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin:18px 0 8px}
+h1{font-size:20px;display:flex;align-items:center;gap:10px;margin-bottom:2px;flex-wrap:wrap}
+h2{font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin:20px 0 8px}
 #sub{color:var(--dim);font-size:12px}
 .pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#24352c;color:var(--dim)}
 .pill.ok{background:#183a2a;color:var(--acc)}.pill.warn{background:#3a2f18;color:var(--warn)}.pill.fail{background:#3a1f1f;color:var(--bad)}
+.pill.usb{background:#1c2f3f;color:var(--blue)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:10px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin:10px 0}
+.tile{background:#0f1915;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.tile .k{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.07em}
+.tile .v{font-size:20px;font-weight:600}.tile .v small{font-size:11px;color:var(--dim);font-weight:400}
 .chk{display:flex;gap:10px;align-items:flex-start}
 .dot{width:11px;height:11px;border-radius:50%;background:#3a4a41;flex:0 0 auto;margin-top:6px}
 .dot.ok{background:var(--acc);box-shadow:0 0 8px var(--acc)}.dot.warn{background:var(--warn)}.dot.fail{background:var(--bad);box-shadow:0 0 8px var(--bad)}
@@ -22,25 +27,98 @@ h2{font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em
 button{font:inherit;border:0;border-radius:9px;padding:8px 14px;cursor:pointer;background:#22352b;color:var(--ink);font-size:13px}
 button:disabled{opacity:.35;cursor:default}
 button.pri{background:var(--acc);color:#08130d;font-weight:600}
+button.warn{background:#3a2f18;color:var(--warn)}
 button.sm{padding:5px 10px;font-size:12px;margin-top:6px}
 .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-pre{background:#0a100d;border:1px solid var(--line);border-radius:10px;padding:10px;font:12px/1.45 ui-monospace,Consolas,monospace;height:260px;overflow:auto;white-space:pre-wrap;color:#b9c9bf}
+pre{background:#0a100d;border:1px solid var(--line);border-radius:10px;padding:10px;font:12px/1.45 ui-monospace,Consolas,monospace;height:240px;overflow:auto;white-space:pre-wrap;color:#b9c9bf}
 pre .hi{color:var(--acc)}pre .bad{color:var(--bad)}pre .warn{color:var(--warn)}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:900px){.two{grid-template-columns:1fr}}
 iframe{width:100%;height:620px;border:1px solid var(--line);border-radius:12px;background:#0a100d}
-input{background:#0c120f;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:7px 9px;font:inherit;font-size:14px}
-label{font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:center}
-.row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#0f1915;border-radius:9px;margin-bottom:6px;font-size:13px}
-.row .st{width:9px;height:9px;border-radius:50%;background:#3a4a41;margin-right:8px}
+input{background:#0c120f;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:7px 9px;font:inherit;font-size:14px;width:100%}
+.row{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;background:#0f1915;border:1px solid var(--line);border-radius:9px;margin-bottom:6px;font-size:14px}
+.row .st{width:9px;height:9px;border-radius:50%;background:#3a4a41;margin-right:9px}
 .row .st.on{background:var(--acc);box-shadow:0 0 8px var(--acc)}
-#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--acc);color:#08130d;padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none}
+.setgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px 16px;margin-top:6px}
+.setgrid label{font-size:12px;color:var(--dim);display:flex;flex-direction:column;gap:3px}
+.sethead{grid-column:1/-1;font-size:11px;color:var(--acc);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
+#mode{width:100%;padding:11px;font-size:15px;margin:8px 0 10px}
+.warnbox{display:none;background:#33231a;border:1px solid var(--warn);color:var(--warn);border-radius:10px;padding:9px 12px;font-size:13px;margin:8px 0}
+#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--acc);color:#08130d;padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9}
 .note{font-size:12px;color:var(--dim)}
 </style></head><body>
-<h1>Terrarium Console <span class="pill" id="overall">starting</span></h1>
+<h1>Terrarium Console <span class="pill" id="overall">starting</span> <span class="pill" id="link">no link</span></h1>
 <div id="sub">connecting to the console...</div>
 
-<h2>Checks</h2>
+<h2>Control</h2>
+<div class="card" id="ctrl">
+ <div class="warnbox" id="tank">RESERVOIR EMPTY — mist is locked out until refilled</div>
+ <div class="warnbox" id="nolink" style="display:block">No link to the board yet — plug in USB, or get on the same Wi-Fi. Everything below lights up by itself once a link exists.</div>
+ <div class="tiles" id="tiles" style="display:none">
+  <div class="tile"><div class="k">Air temp</div><div class="v" id="v_t">--<small> °C</small></div></div>
+  <div class="tile"><div class="k">Humidity</div><div class="v" id="v_h">--<small> %</small></div></div>
+  <div class="tile"><div class="k">Light</div><div class="v" id="v_l">--<small> lx</small></div></div>
+  <div class="tile"><div class="k">Soil</div><div class="v" id="v_s">--<small> %</small></div><div class="k" id="v_s2">1: -- · 2: --</div></div>
+  <div class="tile"><div class="k">Leak</div><div class="v" id="v_lk">--</div><div class="k" id="v_lk2">dry</div></div>
+  <div class="tile"><div class="k">Watered today</div><div class="v" id="v_wt">--<small> min</small></div></div>
+ </div>
+ <button id="mode" class="pri" style="display:none">Mode: AUTO</button>
+ <div id="outs" style="display:none">
+  <div class="row" data-o="water"><span><span class="st"></span>Watering mist</span><button>ON</button></div>
+  <div class="row" data-o="hum"><span><span class="st"></span>Humidity mist</span><button>ON</button></div>
+  <div class="row" data-o="light"><span><span class="st"></span>Grow light</span><button>ON</button></div>
+  <div class="row" data-o="fan"><span><span class="st"></span>Fan</span><button>ON</button></div>
+  <div class="row" data-o="buzz"><span><span class="st"></span>Buzzer</span><button>ON</button></div>
+ </div>
+</div>
+
+<h2>Automation settings <span class="note">(live on the board, survive reboot)</span></h2>
+<div class="card">
+ <div class="setgrid" id="setgrid">
+  <div class="sethead">Watering</div>
+  <label>Water when soil below (%)<input id="f_soilDry" type="number" min="5" max="80"></label>
+  <label>Burst length (seconds)<input id="f_waterRun" type="number" min="10" max="600"></label>
+  <label>Soak wait between bursts (min)<input id="f_waterSoak" type="number" min="1" max="180"></label>
+  <label>Daily watering cap (min/day)<input id="f_waterCap" type="number" min="1" max="240"></label>
+  <div class="sethead">Humidity</div>
+  <label>Mist when RH below (%)<input id="f_humLo" type="number" min="30" max="95"></label>
+  <label>Stop misting at RH (%)<input id="f_humHi" type="number" min="40" max="99"></label>
+  <label>Longest mist burst (seconds)<input id="f_humMax" type="number" min="30" max="1800"></label>
+  <label>Rest between bursts (seconds)<input id="f_humCool" type="number" min="0" max="3600"></label>
+  <div class="sethead">Grow light</div>
+  <label>Light ON below (lux)<input id="f_luxOn" type="number" min="0" max="20000"></label>
+  <label>Light OFF above (lux)<input id="f_luxOff" type="number" min="0" max="30000"></label>
+  <label>On from hour (0-23)<input id="f_lightStart" type="number" min="0" max="23"></label>
+  <label>Off at hour (1-24)<input id="f_lightEnd" type="number" min="1" max="24"></label>
+  <label>Brightness (0-255)<input id="f_bright" type="number" min="0" max="255"></label>
+  <div class="sethead">Manual mode</div>
+  <label>Forgot-it-on auto-off (min)<input id="f_manMax" type="number" min="1" max="120"></label>
+ </div>
+ <div class="bar" style="margin-top:12px">
+  <button class="pri" onclick="saveSet()">Save to board</button>
+  <button onclick="seeded=false;toast('will reload from the board')">Reload from board</button>
+  <span class="note" id="setnote">waiting for a board link…</span>
+ </div>
+</div>
+
+<h2>Wi-Fi</h2>
+<div class="card">
+ <div id="wifinow" class="note" style="margin-bottom:8px">…</div>
+ <div class="bar">
+  <label class="note">Network <input id="ssid" placeholder="Wi-Fi name" style="width:190px"></label>
+  <label class="note">Password <input id="pass" type="password" placeholder="password" style="width:190px"></label>
+  <button class="pri" onclick="saveWifi()">Send to board</button>
+  <button class="warn" onclick="clearWifi()">Forget saved network</button>
+ </div>
+ <div class="note" style="margin-top:8px">
+  Works over USB or Wi-Fi — the board saves it to its own memory, restarts, and joins.
+  2.4&nbsp;GHz networks only (a phone hotspot works). If it cannot join, it raises its own
+  hotspot <b>Terrarium</b> / terrarium123 at 192.168.4.1 and keeps retrying your network
+  in the background.
+ </div>
+</div>
+
+<h2>Setup &amp; tools</h2>
 <div class="bar" style="margin-bottom:10px">
  <button class="pri" onclick="task('diagnose')">Re-check</button>
  <button onclick="task('diagnose','full')">Re-check + scan network</button>
@@ -48,43 +126,18 @@ label{font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:center}
  <span class="note" id="taskstate"></span>
 </div>
 <div class="grid" id="checks"></div>
-
-<h2>Board</h2>
-<div class="card">
- <div class="bar">
-  <span id="boardline">no board yet</span>
-  <a id="open" target="_blank" style="display:none"><button>Open dashboard</button></a>
-  <button id="embed" style="display:none" onclick="toggleEmbed()">Show dashboard here</button>
-  <button onclick="task('reset')">Reset board</button>
-  <button onclick="task('find_board')">Find board on network</button>
- </div>
- <div id="quick" style="margin-top:10px;display:none">
-  <div class="row" data-o="water"><span><span class="st"></span>Watering mist</span><button class="sm" onclick="out('water')">toggle</button></div>
-  <div class="row" data-o="hum"><span><span class="st"></span>Humidity mist</span><button class="sm" onclick="out('hum')">toggle</button></div>
-  <div class="row" data-o="light"><span><span class="st"></span>Grow light</span><button class="sm" onclick="out('light')">toggle</button></div>
-  <div class="row" data-o="fan"><span><span class="st"></span>Fan</span><button class="sm" onclick="out('fan')">toggle</button></div>
-  <div class="row" data-o="buzz"><span><span class="st"></span>Buzzer</span><button class="sm" onclick="out('buzz')">toggle</button></div>
- </div>
- <div id="embedwrap" style="display:none;margin-top:10px"><iframe id="frame"></iframe></div>
-</div>
-
-<h2>Flash</h2>
-<div class="card">
+<div class="card" style="margin-top:10px">
  <div class="bar">
   <button class="pri" onclick="task('flash','terrarium')">Flash terrarium firmware</button>
-  <button onclick="task('flash','bench-web')">Flash bench-web (wiring tester)</button>
+  <button onclick="task('flash','bench-web')">Flash wiring tester</button>
   <button onclick="task('flash','i2c-scan')">Flash I2C scanner</button>
   <button onclick="task('install_toolchain')">Install toolchain</button>
   <button onclick="task('install_driver')">Install USB driver</button>
+  <button onclick="task('reset')">Reset board</button>
+  <a id="open" target="_blank" style="display:none"><button>Open board's own page</button></a>
+  <button id="embed" style="display:none" onclick="toggleEmbed()">Show board page here</button>
  </div>
- <div class="bar" style="margin-top:12px">
-  <label>Wi-Fi name <input id="ssid" placeholder="SSID"></label>
-  <label>password <input id="pass" type="password" placeholder="password"></label>
-  <button onclick="saveWifi()">Save Wi-Fi</button>
-  <span class="note">board online &rarr; applied instantly; board offline &rarr; flash to apply.
-   No laptop at all? The board's own page (hotspot <b>Terrarium</b>/terrarium123 &rarr; 192.168.4.1)
-   has the same box. 2.4&nbsp;GHz only &mdash; a phone hotspot works.</span>
- </div>
+ <div id="embedwrap" style="display:none;margin-top:10px"><iframe id="frame"></iframe></div>
 </div>
 
 <div class="two" style="margin-top:16px">
@@ -95,49 +148,119 @@ label{font-size:13px;color:var(--dim);display:flex;gap:8px;align-items:center}
 <div id="toast"></div>
 
 <script>
-var tseq=0, sseq=0, S=null, embedded=false;
+var tseq=0,sseq=0,S=null,B=null,VIA=null,seeded=false,embedded=false,hold=0;
 function g(i){return document.getElementById(i)}
-function toast(m){var t=g('toast');t.textContent=m;t.style.opacity=1;setTimeout(function(){t.style.opacity=0},1600)}
+function toast(m){var t=g('toast');t.textContent=m;t.style.opacity=1;setTimeout(function(){t.style.opacity=0},1800)}
 function j(u,opt){return fetch(u,opt).then(function(r){return r.json()})}
-function task(n,a){
- j('/api/run?task='+n+(a?'&arg='+encodeURIComponent(a):''),{method:'POST'}).then(function(d){
-  toast(d.started?('started: '+n):('busy with '+d.running))})}
-function esc(s){return s.replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
-function colour(l){
- var c='';if(/FAILED|crash|denied|busy|rror/.test(l))c='bad';else if(/done|OK|flashed|verified/.test(l))c='hi';else if(/warn|NOT FOUND|EMPTY|WET/.test(l))c='warn';
+function esc(s){return String(s).replace(/[&<>]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[c]})}
+function task(n,a){j('/api/run?task='+n+(a?'&arg='+encodeURIComponent(a):''),{method:'POST'})
+ .then(function(d){toast(d.started?('started: '+n):('busy with '+d.running))})}
+function colour(l){var c='';
+ if(/FAILED|crash|denied|busy|rror/.test(l))c='bad';
+ else if(/done|OK|flashed|verified|joined|synced/.test(l))c='hi';
+ else if(/warn|NOT FOUND|EMPTY|WET|retrying/.test(l))c='warn';
  return c?'<span class="'+c+'">'+esc(l)+'</span>':esc(l)}
-function append(pre,lines){
- if(!lines.length)return;var atEnd=pre.scrollTop+pre.clientHeight>=pre.scrollHeight-30;
+function append(pre,lines){if(!lines.length)return;
+ var atEnd=pre.scrollTop+pre.clientHeight>=pre.scrollHeight-30;
  pre.innerHTML+=lines.map(function(x){return colour(x[1])}).join('\n')+'\n';
  if(pre.innerHTML.length>200000)pre.innerHTML=pre.innerHTML.slice(-150000);
  if(atEnd)pre.scrollTop=pre.scrollHeight}
+
+/* ---------- control panel, fed by /api/board over whichever link ---------- */
+function paintBoard(d,via){
+ B=d;VIA=via;
+ var linked=!!d;
+ g('nolink').style.display=linked?'none':'block';
+ ['tiles','outs'].forEach(function(i){g(i).style.display=linked?'':'none'});
+ g('mode').style.display=linked?'':'none';
+ var L=g('link');
+ if(!linked){L.className='pill';L.textContent='no link'}
+ else if(via=='usb'){L.className='pill usb';L.textContent='via USB'}
+ else{L.className='pill ok';L.textContent='via Wi-Fi'}
+ if(!linked)return;
+ g('v_t').innerHTML=(d.temp==null?'--':d.temp.toFixed(1))+'<small> °C</small>';
+ g('v_h').innerHTML=(d.hum==null?'--':Math.round(d.hum))+'<small> %</small>';
+ g('v_l').innerHTML=(d.lux==null?'--':Math.round(d.lux))+'<small> lx</small>';
+ g('v_s').innerHTML=d.soil+'<small> %</small>';
+ g('v_s2').textContent='1: '+d.soil1+'% · 2: '+(d.soil2==null?'--':d.soil2+'%');
+ g('v_lk').textContent=(d.leak==null?'--':d.leak);
+ g('v_lk2').innerHTML=d.leakWet?'<b style="color:var(--bad)">WATER!</b>':'dry';
+ g('v_wt').innerHTML=Math.round((d.waterToday||0)/60)+'<small> / '+(d.cfg.waterCap||'--')+' min</small>';
+ g('tank').style.display=d.tankOk?'none':'block';
+ g('mode').textContent='Mode: '+d.mode.toUpperCase()+(d.mode=='auto'?'  (tap for manual)':'  (tap to resume auto)');
+ document.querySelectorAll('#outs .row').forEach(function(r){
+  var o=r.dataset.o,on=d.out[o];
+  r.querySelector('.st').className='st'+(on?' on':'');
+  r.querySelector('button').textContent=on?'OFF':'ON'});
+ if(d.ssid!==undefined){
+  g('wifinow').innerHTML=d.ap
+   ?'Board is in <b>hotspot mode</b> (could not join &quot;'+esc(d.ssid)+'&quot;). Enter a network below — it applies over the current link instantly.'
+   :'Board is joined to <b>'+esc(d.ssid)+'</b> at '+esc(d.ip)+'.';
+  if(!saveWifi.seeded){saveWifi.seeded=1;g('ssid').value=(d.ssid=='YOUR_WIFI_NAME'?'':d.ssid)}}
+ if(!seeded){seeded=true;
+  ['soilDry','humLo','humHi','luxOn','luxOff','lightStart','lightEnd','bright',
+   'waterRun','waterSoak','waterCap','humMax','humCool','manMax']
+  .forEach(function(k){if(d.cfg[k]!==undefined)g('f_'+k).value=d.cfg[k]});
+  g('setnote').textContent='loaded from the board ('+(via=='usb'?'USB':'Wi-Fi')+')'}
+}
+function pollBoard(){if(Date.now()<hold)return;
+ j('/api/board').then(function(r){if(Date.now()<hold)return;
+  if(r&&r.data)paintBoard(r.data,r.via);else paintBoard(null,null)})
+ .catch(function(){paintBoard(null,null)})}
+
+g('mode').onclick=function(){if(!B)return;
+ j('/api/mode?m='+(B.mode=='auto'?'manual':'auto'),{method:'POST'}).then(function(d){
+  if(d.err)toast(d.err);else paintBoard(d,VIA)})};
+document.querySelectorAll('#outs .row button').forEach(function(b){
+ b.onclick=function(){if(!B)return;
+  var r=b.closest('.row'),o=r.dataset.o,want=B.out[o]?0:1;
+  hold=Date.now()+3000;b.disabled=true;
+  r.querySelector('.st').className='st'+(want?' on':'');
+  b.textContent=want?'OFF':'ON';
+  j('/api/out?name='+o+'&state='+want,{method:'POST'})
+   .then(function(d){hold=0;if(d.err){toast(d.err)}else paintBoard(d,VIA)})
+   .catch(function(){hold=0;toast('no reply')})
+   .then(function(){b.disabled=false})}});
+
+function saveSet(){
+ var ks=['soilDry','humLo','humHi','luxOn','luxOff','lightStart','lightEnd','bright',
+  'waterRun','waterSoak','waterCap','humMax','humCool','manMax'];
+ var qs=ks.map(function(k){return k+'='+encodeURIComponent(g('f_'+k).value)}).join('&');
+ j('/api/set?'+qs,{method:'POST'}).then(function(d){
+  if(d.err){toast(d.err)}else{paintBoard(d,VIA);toast('saved on the board')}})}
+
+function saveWifi(){
+ var s=g('ssid').value.trim();
+ if(!s){toast('enter a network name');return}
+ var b=new URLSearchParams();b.append('ssid',s);b.append('pass',g('pass').value);
+ fetch('/api/wifi',{method:'POST',body:b}).then(function(r){return r.json()}).then(function(d){
+  toast(d.err?d.err:(d.pushed?'sent — board restarting on "'+s+'"':'saved — connect USB or Wi-Fi and press Send again'))})}
+function clearWifi(){
+ if(!confirm('Forget the Wi-Fi saved on the board? It will restart and use its hotspot until a new network is set.'))return;
+ var b=new URLSearchParams();b.append('clear','1');
+ fetch('/api/wifi',{method:'POST',body:b}).then(function(r){return r.json()}).then(function(d){
+  toast(d.err?d.err:'cleared — board restarting')})}
+
+/* ---------- console state / checks / logs -------------------------------- */
 function paint(d){
  S=d;
  var fails=d.checks.filter(function(c){return c.status=='fail'}).length,
      warns=d.checks.filter(function(c){return c.status=='warn'}).length;
  var o=g('overall');
- if(!d.checks.length){o.className='pill';o.textContent='checking...'}
+ if(!d.checks.length){o.className='pill';o.textContent='checking…'}
  else if(fails){o.className='pill fail';o.textContent=fails+' problem'+(fails>1?'s':'')}
  else if(warns){o.className='pill warn';o.textContent=warns+' warning'+(warns>1?'s':'')}
  else{o.className='pill ok';o.textContent='all good'}
  g('sub').textContent='this PC '+(d.local_ip||'offline')+' · USB '+(d.usb||'none')+' · serial '+(d.serial_ok?'live':'off')+
-   (d.task.running?' · working: '+d.task.running:'');
- g('taskstate').textContent=d.task.running?('running '+d.task.running+' ...'):(d.task.last?('last: '+d.task.last+' '+(d.task.ok?'ok':'failed')):'');
+  (d.task.running?' · working: '+d.task.running:'');
+ g('taskstate').textContent=d.task.running?('running '+d.task.running+' …'):(d.task.last?('last: '+d.task.last+' '+(d.task.ok?'ok':'failed')):'');
  var names={internet:'Internet',driver:'USB driver',usb:'Board on USB',port:'Serial port',toolchain:'Toolchain',wifi:'Board on Wi-Fi',firmware:'Firmware',sensors:'Sensors'};
  g('checks').innerHTML=d.checks.map(function(c){
   return '<div class="card chk" onclick="this.classList.toggle(\'open\')"><span class="dot '+c.status+'"></span><div style="flex:1"><b>'+(names[c.id]||c.id)+'</b><div class="m">'+esc(c.msg)+'</div>'+
    (c.detail?'<div class="d">'+esc(c.detail)+'</div>':'')+
    (c.fix?'<button class="sm pri" onclick="event.stopPropagation();task(\''+c.fix+'\')">Fix: '+c.fix.replace(/_/g,' ')+'</button>':'')+'</div></div>'}).join('');
- var ip=d.board.ip;
- if(ip){
-  g('boardline').innerHTML='<b>http://'+ip+'</b> · '+d.board.kind+' firmware';
-  g('open').href='http://'+ip; g('open').style.display=''; g('embed').style.display='';
-  g('quick').style.display=(d.board.kind=='terrarium')?'':'none';
-  if(d.status&&d.status.out){document.querySelectorAll('#quick .row').forEach(function(r){
-   r.querySelector('.st').className='st'+(d.status.out[r.dataset.o]?' on':'')})}
-  if(d.status&&d.board.kind=='terrarium')g('boardline').innerHTML+=' · '+d.status.temp+'°C · '+d.status.hum+'% · '+d.status.lux+' lx · soil '+d.status.soil+'% · '+d.status.mode;
- }else{g('boardline').textContent='board not found on the network';g('open').style.display='none';g('embed').style.display='none';g('quick').style.display='none'}
- if(!paint.seeded&&d.wifi_ssid){paint.seeded=1;g('ssid').value=d.wifi_ssid}
+ if(d.board.ip){g('open').href='http://'+d.board.ip;g('open').style.display='';g('embed').style.display=''}
+ else{g('open').style.display='none';g('embed').style.display='none'}
  g('foot').textContent='installs + firmware copies live in '+d.state_dir+(d.frozen?' · running as the packaged exe':' · running from source');
 }
 function poll(){
@@ -146,12 +269,8 @@ function poll(){
  j('/api/serial?since='+sseq).then(function(d){if(d.lines.length){sseq=d.lines[d.lines.length-1][0];append(g('slog'),d.lines)}});
 }
 function toggleEmbed(){embedded=!embedded;g('embedwrap').style.display=embedded?'':'none';
- if(embedded&&S&&S.board.ip)g('frame').src='http://'+S.board.ip;g('embed').textContent=embedded?'Hide dashboard':'Show dashboard here'}
-function out(n){if(!S||!S.status||!S.status.out)return;var want=S.status.out[n]?0:1;
- j('/api/out?name='+n+'&state='+want,{method:'POST'}).then(function(d){if(d.err)toast(d.err);else{S.status=d;paint(S)}})}
-function saveWifi(){var b=new URLSearchParams();b.append('ssid',g('ssid').value);b.append('pass',g('pass').value);
- fetch('/api/wifi',{method:'POST',body:b}).then(function(r){return r.json()}).then(function(d){
-  toast(d.pushed?'sent to the board - it is restarting on the new Wi-Fi'
-               :'saved - flash the terrarium firmware to apply')})}
-setInterval(poll,1500);poll();
+ if(embedded&&S&&S.board.ip)g('frame').src='http://'+S.board.ip;
+ g('embed').textContent=embedded?'Hide board page':'Show board page here'}
+setInterval(poll,2000);poll();
+setInterval(pollBoard,3000);pollBoard();
 </script></body></html>

@@ -43,6 +43,8 @@ Preferences prefs;
 /* ---- runtime settings (loaded from flash, edited from the app) ---------- */
 struct Cfg {
   int soilDry, humLo, humHi, luxOn, luxOff, lightStart, lightEnd, bright;
+  /* timings, editable from the UI: seconds unless the name says minutes */
+  int waterRun, waterSoak, waterCap, humMax, humCool, manMax;
 } cfg;
 
 /* ---- live state ---------------------------------------------------------- */
@@ -63,6 +65,7 @@ struct {
 
 bool manualMode = false;
 String staSsid;                 // network we try to join (NVS beats config.h)
+String staPass;
 bool apMode = false;            // true when serving from our own hotspot
 unsigned long rebootAt = 0;     // /api/wifi answers first, restarts here
 
@@ -198,15 +201,16 @@ void runAuto() {
   /* -- watering: burst -> soak -> re-judge ------------------------------- */
   switch (wPhase) {
     case W_IDLE:
-      if (st.soilAvg < cfg.soilDry && st.tankOk && waterSecToday < WATER_MAX_S_DAY) {
+      if (st.soilAvg < cfg.soilDry && st.tankOk &&
+          waterSecToday < (unsigned long)cfg.waterCap * 60UL) {
         wPhase = W_RUN; wPhaseStart = millis();
         out.water = true;
         Serial.printf("[water] soil %d%% < %d%% -> burst %ds\n",
-                      st.soilAvg, cfg.soilDry, WATER_RUN_S);
+                      st.soilAvg, cfg.soilDry, cfg.waterRun);
       }
       break;
     case W_RUN:
-      if (!st.tankOk || secsSince(wPhaseStart) >= WATER_RUN_S) {
+      if (!st.tankOk || secsSince(wPhaseStart) >= (unsigned long)cfg.waterRun) {
         waterSecToday += secsSince(wPhaseStart);
         out.water = false;
         wPhase = W_SOAK; wPhaseStart = millis();
@@ -214,7 +218,7 @@ void runAuto() {
       }
       break;
     case W_SOAK:
-      if (secsSince(wPhaseStart) >= WATER_SOAK_MIN * 60UL) wPhase = W_IDLE;
+      if (secsSince(wPhaseStart) >= (unsigned long)cfg.waterSoak * 60UL) wPhase = W_IDLE;
       break;
   }
 
@@ -222,14 +226,16 @@ void runAuto() {
   if (!isnan(st.hum)) {
     humBadReads = 0;
     if (!out.hum) {
-      if (st.hum < cfg.humLo && st.tankOk && millis() > humCooldownUntil) {
+      /* signed diff, not >, so a 49-day millis() wrap cannot freeze misting */
+      if (st.hum < cfg.humLo && st.tankOk &&
+          (long)(millis() - humCooldownUntil) >= 0) {
         out.hum = true; humStart = millis();
         Serial.printf("[hum] %.0f%% < %d%% -> mist on\n", st.hum, cfg.humLo);
       }
     } else {
-      if (st.hum >= cfg.humHi || !st.tankOk || secsSince(humStart) >= HUM_MIST_MAX_S) {
+      if (st.hum >= cfg.humHi || !st.tankOk || secsSince(humStart) >= (unsigned long)cfg.humMax) {
         out.hum = false;
-        humCooldownUntil = millis() + HUM_MIST_COOLDOWN_S * 1000UL;
+        humCooldownUntil = millis() + (unsigned long)cfg.humCool * 1000UL;
         Serial.println("[hum] mist off");
       }
     }
@@ -260,14 +266,15 @@ void runAuto() {
 
 void runManualGuards() {
   /* forgot-it-running protection for manual mist */
-  if (out.water && secsSince(manWaterStart) > MANUAL_OUT_MAX_S) out.water = false;
-  if (out.hum   && secsSince(manHumStart)   > MANUAL_OUT_MAX_S) out.hum   = false;
+  unsigned long cap = (unsigned long)cfg.manMax * 60UL;
+  if (out.water && secsSince(manWaterStart) > cap) out.water = false;
+  if (out.hum   && secsSince(manHumStart)   > cap) out.hum   = false;
 }
 
 /* ========================================================================= */
 /*  web API                                                                  */
 /* ========================================================================= */
-void sendStatus() {
+void buildStatus(char* buf, size_t bufn) {
   char up[24];
   unsigned long s = millis() / 1000UL;
   snprintf(up, sizeof(up), "%luh %lum", s / 3600, (s / 60) % 60);
@@ -294,27 +301,35 @@ void sendStatus() {
   snprintf(ss, sizeof(ss), "%s", staSsid.c_str());
   for (char* c = ss; *c; ++c) if (*c == '"' || *c == '\\') *c = '\'';
 
-  char buf[940];
-  snprintf(buf, sizeof(buf),
+  snprintf(buf, bufn,
     "{\"ssid\":\"%s\",\"ap\":%s,"
     "\"temp\":%s,\"hum\":%s,\"lux\":%s,"
     "\"soil\":%d,\"soil1\":%d,\"soil2\":%s,\"raw1\":%d,\"raw2\":%d,"
     "\"leak\":%d,\"leakWet\":%s,"
-    "\"tankOk\":%s,\"mode\":\"%s\",\"ip\":\"%s\",\"up\":\"%s\","
+    "\"tankOk\":%s,\"mode\":\"%s\",\"ip\":\"%s\",\"up\":\"%s\",\"waterToday\":%lu,"
     "\"out\":{\"water\":%d,\"hum\":%d,\"light\":%d,\"buzz\":%d,\"fan\":%d},"
     "\"cfg\":{\"soilDry\":%d,\"humLo\":%d,\"humHi\":%d,\"luxOn\":%d,"
-    "\"luxOff\":%d,\"lightStart\":%d,\"lightEnd\":%d,\"bright\":%d}}",
+    "\"luxOff\":%d,\"lightStart\":%d,\"lightEnd\":%d,\"bright\":%d,"
+    "\"waterRun\":%d,\"waterSoak\":%d,\"waterCap\":%d,"
+    "\"humMax\":%d,\"humCool\":%d,\"manMax\":%d}}",
     ss, apMode ? "true" : "false",
     t, h, l,
     st.soilAvg, st.soil1, s2, st.raw1, st.raw2,
     st.leakRaw, st.leakWet ? "true" : "false",
     st.tankOk ? "true" : "false",
     manualMode ? "manual" : "auto",
-    ip, up,
+    ip, up, waterSecToday,
     (int)out.water, (int)out.hum, (int)out.light, (int)out.buzzer,
     (int)out.fanExh,
     cfg.soilDry, cfg.humLo, cfg.humHi, cfg.luxOn,
-    cfg.luxOff, cfg.lightStart, cfg.lightEnd, cfg.bright);
+    cfg.luxOff, cfg.lightStart, cfg.lightEnd, cfg.bright,
+    cfg.waterRun, cfg.waterSoak, cfg.waterCap,
+    cfg.humMax, cfg.humCool, cfg.manMax);
+}
+
+void sendStatus() {
+  char buf[1240];
+  buildStatus(buf, sizeof(buf));
   server.send(200, "application/json", buf);
 }
 
@@ -323,6 +338,9 @@ void savePrefs() {
   prefs.putInt("humHi",   cfg.humHi);     prefs.putInt("luxOn",  cfg.luxOn);
   prefs.putInt("luxOff",  cfg.luxOff);    prefs.putInt("lightSt", cfg.lightStart);
   prefs.putInt("lightEn", cfg.lightEnd);  prefs.putInt("bright", cfg.bright);
+  prefs.putInt("wRun",  cfg.waterRun);    prefs.putInt("wSoak", cfg.waterSoak);
+  prefs.putInt("wCap",  cfg.waterCap);    prefs.putInt("hMax",  cfg.humMax);
+  prefs.putInt("hCool", cfg.humCool);     prefs.putInt("mMax",  cfg.manMax);
 }
 
 void loadPrefs() {
@@ -334,6 +352,153 @@ void loadPrefs() {
   cfg.lightStart = prefs.getInt("lightSt", DEF_LIGHT_START);
   cfg.lightEnd   = prefs.getInt("lightEn", DEF_LIGHT_END);
   cfg.bright     = prefs.getInt("bright",  DEF_LIGHT_BRIGHT);
+  cfg.waterRun   = prefs.getInt("wRun",  WATER_RUN_S);
+  cfg.waterSoak  = prefs.getInt("wSoak", WATER_SOAK_MIN);
+  cfg.waterCap   = prefs.getInt("wCap",  WATER_MAX_S_DAY / 60);
+  cfg.humMax     = prefs.getInt("hMax",  HUM_MIST_MAX_S);
+  cfg.humCool    = prefs.getInt("hCool", HUM_MIST_COOLDOWN_S);
+  cfg.manMax     = prefs.getInt("mMax",  MANUAL_OUT_MAX_S / 60);
+}
+
+/* ---- shared command layer: the web API and the USB-serial commands call
+        exactly these, so wired and wireless control can never drift apart -- */
+void setModeCmd(bool manual) {
+  manualMode = manual;
+  if (!manualMode) {              // returning to auto: let logic re-decide
+    out.water = false; out.hum = false;
+    wPhase = W_IDLE;
+  }
+}
+
+/* returns an error string, or NULL on success */
+const char* applyOutCmd(const char* n, bool s1) {
+  if (!manualMode) {
+    manualMode = true;            // any output press takes manual control
+    wPhase = W_IDLE;
+    Serial.println("[mode] manual (taken by an output command)");
+  }
+  if      (!strcmp(n, "water")) { out.water = s1; manWaterStart = millis(); }
+  else if (!strcmp(n, "hum"))   { out.hum   = s1; manHumStart   = millis(); }
+  else if (!strcmp(n, "light")) { out.light = s1; }
+  else if (!strcmp(n, "buzz"))  { out.buzzer = s1; }
+  else if (!strcmp(n, "fan"))   { out.fanExh = s1; }
+  else return "unknown output";
+  if (s1 && !st.tankOk && (!strcmp(n, "water") || !strcmp(n, "hum"))) {
+    out.water = false; out.hum = false;
+    return "tank empty - mist blocked";
+  }
+  applyOutputs();
+  return NULL;
+}
+
+bool setCfgKV(const char* k, long v) {
+  if      (!strcmp(k, "soilDry"))    cfg.soilDry    = constrain((int)v, 5, 80);
+  else if (!strcmp(k, "humLo"))      cfg.humLo      = constrain((int)v, 30, 95);
+  else if (!strcmp(k, "humHi"))      cfg.humHi      = constrain((int)v, 40, 99);
+  else if (!strcmp(k, "luxOn"))      cfg.luxOn      = constrain((int)v, 0, 20000);
+  else if (!strcmp(k, "luxOff"))     cfg.luxOff     = constrain((int)v, 0, 30000);
+  else if (!strcmp(k, "lightStart")) cfg.lightStart = constrain((int)v, 0, 23);
+  else if (!strcmp(k, "lightEnd"))   cfg.lightEnd   = constrain((int)v, 1, 24);
+  else if (!strcmp(k, "bright"))     cfg.bright     = constrain((int)v, 0, 255);
+  else if (!strcmp(k, "waterRun"))   cfg.waterRun   = constrain((int)v, 10, 600);
+  else if (!strcmp(k, "waterSoak"))  cfg.waterSoak  = constrain((int)v, 1, 180);
+  else if (!strcmp(k, "waterCap"))   cfg.waterCap   = constrain((int)v, 1, 240);
+  else if (!strcmp(k, "humMax"))     cfg.humMax     = constrain((int)v, 30, 1800);
+  else if (!strcmp(k, "humCool"))    cfg.humCool    = constrain((int)v, 0, 3600);
+  else if (!strcmp(k, "manMax"))     cfg.manMax     = constrain((int)v, 1, 120);
+  else return false;
+  return true;
+}
+static const char* CFG_KEYS[] = {
+  "soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright",
+  "waterRun","waterSoak","waterCap","humMax","humCool","manMax" };
+
+void finishCfg() {
+  if (cfg.humHi <= cfg.humLo) cfg.humHi = cfg.humLo + 5;
+  savePrefs();
+}
+
+void saveWifiCreds(const String& ssid, const String& pass) {
+  prefs.putString("wssid", ssid);
+  prefs.putString("wpass", pass);
+  Serial.printf("[wifi] new network \"%s\" saved - restarting\n", ssid.c_str());
+  rebootAt = millis() + 800;      // let the reply out first
+}
+
+void clearWifiCreds() {
+  prefs.remove("wssid"); prefs.remove("wpass");
+  Serial.println("[wifi] saved network cleared - restarting on config.h Wi-Fi");
+  rebootAt = millis() + 800;
+}
+
+/* ---- USB-serial control: the same commands, no Wi-Fi needed --------------
+     CMD STATUS                -> #R {status json}
+     CMD OUT <name> <0|1>      -> #R {status json} | #R {"err":...}
+     CMD MODE <auto|manual>    -> #R {status json}
+     CMD SET k=v k=v ...       -> #R {status json}
+     CMD WIFI <ssid>\t<pass>   -> #R {"ok":true}   (tab-separated!)
+     CMD WIFI-CLEAR            -> #R {"ok":true}
+     CMD PING                  -> #R {"pong":true}
+   Anything not starting with "CMD " is ignored, so a human typing in a
+   serial monitor does no harm.                                             */
+void respondStatus() {
+  char buf[1240];
+  buildStatus(buf, sizeof(buf));
+  Serial.print("#R "); Serial.println(buf);
+}
+
+void handleCommand(char* line) {
+  if (strncmp(line, "CMD ", 4)) return;
+  line += 4;
+  if (!strcmp(line, "STATUS")) { respondStatus(); }
+  else if (!strcmp(line, "PING")) { Serial.println("#R {\"pong\":true}"); }
+  else if (!strncmp(line, "OUT ", 4)) {
+    char n[12]; int v;
+    if (sscanf(line + 4, "%11s %d", n, &v) == 2) {
+      const char* err = applyOutCmd(n, v != 0);
+      if (err) { Serial.printf("#R {\"err\":\"%s\"}\n", err); }
+      else respondStatus();
+    } else Serial.println("#R {\"err\":\"usage: CMD OUT name 0|1\"}");
+  }
+  else if (!strncmp(line, "MODE ", 5)) {
+    setModeCmd(!strcmp(line + 5, "manual"));
+    respondStatus();
+  }
+  else if (!strncmp(line, "SET ", 4)) {
+    char* tok = strtok(line + 4, " ");
+    while (tok) {
+      char* eq = strchr(tok, '=');
+      if (eq) { *eq = 0; setCfgKV(tok, atol(eq + 1)); }
+      tok = strtok(NULL, " ");
+    }
+    finishCfg();
+    respondStatus();
+  }
+  else if (!strcmp(line, "WIFI-CLEAR")) {
+    Serial.println("#R {\"ok\":true,\"msg\":\"cleared - restarting\"}");
+    clearWifiCreds();
+  }
+  else if (!strncmp(line, "WIFI ", 5)) {
+    char* tab = strchr(line + 5, '\t');
+    if (tab && tab != line + 5) {
+      *tab = 0;
+      Serial.println("#R {\"ok\":true,\"msg\":\"saved - restarting\"}");
+      saveWifiCreds(String(line + 5), String(tab + 1));
+    } else Serial.println("#R {\"err\":\"usage: CMD WIFI ssid<TAB>pass\"}");
+  }
+  else Serial.println("#R {\"err\":\"unknown command\"}");
+}
+
+void handleSerialInput() {
+  static char buf[200];
+  static size_t n = 0;
+  while (Serial.available()) {
+    char c = (char)Serial.read();
+    if (c == '\n' || c == '\r') {
+      if (n) { buf[n] = 0; handleCommand(buf); n = 0; }
+    } else if (n < sizeof(buf) - 1) buf[n++] = c;
+    else n = 0;                       // oversize line: drop it whole
+  }
 }
 
 void setupServer() {
@@ -342,52 +507,25 @@ void setupServer() {
   server.on("/api/status", sendStatus);
 
   server.on("/api/mode", []() {
-    manualMode = (server.arg("m") == "manual");
-    if (!manualMode) { /* returning to auto: let logic re-decide cleanly */
-      out.water = false; out.hum = false;
-      wPhase = W_IDLE;
-    }
+    setModeCmd(server.arg("m") == "manual");
     sendStatus();
   });
 
   server.on("/api/out", []() {
-    /* Pressing any output button takes manual control automatically — having
-       to flip a mode switch first made the buttons look broken. */
-    if (!manualMode) {
-      manualMode = true;
-      wPhase = W_IDLE;          // drop whatever the auto logic was mid-way through
-      Serial.println("[mode] manual (taken by an output button)");
-    }
-    String n = server.arg("name");
-    bool s = server.arg("state") == "1";
-    if      (n == "water") { out.water = s; manWaterStart = millis(); }
-    else if (n == "hum")   { out.hum   = s; manHumStart   = millis(); }
-    else if (n == "light") { out.light = s; }
-    else if (n == "buzz")  { out.buzzer = s; }
-    else if (n == "fan")   { out.fanExh = s; }
-    if (s && !st.tankOk && (n == "water" || n == "hum")) {
-      out.water = false; out.hum = false;
-      server.send(200, "application/json", "{\"err\":\"tank empty - mist blocked\"}");
+    const char* err = applyOutCmd(server.arg("name").c_str(),
+                                  server.arg("state") == "1");
+    if (err) {
+      char e[80]; snprintf(e, sizeof(e), "{\"err\":\"%s\"}", err);
+      server.send(200, "application/json", e);
       return;
     }
-    applyOutputs();
     sendStatus();
   });
 
   server.on("/api/set", []() {
-    auto grab = [&](const char* k, int lo, int hi, int cur) {
-      return server.hasArg(k) ? constrain(server.arg(k).toInt(), lo, hi) : cur;
-    };
-    cfg.soilDry    = grab("soilDry",    5, 80,    cfg.soilDry);
-    cfg.humLo      = grab("humLo",     30, 95,    cfg.humLo);
-    cfg.humHi      = grab("humHi",     40, 99,    cfg.humHi);
-    cfg.luxOn      = grab("luxOn",      0, 20000, cfg.luxOn);
-    cfg.luxOff     = grab("luxOff",     0, 30000, cfg.luxOff);
-    cfg.lightStart = grab("lightStart", 0, 23,    cfg.lightStart);
-    cfg.lightEnd   = grab("lightEnd",   1, 24,    cfg.lightEnd);
-    cfg.bright     = grab("bright",     0, 255,   cfg.bright);
-    if (cfg.humHi <= cfg.humLo) cfg.humHi = cfg.humLo + 5;
-    savePrefs();
+    for (auto k : CFG_KEYS)
+      if (server.hasArg(k)) setCfgKV(k, server.arg(k).toInt());
+    finishCfg();
     sendStatus();
   });
 
@@ -397,22 +535,18 @@ void setupServer() {
      If the new network cannot be joined the hotspot simply comes back. */
   server.on("/api/wifi", []() {
     if (server.hasArg("clear")) {
-      prefs.remove("wssid"); prefs.remove("wpass");
-      Serial.println("[wifi] saved network cleared - restarting on config.h Wi-Fi");
       server.send(200, "application/json",
                   "{\"ok\":true,\"msg\":\"cleared - restarting\"}");
+      clearWifiCreds();
     } else {
-      String s = server.arg("ssid");
-      if (!s.length()) {
+      String ss = server.arg("ssid");
+      if (!ss.length()) {
         server.send(200, "application/json", "{\"err\":\"ssid empty\"}");
         return;
       }
-      prefs.putString("wssid", s);
-      prefs.putString("wpass", server.arg("pass"));
-      Serial.printf("[wifi] new network \"%s\" saved - restarting\n", s.c_str());
       server.send(200, "application/json", "{\"ok\":true}");
+      saveWifiCreds(ss, server.arg("pass"));
     }
-    rebootAt = millis() + 800;     // let the reply reach the browser first
   });
 
   server.begin();
@@ -460,13 +594,20 @@ void setup() {
      default. So a demo needs no reflash: power up anywhere, join the
      hotspot, set the venue's Wi-Fi from the web app. */
   staSsid = prefs.getString("wssid", WIFI_SSID);
-  String staPass = prefs.getString("wpass", WIFI_PASS);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(staSsid.c_str(), staPass.c_str());
-  Serial.printf("Wi-Fi: joining %s", staSsid.c_str());
-  unsigned long t0 = millis();
-  while (WiFi.status() != WL_CONNECTED && secsSince(t0) < WIFI_TIMEOUT_S) {
-    delay(250); Serial.print(".");
+  staPass = prefs.getString("wpass", WIFI_PASS);
+  bool haveCreds = staSsid.length() && staSsid != "YOUR_WIFI_NAME";
+  WiFi.persistent(false);          // NVS "terra" is the single source of truth
+  WiFi.setAutoReconnect(true);     // rejoin by itself after a router reboot
+  if (haveCreds) {
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(staSsid.c_str(), staPass.c_str());
+    Serial.printf("Wi-Fi: joining %s", staSsid.c_str());
+    unsigned long t0 = millis();
+    while (WiFi.status() != WL_CONNECTED && secsSince(t0) < WIFI_TIMEOUT_S) {
+      delay(250); Serial.print(".");
+    }
+  } else {
+    Serial.println("Wi-Fi: no network saved yet - starting hotspot straight away");
   }
   if (WiFi.status() == WL_CONNECTED) {
     Serial.printf("\nWi-Fi ok: http://%s\n", WiFi.localIP().toString().c_str());
@@ -513,10 +654,54 @@ void printStatusLine() {
     WiFi.status() == WL_CONNECTED ? (int)WiFi.RSSI() : 0);
 }
 
+/* Background Wi-Fi care, called from loop():
+   - hotspot up but a real network saved -> keep retrying it (AP stays alive;
+     the ESP32 runs AP+STA together, so nobody is kicked off the hotspot)
+   - joined but NTP never synced -> keep retrying NTP                        */
+void wifiTick() {
+  static unsigned long lastTry = 0, lastNtp = 0;
+  static bool staAnnounced = false;
+  bool haveCreds = staSsid.length() && staSsid != "YOUR_WIFI_NAME";
+
+  if (apMode && haveCreds && WiFi.status() != WL_CONNECTED &&
+      millis() - lastTry > 90000UL) {
+    lastTry = millis();
+    WiFi.mode(WIFI_AP_STA);
+    WiFi.begin(staSsid.c_str(), staPass.c_str());
+    Serial.printf("[wifi] retrying \"%s\" in the background\n", staSsid.c_str());
+  }
+  if (WiFi.status() == WL_CONNECTED && !staAnnounced) {
+    staAnnounced = true;
+    Serial.printf("[wifi] joined \"%s\": http://%s\n",
+                  staSsid.c_str(), WiFi.localIP().toString().c_str());
+  }
+  if (WiFi.status() != WL_CONNECTED) staAnnounced = false;
+
+  if (!st.timeOk && WiFi.status() == WL_CONNECTED &&
+      millis() - lastNtp > 300000UL) {
+    lastNtp = millis();
+    configTime(TZ_OFFSET_SEC, 0, NTP_SERVER);
+    struct tm t;
+    st.timeOk = getLocalTime(&t, 2000);
+    if (st.timeOk) Serial.println("[ntp] synced");
+  }
+}
+
 void loop() {
   server.handleClient();
+  handleSerialInput();             // USB-serial control - works with no Wi-Fi
 
-  if (rebootAt && millis() > rebootAt) ESP.restart();   // set by /api/wifi
+  if (rebootAt && millis() > rebootAt) ESP.restart();   // set by wifi save
+
+  wifiTick();
+
+  /* the daily watering budget must reset even with no clock: fall back to
+     "every 24h of uptime" until NTP provides real midnights */
+  static unsigned long capEpoch = 0;
+  if (!st.timeOk && millis() - capEpoch >= 86400000UL) {
+    capEpoch = millis();
+    waterSecToday = 0;
+  }
 
   if (millis() - lastSample >= SENSOR_PERIOD_MS) {
     lastSample = millis();

@@ -81,6 +81,12 @@ font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:n
  <label>Photoperiod start hour <input id="f_lightStart" type="number" min="0" max="23"></label>
  <label>Photoperiod end hour <input id="f_lightEnd" type="number" min="1" max="24"></label>
  <label>Brightness 0-255 <input id="f_bright" type="number" min="0" max="255"></label>
+ <label>Water burst (seconds) <input id="f_waterRun" type="number" min="10" max="600"></label>
+ <label>Soak wait (minutes) <input id="f_waterSoak" type="number" min="1" max="180"></label>
+ <label>Watering cap (min/day) <input id="f_waterCap" type="number" min="1" max="240"></label>
+ <label>Humidity burst max (s) <input id="f_humMax" type="number" min="30" max="1800"></label>
+ <label>Humidity cooldown (s) <input id="f_humCool" type="number" min="0" max="3600"></label>
+ <label>Manual auto-off (min) <input id="f_manMax" type="number" min="1" max="120"></label>
  <button id="save" class="pri">Save settings</button>
 </fieldset>
 
@@ -127,7 +133,7 @@ function paint(d){
    ?"<b>hotspot mode</b> — could not join &quot;"+d.ssid+"&quot;; set a network below"
    :"joined: <b>"+d.ssid+"</b>"}
  if(!paint.seeded){paint.seeded=1;
-  ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
+  ["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright","waterRun","waterSoak","waterCap","humMax","humCool","manMax"]
   .forEach(function(k){g("f_"+k).value=d.cfg[k]});
   if(d.ssid!==undefined)g("f_wssid").value=d.ssid}
 }
@@ -151,7 +157,7 @@ document.querySelectorAll("#outs .row button").forEach(function(b){
    .catch(function(){ hold=0; toast("no reply from board") })
    .then(function(){ b.disabled=false })}});
 g("save").onclick=function(){
- var q=["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright"]
+ var q=["soilDry","humLo","humHi","luxOn","luxOff","lightStart","lightEnd","bright","waterRun","waterSoak","waterCap","humMax","humCool","manMax"]
  .map(function(k){return k+"="+encodeURIComponent(g("f_"+k).value)}).join("&");
  api("/api/set?"+q).then(function(d){paint(d);toast("saved")})};
 g("wsave").onclick=function(){
