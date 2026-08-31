@@ -21,3 +21,7 @@ PROJECT/.obsidian/
 # Windows
 Thumbs.db
 desktop.ini
+tools/tester/build/
+tools/tester/dist/
+tools/tester/*.spec
+tools/tester/__pycache__/
