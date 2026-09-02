@@ -121,7 +121,7 @@ const infoTable = new Table({ columnWidths: infoCols, width: { size: COVER_W, ty
 const stuCols = [700, 3326, 1800, 1700, 1500];
 const TEAM = [["Kishor Tarafder", "23-54520-3"], ["Tahomina Era", "23-55027-3"], ["MD. Shakhawat Hossen", "23-54483-3"], ["Avishek Saha", "23-54508-3"]];
 const stuRows = [["Sl #", "Student Name", "Student ID #", "Program", "Signature"]];
-for (let i = 1; i <= 6; i++) { const m = TEAM[i - 1]; stuRows.push([`${i}.`, m ? m[0] : "", m ? m[1] : "", m ? "BSc in EEE" : "", ""]); }
+for (let i = 1; i <= 6; i++) { const m = TEAM[i - 1]; stuRows.push([`${i}.`, m ? m[0] : "", m ? m[1] : "", m ? "BSc in CSE" : "", ""]); }
 const studentTable = grid(stuCols, stuRows, { size: 22, fill: "D9E2F3", center: true });
 
 const coTable = grid([900, 2300, 500, 700, 500, 1100, 800, 1100, 1126], [
@@ -158,7 +158,7 @@ const coverChildren = [
 const authorCell = (n, name, id) => new TableCell({
   width: { size: Math.floor(TEXT_W / 4), type: WidthType.DXA },
   children: [
-    [`${n} ${name}`, 22, false], ["Dept. of Electrical and Electronic Engineering", 20, true],
+    [`${n} ${name}`, 22, false], ["Dept. of Computer Science and Engineering", 20, true],
     ["American International University-Bangladesh", 20, true], ["Dhaka, Bangladesh", 20, true],
     [`${id}@student.aiub.edu`, 20, false],
   ].map(([t, s, it]) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 },
