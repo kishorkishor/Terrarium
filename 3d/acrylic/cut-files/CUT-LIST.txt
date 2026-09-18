@@ -1,0 +1,28 @@
+TERRARIUM ENCLOSURE - CUT LIST
+
+Cut each file ONE time. Every piece is already drawn the number of times it is needed.
+
+sheet_A_3mm.ai     3 mm clear CAST acrylic    900 x 600 mm   x1
+sheet_B_3mm.ai     3 mm clear CAST acrylic    900 x 600 mm   x1
+sheet_C_2mm.ai     2 mm clear acrylic         206 x 305 mm   x1
+
+Pieces you should receive:
+   1 x front  (sheet A)
+   1 x back  (sheet A)
+   1 x end wall, electronics side  (sheet A)
+   1 x end wall, fan side  (sheet A)
+   1 x base  (sheet B)
+   1 x divider, solid (5 round holes)  (sheet B)
+   1 x divider, damper (27 slots)  (sheet B)
+   1 x lid, electronics  (sheet B)
+   1 x lid, terrarium  (sheet B)
+   1 x lid, air unit  (sheet B)
+   1 x electronics tray (hole grid)  (sheet B)
+   2 x guide spacer strip, 6 x 240 mm  (sheet B)
+   2 x guide cover strip, 16 x 240 mm  (sheet B)
+   1 x fan bracket  (sheet B)
+  12 x lid locator strip, 10 x 50 mm  (sheet B)
+   1 x damper plate  (sheet C)
+  29 pieces total
+
+Scale 1:1, mm. Front panel = 548 mm long. All lines are cut lines. Cast acrylic only, never PVC.
