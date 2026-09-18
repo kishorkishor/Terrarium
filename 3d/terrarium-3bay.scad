@@ -294,7 +294,7 @@ module air_lid() { lid_base(L_air); }
 /* ========================================================================= */
 /*  ASSEMBLY VIEW                                                            */
 /* ========================================================================= */
-module assembly() {
+module assembly(lift = 25) {
     x_elec = 0;
     x_terr = L_elec + 2*wall + 2*flange_t;
     x_air  = x_terr + L_terr + 2*wall + 2*flange_t;
@@ -307,9 +307,9 @@ module assembly() {
             rotate([90, 0, 90]) damper_plate();
     // lids lifted 25 mm so you can see inside
     color("LightGray", 0.7) {
-        translate([x_elec, 0, OH + 25]) electronics_lid();
-        translate([x_terr, 0, OH + 25]) terrarium_lid();
-        translate([x_air, 0, OH + 25])  air_lid();
+        translate([x_elec, 0, OH + lift]) electronics_lid();
+        translate([x_terr, 0, OH + lift]) terrarium_lid();
+        translate([x_air, 0, OH + lift])  air_lid();
     }
 }
 
@@ -321,4 +321,5 @@ else if (PART == "damper_plate")     damper_plate();
 else if (PART == "terrarium_lid")    terrarium_lid();
 else if (PART == "electronics_lid")  electronics_lid();
 else if (PART == "air_lid")          air_lid();
+else if (PART == "assembled_closed") assembly(0);
 else                                 assembly();
