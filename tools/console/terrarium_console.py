@@ -659,8 +659,9 @@ def diagnose(full_scan=False):
         if probs:
             add("sensors", "warn", "; ".join(probs))
         else:
-            add("sensors", "ok", "temp %s C, RH %s%%, lux %s, soil %s%%, leak %s" %
-                (d.get("temp"), d.get("hum"), d.get("lux"), d.get("soil"), d.get("leak")))
+            room = (", room %s C / RH %s%%" % (d.get("temp2"), d.get("hum2"))) if d.get("temp2") is not None else ""
+            add("sensors", "ok", "temp %s C, RH %s%%%s, lux %s, soil %s%%, leak %s" %
+                (d.get("temp"), d.get("hum"), room, d.get("lux"), d.get("soil"), d.get("leak")))
     elif ip and BOARD["kind"] == "bench-web":
         add("firmware", "warn", "bench-web test firmware is on the board", "flash_terrarium",
             detail="Flash the real terrarium firmware when bench testing is done.")

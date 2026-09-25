@@ -55,6 +55,8 @@ font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:n
 <div class="grid">
  <div class="card"><div class="k">Air temp</div><div class="v" id="t">--<small> &deg;C</small></div></div>
  <div class="card"><div class="k">Humidity</div><div class="v" id="h">--<small> %</small></div></div>
+ <div class="card"><div class="k">Room (2nd sensor)</div><div class="v" id="t2">--<small> &deg;C</small></div>
+   <div class="k" id="h2" style="margin-top:4px">RH --</div></div>
  <div class="card"><div class="k">Soil avg</div><div class="v" id="s">--<small> %</small></div>
    <div class="k" id="s2" style="margin-top:4px">1: -- &middot; 2: --</div></div>
  <div class="card"><div class="k">Light</div><div class="v" id="l">--<small> lx</small></div></div>
@@ -114,6 +116,8 @@ function paint(d){
  g("sub").textContent=d.mode.toUpperCase()+" · "+d.ip+" · up "+d.up;
  g("t").innerHTML=(d.temp==null?"--":d.temp.toFixed(1))+"<small> &deg;C</small>";
  g("h").innerHTML=(d.hum==null?"--":d.hum.toFixed(0))+"<small> %</small>";
+ g("t2").innerHTML=(d.temp2==null?"--":d.temp2.toFixed(1))+"<small> &deg;C</small>";
+ g("h2").innerHTML="RH "+(d.hum2==null?"--":d.hum2.toFixed(0)+"%");
  g("s").innerHTML=d.soil+"<small> %</small>";
  g("s2").innerHTML="1: "+d.soil1+"% &middot; 2: "+(d.soil2==null?"--":d.soil2+"%");
  g("l").innerHTML=(d.lux==null?"--":Math.round(d.lux))+"<small> lx</small>";

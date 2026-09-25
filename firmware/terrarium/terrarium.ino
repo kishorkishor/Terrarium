@@ -31,6 +31,9 @@
 #if ENABLE_BME280
   #include <Adafruit_BME280.h>
   Adafruit_BME280 bme;
+  #if ENABLE_BME280_2
+  Adafruit_BME280 bme2;         // room / reference sensor (0x77) - never drives control
+  #endif
 #endif
 #if ENABLE_BH1750
   #include <BH1750.h>
@@ -50,12 +53,13 @@ struct Cfg {
 /* ---- live state ---------------------------------------------------------- */
 struct {
   float temp = NAN, hum = NAN, lux = NAN;
+  float temp2 = NAN, hum2 = NAN;  // second BME280 (room / reference), report only
   int   soil1 = 0, soil2 = 0, soilAvg = 0;
   int   raw1  = 0, raw2  = 0;   // raw ADC, for calibration + report
   int   leakRaw = 0;
   bool  leakWet = false;
   bool  tankOk = true;
-  bool  bmeOk = false, bhOk = false, timeOk = false;
+  bool  bmeOk = false, bme2Ok = false, bhOk = false, timeOk = false;
 } st;
 
 struct {
@@ -158,6 +162,9 @@ int readSoil(int pin) {          // average 8 reads to calm ADC noise
 void sampleAll() {
 #if ENABLE_BME280
   if (st.bmeOk) { st.temp = bme.readTemperature(); st.hum = bme.readHumidity(); }
+  #if ENABLE_BME280_2
+  if (st.bme2Ok) { st.temp2 = bme2.readTemperature(); st.hum2 = bme2.readHumidity(); }
+  #endif
 #endif
 #if ENABLE_BH1750
   if (st.bhOk) {
@@ -283,9 +290,12 @@ void buildStatus(char* buf, size_t bufn) {
      argument list are destroyed while printf is still reading them, and a
      format/argument mismatch here reads an int as a pointer — both give a
      LoadProhibited panic on every request. */
-  char t[12], h[12], l[12], s2[8], ip[20];
+  char t[12], h[12], l[12], s2[8], ip[20], t2[12], h2[12];
   if (isnan(st.temp)) strcpy(t, "null"); else snprintf(t, sizeof(t), "%.1f", st.temp);
   if (isnan(st.hum))  strcpy(h, "null"); else snprintf(h, sizeof(h), "%.0f", st.hum);
+  /* second BME280 (room). null when not fitted / not answering - the app shows "--". */
+  if (isnan(st.temp2)) strcpy(t2, "null"); else snprintf(t2, sizeof(t2), "%.1f", st.temp2);
+  if (isnan(st.hum2))  strcpy(h2, "null"); else snprintf(h2, sizeof(h2), "%.0f", st.hum2);
   if (isnan(st.lux))  strcpy(l, "null"); else snprintf(l, sizeof(l), "%.0f", st.lux);
 #if ENABLE_SOIL2
   snprintf(s2, sizeof(s2), "%d", st.soil2);
@@ -303,7 +313,7 @@ void buildStatus(char* buf, size_t bufn) {
 
   snprintf(buf, bufn,
     "{\"ssid\":\"%s\",\"ap\":%s,"
-    "\"temp\":%s,\"hum\":%s,\"lux\":%s,"
+    "\"temp\":%s,\"hum\":%s,\"temp2\":%s,\"hum2\":%s,\"lux\":%s,"
     "\"soil\":%d,\"soil1\":%d,\"soil2\":%s,\"raw1\":%d,\"raw2\":%d,"
     "\"leak\":%d,\"leakWet\":%s,"
     "\"tankOk\":%s,\"mode\":\"%s\",\"ip\":\"%s\",\"up\":\"%s\",\"waterToday\":%lu,"
@@ -313,7 +323,7 @@ void buildStatus(char* buf, size_t bufn) {
     "\"waterRun\":%d,\"waterSoak\":%d,\"waterCap\":%d,"
     "\"humMax\":%d,\"humCool\":%d,\"manMax\":%d}}",
     ss, apMode ? "true" : "false",
-    t, h, l,
+    t, h, t2, h2, l,
     st.soilAvg, st.soil1, s2, st.raw1, st.raw2,
     st.leakRaw, st.leakWet ? "true" : "false",
     st.tankOk ? "true" : "false",
@@ -581,8 +591,18 @@ void setup() {
   Wire.setTimeOut(10);   // a loose wire must not stall the web server
 
 #if ENABLE_BME280
+  #if ENABLE_BME280_2
+  /* Two sensors: 0x76 is the terrarium (control), 0x77 (SDO->3V3) is the room
+     reference. No cross-fallback here - a lone sensor at 0x77 must not be
+     mistaken for the terrarium one and start driving the mist. */
+  st.bmeOk  = bme.begin(0x76, &Wire);
+  st.bme2Ok = bme2.begin(0x77, &Wire);
+  Serial.printf("BME280 #1 (0x76, terrarium): %s\n", st.bmeOk ? "ok" : "NOT FOUND (check 3V3 + address)");
+  Serial.printf("BME280 #2 (0x77, room):      %s\n", st.bme2Ok ? "ok" : "not fitted");
+  #else
   st.bmeOk = bme.begin(0x76, &Wire) || bme.begin(0x77, &Wire);
   Serial.printf("BME280: %s\n", st.bmeOk ? "ok" : "NOT FOUND (check 3V3 + address)");
+  #endif
 #endif
 #if ENABLE_BH1750
   st.bhOk = luxMeter.begin(BH1750::CONTINUOUS_HIGH_RES_MODE, 0x23, &Wire);
@@ -636,16 +656,18 @@ void printStatusLine() {
   /* No Arduino String here. A temporary String inside a printf argument list
      hands printf a pointer into an object that is already being destroyed —
      that is a LoadProhibited panic on ESP32. Fixed-size buffers instead. */
-  char t[10], h[10], l[10];
+  char t[10], h[10], l[10], t2[10], h2[10];
   if (isnan(st.temp)) strcpy(t, "--"); else snprintf(t, sizeof(t), "%.1f", st.temp);
   if (isnan(st.hum))  strcpy(h, "--"); else snprintf(h, sizeof(h), "%.0f", st.hum);
   if (isnan(st.lux))  strcpy(l, "--"); else snprintf(l, sizeof(l), "%.0f", st.lux);
+  if (isnan(st.temp2)) strcpy(t2, "--"); else snprintf(t2, sizeof(t2), "%.1f", st.temp2);
+  if (isnan(st.hum2))  strcpy(h2, "--"); else snprintf(h2, sizeof(h2), "%.0f", st.hum2);
 
   /* Specifier order must match the argument order exactly. Getting this wrong
      hands an int to %s and panics the board — it has bitten this file twice. */
-  Serial.printf("[%lus] temp %s  RH %s  lux %s  soil %d%% (raw %d/%d)  "
+  Serial.printf("[%lus] temp %s  RH %s  room %s/%s  lux %s  soil %d%% (raw %d/%d)  "
                 "leak %d%s  tank:%s  %s  water:%d mist:%d light:%d  rssi %d\n",
-    millis() / 1000UL, t, h, l,
+    millis() / 1000UL, t, h, t2, h2, l,
     st.soilAvg, st.raw1, st.raw2,
     st.leakRaw, st.leakWet ? "(WET!)" : "",
     st.tankOk ? "OK" : "EMPTY",

@@ -19,7 +19,8 @@
 /* ---- which hardware is actually connected ------------------------------- *
  * 1 = present, 0 = not fitted. Anything set to 0 is skipped entirely and
  * its pin stays reserved for later.                                         */
-#define ENABLE_BME280    1   // air temp + humidity (I2C 0x76)
+#define ENABLE_BME280    1   // air temp + humidity (I2C 0x76) - the terrarium sensor
+#define ENABLE_BME280_2  1   // second BME280 at 0x77 (SDO->3V3): room / reference air, report only
 #define ENABLE_BH1750    1   // lux sensor        (I2C 0x23)
 #define ENABLE_SOIL2     1   // second soil probe on GPIO35
 #define ENABLE_FLOAT     1   // reservoir float switch on GPIO27 (see note)
