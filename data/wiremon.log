@@ -1,0 +1,145 @@
+18:50:09  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:50:10  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:50:51  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:50:52  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:50:58  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x4f
+18:50:59  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:51:26  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:51:43  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x2b
+18:51:44  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x36
+18:51:45  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:51:47  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:01  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:22  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:23  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:25  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:26  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:30  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:32  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x1c
+18:52:33  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:44  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:46  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:50  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:52:51  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:53  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:52:58  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:53:00  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:53:26  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:53:28  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:53:42  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:53:43  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x38
+18:53:46  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:53:49  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:53:52  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:54:04  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x5c 0x76 0x77
+18:54:07  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:54:10  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x11
+18:54:11  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:54:24  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:54:25  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:54:31  SCL free (nothing pulling it)              SDA GROUNDED (shorted / wet / dead chip)   sensors: 0x48 0x5d 0x68
+18:54:32  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x3
+18:54:34  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x39
+18:54:37  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x6
+18:54:39  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:54:41  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x6 0x15 0x1c 0x20 0x24 0x26 0x2a 0x2c 0x32 0x37 0x3e 0x42 0x44 0x53 0x56 0x5b 0x5d
+18:54:44  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x2c
+18:54:45  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:54:48  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:54:49  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:54:51  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:54:52  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x5 0x51 0x76 0x77
+18:54:54  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:54:55  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:02  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x59 0x76 0x77
+18:55:03  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:09  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x71 0x76 0x77
+18:55:10  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:12  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x22 0x76 0x77
+18:55:13  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x23 0x28 0x69 0x6c 0x6d 0x76 0x77
+18:55:15  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:16  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0xc 0x76 0x77
+18:55:17  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x65 0x76 0x77
+18:55:19  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:20  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x34 0x76 0x77 0x78
+18:55:22  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:55:23  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:26  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x30 0x39 0x76 0x77 0x79
+18:55:27  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x5d 0x76 0x77
+18:55:29  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:55:30  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:55:31  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:33  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x2a 0x6e 0x76 0x77
+18:55:34  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:51  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:55:52  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:01  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:02  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:09  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:11  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:12  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:14  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:56:19  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:56:21  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:56:46  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x73 0x74 0x76
+18:56:47  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:57:15  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:18  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x6a 0x76 0x77
+18:57:20  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x27 0x76 0x77
+18:57:21  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x6f 0x76 0x77
+18:57:22  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:24  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x3a 0x3b 0x48 0x76 0x77
+18:57:25  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:27  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x20 0x21 0x23 0x76 0x77
+18:57:28  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x2c 0x2e 0x76 0x77
+18:57:29  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x21 0x76 0x77
+18:57:31  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x3d 0x76 0x77
+18:57:32  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:34  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x45 0x76 0x77
+18:57:35  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x54 0x58 0x76 0x77
+18:57:36  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x68 0x69 0x6f 0x76 0x77
+18:57:38  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x4f 0x76 0x77
+18:57:39  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x62 0x64 0x65 0x76 0x77
+18:57:41  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x5 0x9 0xa 0x76 0x77
+18:57:42  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:43  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:45  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:57:46  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:57:53  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:57:55  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:57:56  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:09  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:10  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:11  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x1a 0x76 0x77
+18:58:13  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:16  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:17  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:20  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:58:23  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:58:24  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:28  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:58:30  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:58:33  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: none
+18:58:34  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:47  SCL unstable                               SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:48  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:55  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:58:56  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:08  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:09  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:10  SCL unstable                               SDA free (nothing pulling it)              sensors: 0x77
+18:59:12  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:15  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:16  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:29  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:30  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:31  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:33  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:34  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:37  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:39  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:40  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:41  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:43  SCL free (nothing pulling it)              SDA free (nothing pulling it)              sensors: 0x76 0x77
+18:59:50  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none
+18:59:51  SCL GROUNDED (shorted / wet / dead chip)   SDA free (nothing pulling it)              sensors: none

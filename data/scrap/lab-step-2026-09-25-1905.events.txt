@@ -1,0 +1,24 @@
+2026-09-25 19:05:28  [idle]  logger connected to COM3
+2026-09-25 19:05:28  [idle]  >> HEADER
+2026-09-25 19:05:28  [idle]  >> STATUS
+2026-09-25 19:05:29  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-25 19:05:32  [idle]  START protocol step -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-step-2026-09-25-1905.csv
+2026-09-25 19:05:32  [idle]  >> SET man=600
+2026-09-25 19:05:32  [idle]  >> MODE MANUAL
+2026-09-25 19:05:32  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-25 19:05:32  [idle]  << mode MANUAL
+2026-09-25 19:05:34  [A1-baseline]  >> MARK A1-baseline
+2026-09-25 19:05:34  [A1-baseline]  << MARK  A1-baseline
+2026-09-25 19:05:41  [A1-baseline]  << sensor IN LOST (bad readings)
+2026-09-25 19:05:44  [A1-baseline]  << sensor IN reading OK
+2026-09-25 19:06:07  [A1-baseline]  << sensor IN LOST (bad readings)
+2026-09-25 19:06:08  [A1-baseline]  << sensor IN reading OK
+2026-09-25 19:06:15  [end]  >> MIST A 0
+2026-09-25 19:06:15  [end]  >> MIST B 0
+2026-09-25 19:06:15  [end]  >> MODE OFF
+2026-09-25 19:06:15  [end]  >> STATUS
+2026-09-25 19:06:15  [end]  << mode OFF
+2026-09-25 19:06:15  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-25 19:06:15  [end]  << sensor IN LOST (bad readings)
+2026-09-25 19:06:16  [end]  << sensor IN reading OK
+2026-09-25 19:06:17  [end]  END

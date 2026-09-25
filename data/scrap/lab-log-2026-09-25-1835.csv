@@ -1,0 +1,22 @@
+pc_time,phase,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok,event
+2026-09-25 18:35:00,idle,,,,,,,,,,,,,,"S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=missing,out=missing,tank=ok,mistA=0,mistB=0"
+2026-09-25 18:35:00,idle,49000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:01,idle,50000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:02,idle,51000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:04,log,52000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:04,log,53000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:05,log,,,,,,,,,,,,,,MARK  logger self-test
+2026-09-25 18:35:05,log,54000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:06,log,55000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:07,log,56000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:09,log,57000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:10,log,58000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:11,log,59000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:12,log,60000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:13,log,61000,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:14,end,,,,,,,,,,,,,,ERR MIST needs MODE MANUAL
+2026-09-25 18:35:14,end,,,,,,,,,,,,,,ERR MIST needs MODE MANUAL
+2026-09-25 18:35:14,end,,,,,,,,,,,,,,"S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=missing,out=missing,tank=ok,mistA=0,mistB=0"
+2026-09-25 18:35:14,end,62009,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:15,end,63009,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,
+2026-09-25 18:35:16,end,64009,nan,nan,nan,nan,nan,nan,0,0,OFF,0,0,1,

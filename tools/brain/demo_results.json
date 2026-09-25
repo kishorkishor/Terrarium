@@ -1,0 +1,94 @@
+{
+ "brain": {
+  "in_band_pct": 99.20542502911158,
+  "above_90_pct": 0.0022832614105988995,
+  "mist_starts_per_day": 144.00986368929378,
+  "mist_minutes_per_day": 281.8713610521269,
+  "in_band_during_lid_open": 42.44306418219462,
+  "in_band_during_main_mister_dead": 91.73611111111111,
+  "in_band_during_sensor_stuck": 76.25,
+  "in_band_during_fan_stalled": 100.0
+ },
+ "rules": {
+  "in_band_pct": 93.09313423293833,
+  "above_90_pct": 5.941046190378336,
+  "mist_starts_per_day": 114.41879580793206,
+  "mist_minutes_per_day": 353.18583464620866,
+  "in_band_during_lid_open": 35.40372670807454,
+  "in_band_during_main_mister_dead": 3.3333333333333335,
+  "in_band_during_sensor_stuck": 2.7777777777777777,
+  "in_band_during_fan_stalled": 96.01851851851852
+ },
+ "detection_minutes": {
+  "lid open": [
+   3.1,
+   "FAULT: suspect loss"
+  ],
+  "main mister dead": [
+   2.2,
+   "FAULT: suspect loss"
+  ],
+  "sensor stuck": [
+   0.9,
+   "FAULT: sensor stuck"
+  ],
+  "fan stalled": [
+   21.1,
+   "FAULT: fan stalled"
+  ]
+ },
+ "events": [
+  [
+   45.0,
+   "model rolled back to saved copy (memory changed unexpectedly)"
+  ],
+  [
+   47.15,
+   "maintenance: main mister below 80 % of day-1 strength (clean or replace disc)"
+  ],
+  [
+   52.05,
+   "FAULT: suspect loss"
+  ],
+  [
+   52.15,
+   "FAULT: lid open / leak"
+  ],
+  [
+   52.7,
+   "fault cleared (lid open / leak)"
+  ],
+  [
+   58.04,
+   "FAULT: suspect loss"
+  ],
+  [
+   58.14,
+   "FAULT: main mister dead"
+  ],
+  [
+   58.14,
+   "switched to backup mister"
+  ],
+  [
+   58.23,
+   "running on backup, learning resumed (main mister dead)"
+  ],
+  [
+   64.02,
+   "FAULT: sensor stuck"
+  ],
+  [
+   65.0,
+   "fault cleared (sensor stuck)"
+  ],
+  [
+   70.35,
+   "FAULT: fan stalled"
+  ],
+  [
+   71.68,
+   "fault cleared (fan stalled)"
+  ]
+ ]
+}

@@ -1,0 +1,14 @@
+2026-09-25 18:35:00  [idle]  logger connected to COM3
+2026-09-25 18:35:00  [idle]  >> HEADER
+2026-09-25 18:35:00  [idle]  >> STATUS
+2026-09-25 18:35:00  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=missing,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-25 18:35:03  [idle]  START protocol log -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-log-2026-09-25-1835.csv
+2026-09-25 18:35:05  [log]  >> MARK logger self-test
+2026-09-25 18:35:05  [log]  << MARK  logger self-test
+2026-09-25 18:35:13  [end]  >> MIST A 0
+2026-09-25 18:35:13  [end]  >> MIST B 0
+2026-09-25 18:35:13  [end]  >> STATUS
+2026-09-25 18:35:14  [end]  << ERR MIST needs MODE MANUAL
+2026-09-25 18:35:14  [end]  << ERR MIST needs MODE MANUAL
+2026-09-25 18:35:14  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=missing,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-25 18:35:16  [end]  END
