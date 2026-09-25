@@ -1,0 +1,18 @@
+16:45:19  START protocol; file C:\Users\kisho\Desktop\TERRARIUM\tools\..\data\box-exp-2026-09-25-1645.csv
+16:45:21  SET soilDry=5 waterRun=10 waterCap=1 manMax=20 humCool=180 -> humLo= humHi= humMax= manMax=
+16:45:21  MODE manual -> manual
+16:45:21  OUT hum 0 -> mist=0
+16:47:20  PHASE P1-rise
+16:47:20  OUT hum 1 -> mist=1
+16:57:21  rise ended at RH 88 after 601 s
+16:57:21  OUT hum 0 -> mist=0
+16:57:21  PHASE P2-decay
+17:22:22  decay ended at RH 83 after 1501 s
+17:22:22  SET humLo=85 humHi=92 humMax=600 -> humLo=85 humHi=92 humMax=600 manMax=20
+17:22:22  MODE auto -> auto
+17:22:22  PHASE P3-auto-85-92-cap600
+17:33:15  SENSOR BAD for 30 s (temp=179.4 rh=100) -> abort
+17:33:15  OUT hum 0 -> mist=0
+17:33:15  SET soilDry=35 humLo=75 humHi=90 humMax=300 humCool=180 waterRun=90 waterSoak=20 waterCap=30 manMax=10 -> humLo=75 humHi=90 humMax=300 manMax=10
+17:33:15  MODE auto -> auto
+17:33:15  END protocol (stopped=True)

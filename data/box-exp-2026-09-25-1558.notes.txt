@@ -1,0 +1,4 @@
+15:58:11  START protocol; file C:\Users\kisho\Desktop\TERRARIUM\tools\..\data\box-exp-2026-09-25-1558.csv
+15:58:13  SET soilDry=5 waterRun=10 waterCap=1 manMax=20 humCool=180 -> humLo= humHi= humMax= manMax=
+15:58:13  MODE manual -> manual
+15:58:14  OUT hum 0 -> mist=0
