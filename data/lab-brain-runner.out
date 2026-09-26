@@ -1,0 +1,97 @@
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-26 22:37:09  [idle]  logger connected to COM3
+2026-09-26 22:37:09  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-26 22:37:09  [idle]  >> HEADER
+2026-09-26 22:37:09  [idle]  >> SET man=400
+2026-09-26 22:37:09  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 22:37:10  [idle]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 22:37:10  [idle]  << mode MANUAL
+2026-09-26 22:37:12  [brain]  >> MARK brain block start
+2026-09-26 22:37:12  [brain]  << MARK  brain block start
+2026-09-26 22:37:13  [brain]  >> MIST A 0
+2026-09-26 22:37:13  [brain]  >> MIST B 0
+2026-09-26 23:02:11  [brain]  >> MARK FAULT lid fully off
+2026-09-26 23:02:11  [brain]  << MARK  FAULT lid fully off
+2026-09-26 23:02:12  [brain]  BRAIN: FAULT: suspect loss
+2026-09-26 23:06:13  [brain]  >> MIST A 1
+2026-09-26 23:06:13  [brain]  >> MIST B 0
+2026-09-26 23:06:13  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:06:42  [brain]  >> MIST A 0
+2026-09-26 23:06:42  [brain]  >> MIST B 0
+2026-09-26 23:06:42  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:07:52  [brain]  >> MIST A 1
+2026-09-26 23:07:52  [brain]  >> MIST B 0
+2026-09-26 23:07:52  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:08:27  [brain]  >> MIST A 0
+2026-09-26 23:08:27  [brain]  >> MIST B 0
+2026-09-26 23:08:27  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:08:51  [brain]  BRAIN: FAULT: lid open / leak
+2026-09-26 23:09:38  [brain]  >> MIST A 1
+2026-09-26 23:09:38  [brain]  >> MIST B 0
+2026-09-26 23:09:38  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:09:43  [brain]  >> MIST A 0
+2026-09-26 23:09:43  [brain]  >> MIST B 0
+2026-09-26 23:09:43  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:10:47  [brain]  >> MARK lid back on with 1 cm gap
+2026-09-26 23:10:47  [brain]  << MARK  lid back on with 1 cm gap
+2026-09-26 23:12:50  [brain]  >> MARK FAULT wet tissue on inside sensor
+2026-09-26 23:12:50  [brain]  << MARK  FAULT wet tissue on inside sensor
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb9290  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x00000052  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb9290  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x00000013  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-26 23:12:56  [brain]  << sensor IN found at 0x76
+2026-09-26 23:12:56  [brain]  << sensor OUT found at 0x77
+2026-09-26 23:12:56  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:12:57  [brain]  << sensor OUT reading OK
+2026-09-26 23:13:01  [brain]  << sensor IN reading OK
+2026-09-26 23:14:12  [end]  >> MIST A 0
+2026-09-26 23:14:12  [end]  >> MIST B 0
+2026-09-26 23:14:12  [end]  >> MODE OFF
+2026-09-26 23:14:12  [end]  >> STATUS
+2026-09-26 23:14:12  [end]  << mode OFF
+2026-09-26 23:14:12  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:14:14  [end]  END brain block. weights now: 1.6055 0.0027 -0.1309 0.0000 0.0000 0.9984

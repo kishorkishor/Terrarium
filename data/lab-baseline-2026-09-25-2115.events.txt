@@ -1,0 +1,9 @@
+2026-09-25 21:15:15  [idle]  logger connected to COM3
+2026-09-25 21:15:15  [idle]  >> HEADER
+2026-09-25 21:15:15  [idle]  >> STATUS
+2026-09-25 21:15:15  [idle]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-25 21:15:18  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-25-2115.csv
+2026-09-25 21:15:18  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-25 21:15:18  [idle]  >> MODE RULES
+2026-09-25 21:15:18  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-25 21:15:18  [baseline-rules]  << mode RULES

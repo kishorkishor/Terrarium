@@ -1,0 +1,54 @@
+[
+ {
+  "block": "rules 1034",
+  "start": "22:22",
+  "minutes": 15.1,
+  "in_band_pct": 96.5,
+  "above_hi_pct": 0.0,
+  "below_lo_pct": 3.5,
+  "mist_min": 5.0,
+  "switch_ons": 1,
+  "rh_min": 70.8,
+  "rh_max": 88.2,
+  "faults": []
+ },
+ {
+  "block": "brain 2237",
+  "start": "22:37",
+  "minutes": 37.1,
+  "in_band_pct": 95.4,
+  "above_hi_pct": 0.1,
+  "below_lo_pct": 4.5,
+  "mist_min": 1.1,
+  "switch_ons": 3,
+  "rh_min": 74.0,
+  "rh_max": 98.5,
+  "faults": [
+   {
+    "injected": "FAULT lid fully off",
+    "at": "23:02:11",
+    "verdict": "suspect loss",
+    "delay_s": 1
+   },
+   {
+    "injected": "FAULT lid fully off",
+    "at": "23:02:11",
+    "verdict": "lid open / leak",
+    "delay_s": 400
+   }
+  ]
+ },
+ {
+  "block": "brain 2314",
+  "start": "23:14",
+  "minutes": 10.1,
+  "in_band_pct": 59.3,
+  "above_hi_pct": 3.3,
+  "below_lo_pct": 37.4,
+  "mist_min": 1.5,
+  "switch_ons": 1,
+  "rh_min": 72.7,
+  "rh_max": 90.3,
+  "faults": []
+ }
+]

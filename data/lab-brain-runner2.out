@@ -1,0 +1,126 @@
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-26 23:14:33  [idle]  logger connected to COM3
+2026-09-26 23:14:33  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-26 23:14:33  [idle]  >> HEADER
+2026-09-26 23:14:33  [idle]  >> SET man=400
+2026-09-26 23:14:33  [idle]  >> MODE MANUAL
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   4,71.64,1008.06,0,0,OFF,1,1,1
+   H,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:14:33  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:14:33  [idle]  << mode MANUAL
+2026-09-26 23:14:35  [brain]  >> MARK brain block start
+2026-09-26 23:14:35  [brain]  << MARK  brain block start
+2026-09-26 23:14:36  [brain]  >> MIST A 0
+2026-09-26 23:14:36  [brain]  >> MIST B 0
+2026-09-26 23:16:30  [brain]  >> MARK tissue removed from inside sensor
+2026-09-26 23:16:30  [brain]  << MARK  tissue removed from inside sensor
+2026-09-26 23:16:37  [brain]  BRAIN: FAULT: suspect loss
+2026-09-26 23:20:37  [brain]  >> MIST A 1
+2026-09-26 23:20:37  [brain]  >> MIST B 0
+2026-09-26 23:20:37  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:22:05  [brain]  >> MIST A 0
+2026-09-26 23:22:05  [brain]  >> MIST B 0
+2026-09-26 23:22:05  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:23:03  [brain]  BRAIN: false alarm, nothing wrong (suspect loss)
+2026-09-26 23:24:35  [end]  >> MIST A 0
+2026-09-26 23:24:35  [end]  >> MIST B 0
+2026-09-26 23:24:35  [end]  >> MODE OFF
+2026-09-26 23:24:35  [end]  >> STATUS
+2026-09-26 23:24:36  [end]  << mode OFF
+2026-09-26 23:24:36  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:24:38  [end]  END brain block. weights now: 1.6055 0.7159 -0.0524 0.0000 0.0000 0.1662

@@ -1,0 +1,49 @@
+2026-09-26 22:37:09  [idle]  logger connected to COM3
+2026-09-26 22:37:09  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-26 22:37:09  [idle]  >> HEADER
+2026-09-26 22:37:09  [idle]  >> SET man=400
+2026-09-26 22:37:09  [idle]  >> MODE MANUAL
+2026-09-26 22:37:10  [idle]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 22:37:10  [idle]  << mode MANUAL
+2026-09-26 22:37:12  [brain]  >> MARK brain block start
+2026-09-26 22:37:12  [brain]  << MARK  brain block start
+2026-09-26 22:37:13  [brain]  >> MIST A 0
+2026-09-26 22:37:13  [brain]  >> MIST B 0
+2026-09-26 23:02:11  [brain]  >> MARK FAULT lid fully off
+2026-09-26 23:02:11  [brain]  << MARK  FAULT lid fully off
+2026-09-26 23:02:12  [brain]  BRAIN: FAULT: suspect loss
+2026-09-26 23:06:13  [brain]  >> MIST A 1
+2026-09-26 23:06:13  [brain]  >> MIST B 0
+2026-09-26 23:06:13  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:06:42  [brain]  >> MIST A 0
+2026-09-26 23:06:42  [brain]  >> MIST B 0
+2026-09-26 23:06:42  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:07:52  [brain]  >> MIST A 1
+2026-09-26 23:07:52  [brain]  >> MIST B 0
+2026-09-26 23:07:52  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:08:27  [brain]  >> MIST A 0
+2026-09-26 23:08:27  [brain]  >> MIST B 0
+2026-09-26 23:08:27  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:08:51  [brain]  BRAIN: FAULT: lid open / leak
+2026-09-26 23:09:38  [brain]  >> MIST A 1
+2026-09-26 23:09:38  [brain]  >> MIST B 0
+2026-09-26 23:09:38  [brain]  << mist A=1 B=0 (manual)
+2026-09-26 23:09:43  [brain]  >> MIST A 0
+2026-09-26 23:09:43  [brain]  >> MIST B 0
+2026-09-26 23:09:43  [brain]  << mist A=0 B=0 (manual)
+2026-09-26 23:10:47  [brain]  >> MARK lid back on with 1 cm gap
+2026-09-26 23:10:47  [brain]  << MARK  lid back on with 1 cm gap
+2026-09-26 23:12:50  [brain]  >> MARK FAULT wet tissue on inside sensor
+2026-09-26 23:12:50  [brain]  << MARK  FAULT wet tissue on inside sensor
+2026-09-26 23:12:56  [brain]  << sensor IN found at 0x76
+2026-09-26 23:12:56  [brain]  << sensor OUT found at 0x77
+2026-09-26 23:12:56  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:12:57  [brain]  << sensor OUT reading OK
+2026-09-26 23:13:01  [brain]  << sensor IN reading OK
+2026-09-26 23:14:12  [end]  >> MIST A 0
+2026-09-26 23:14:12  [end]  >> MIST B 0
+2026-09-26 23:14:12  [end]  >> MODE OFF
+2026-09-26 23:14:12  [end]  >> STATUS
+2026-09-26 23:14:12  [end]  << mode OFF
+2026-09-26 23:14:12  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:14:14  [end]  END brain block. weights now: 1.6055 0.0027 -0.1309 0.0000 0.0000 0.9984
