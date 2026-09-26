@@ -1,0 +1,26 @@
+pc_time,phase,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok,event
+2026-09-26 23:46:27,idle,188000,nan,nan,nan,nan,nan,nan,0,0,RULES,0,0,1,
+2026-09-26 23:46:27,idle,,,,,,,,,,,,,,"S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0"
+2026-09-26 23:46:27,idle,,,,,,,,,,,,,,mode MANUAL
+2026-09-26 23:46:28,idle,189000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:29,idle,190000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:30,brain,,,,,,,,,,,,,,MARK  brain block start
+2026-09-26 23:46:30,brain,191000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:31,brain,192000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:32,brain,193000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:33,brain,194000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:34,brain,195000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:35,brain,196000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:36,brain,197000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:37,brain,198000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:38,brain,199000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:39,brain,200000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:40,brain,201000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:41,brain,202000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:42,brain,203000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:43,brain,204000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:44,brain,205000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:45,brain,206000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:46,brain,207000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:47,brain,208000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,
+2026-09-26 23:46:48,brain,209000,nan,nan,nan,nan,nan,nan,0,0,MANUAL,0,0,1,

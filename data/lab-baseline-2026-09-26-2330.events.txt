@@ -1,0 +1,34 @@
+2026-09-26 23:30:05  [idle]  logger connected to COM3
+2026-09-26 23:30:05  [idle]  >> HEADER
+2026-09-26 23:30:05  [idle]  >> STATUS
+2026-09-26 23:30:05  [idle]  >> MARK session 2 start: lid gap 4 cm, water added, alternating rule/brain 30 min blocks
+2026-09-26 23:30:06  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:30:06  [idle]  << MARK  session 2 start: lid gap 4 cm, water added, alternating rule/brain 30 min blocks
+2026-09-26 23:30:08  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-26-2330.csv
+2026-09-26 23:30:08  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-26 23:30:08  [idle]  >> MODE RULES
+2026-09-26 23:30:08  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:30:08  [baseline-rules]  << mode RULES
+2026-09-26 23:32:51  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-26 23:37:50  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-26 23:40:08  [baseline-rules]  << sensor IN LOST (bad readings)
+2026-09-26 23:40:08  [baseline-rules]  << sensor OUT LOST (bad readings)
+2026-09-26 23:40:37  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:40:37  [baseline-rules]  << sensor OUT found at 0x77
+2026-09-26 23:40:37  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:40:56  [baseline-rules]  << sensor OUT reading OK
+2026-09-26 23:41:01  [baseline-rules]  << sensor OUT LOST (bad readings)
+2026-09-26 23:42:23  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:42:23  [baseline-rules]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:42:23  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-26 23:42:28  [baseline-rules]  << sensor OUT found at 0x77
+2026-09-26 23:43:10  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:43:10  [baseline-rules]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:43:10  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:11  [end]  >> MIST A 0
+2026-09-26 23:43:11  [end]  >> MIST B 0
+2026-09-26 23:43:11  [end]  >> MODE OFF
+2026-09-26 23:43:11  [end]  >> STATUS
+2026-09-26 23:43:12  [end]  << mode OFF
+2026-09-26 23:43:12  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:14  [end]  END

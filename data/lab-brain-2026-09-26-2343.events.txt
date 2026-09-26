@@ -1,0 +1,35 @@
+2026-09-26 23:43:18  [idle]  logger connected to COM3
+2026-09-26 23:43:18  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-26 23:43:18  [idle]  >> HEADER
+2026-09-26 23:43:18  [idle]  >> SET man=400
+2026-09-26 23:43:18  [idle]  >> MODE MANUAL
+2026-09-26 23:43:18  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:18  [idle]  << mode MANUAL
+2026-09-26 23:43:20  [idle]  << sensor IN found at 0x76
+2026-09-26 23:43:20  [idle]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:43:20  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:20  [brain]  >> MARK brain block start
+2026-09-26 23:43:20  [brain]  << MARK  brain block start
+2026-09-26 23:43:24  [brain]  << sensor OUT found at 0x77
+2026-09-26 23:43:28  [brain]  << sensor IN reading OK
+2026-09-26 23:43:28  [brain]  << sensor OUT reading OK
+2026-09-26 23:43:31  [brain]  >> MIST A 1
+2026-09-26 23:43:31  [brain]  >> MIST B 0
+2026-09-26 23:43:31  [brain]  << ERR MIST on needs MODE MANUAL
+2026-09-26 23:43:32  [brain]  << sensor IN LOST (bad readings)
+2026-09-26 23:43:32  [brain]  << sensor OUT LOST (bad readings)
+2026-09-26 23:43:37  [brain]  >> MIST A 0
+2026-09-26 23:43:37  [brain]  >> MIST B 0
+2026-09-26 23:43:37  [brain]  BRAIN: FAULT: sensor lost
+2026-09-26 23:44:43  [brain]  >> MIST A 1
+2026-09-26 23:44:43  [brain]  >> MIST B 0
+2026-09-26 23:44:43  [brain]  << ERR MIST on needs MODE MANUAL
+2026-09-26 23:44:48  [brain]  >> MIST A 0
+2026-09-26 23:44:48  [brain]  >> MIST B 0
+2026-09-26 23:45:24  [end]  >> MIST A 0
+2026-09-26 23:45:24  [end]  >> MIST B 0
+2026-09-26 23:45:24  [end]  >> MODE OFF
+2026-09-26 23:45:24  [end]  >> STATUS
+2026-09-26 23:45:25  [end]  << mode OFF
+2026-09-26 23:45:25  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:45:27  [end]  END brain block. weights now: 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914

@@ -1,0 +1,442 @@
+live page: http://localhost:8765
+2026-09-26 23:30:05  [idle]  logger connected to COM3
+2026-09-26 23:30:05  [idle]  >> HEADER
+2026-09-26 23:30:05  [idle]  >> STATUS
+   F,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+   .09,72.91,1007.98,0,0,OFF,1,1,1
+2026-09-26 23:30:05  [idle]  >> MARK session 2 start: lid gap 4 cm, water added, alternating rule/brain 30 min blocks
+   H,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,rh_ouH,ms,t_in,rh_in,p_in,t_out,_ok,out_ok,tank_ok
+2026-09-26 23:30:06  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:30:06  [idle]  << MARK  session 2 start: lid gap 4 cm, water added, alternating rule/brain 30 min blocks
+2026-09-26 23:30:08  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-26-2330.csv
+2026-09-26 23:30:08  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-26 23:30:08  [idle]  >> MODE RULES
+2026-09-26 23:30:08  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:30:08  [baseline-rules]  << mode RULES
+2026-09-26 23:32:51  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-26 23:37:50  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-26 23:40:08  [baseline-rules]  << sensor IN LOST (bad readings)
+2026-09-26 23:40:08  [baseline-rules]  << sensor OUT LOST (bad readings)
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb95c4  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x000000de  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-26 23:40:37  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:40:37  [baseline-rules]  << sensor OUT found at 0x77
+2026-09-26 23:40:37  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:40:56  [baseline-rules]  << sensor OUT reading OK
+2026-09-26 23:41:01  [baseline-rules]  << sensor OUT LOST (bad readings)
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb95c4  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x0000000c  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb9290  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x000000e8  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-26 23:42:23  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:42:23  [baseline-rules]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:42:23  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:42:28  [baseline-rules]  << sensor OUT found at 0x77
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb954c  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x0000000c  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb9290  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x000000e8  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-26 23:43:10  [baseline-rules]  << sensor IN found at 0x76
+2026-09-26 23:43:10  [baseline-rules]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:43:10  [baseline-rules]  << S,mode=RULES,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:43:11  [end]  >> MIST A 0
+2026-09-26 23:43:11  [end]  >> MIST B 0
+2026-09-26 23:43:11  [end]  >> MODE OFF
+2026-09-26 23:43:11  [end]  >> STATUS
+2026-09-26 23:43:12  [end]  << mode OFF
+2026-09-26 23:43:12  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:14  [end]  END
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-26 23:43:18  [idle]  logger connected to COM3
+2026-09-26 23:43:18  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-26 23:43:18  [idle]  >> HEADER
+2026-09-26 23:43:18  [idle]  >> SET man=400
+2026-09-26 23:43:18  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:43:18  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:43:18  [idle]  << mode MANUAL
+   Guru Meditation Error: Core  1 panic'ed (StoreProhibited). Exception was unhandled.
+   Core  1 register dump:
+   PC      : 0x40085b37  PS      : 0x00060033  A0      : 0x80082a34  A1      : 0x3ffbfc2c
+   A2      : 0x3ffb8e60  A3      : 0x00000001  A4      : 0x3ffb955c  A5      : 0x3ffb8ed4
+   A6      : 0x3ffb8f60  A7      : 0x3ffbfc48  A8      : 0x00000000  A9      : 0x00000001
+   A10     : 0x0000000c  A11     : 0x3ff53000  A12     : 0x00000000  A13     : 0x00000000
+   A14     : 0x00000000  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x0000001d
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0x00000000
+   Backtrace: 0x40085b34:0x3ffbfc2c |<-CORRUPTED
+   ELF file SHA256: a1d66af54
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-26 23:43:20  [idle]  << sensor IN found at 0x76
+2026-09-26 23:43:20  [idle]  << sensor OUT (0x77) NOT FOUND - check wiring; retrying every 5 s
+2026-09-26 23:43:20  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=missing,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-26 23:43:20  [brain]  >> MARK brain block start
+2026-09-26 23:43:20  [brain]  << MARK  brain block start
+2026-09-26 23:43:24  [brain]  << sensor OUT found at 0x77
+2026-09-26 23:43:28  [brain]  << sensor IN reading OK
+2026-09-26 23:43:28  [brain]  << sensor OUT reading OK
+2026-09-26 23:43:31  [brain]  >> MIST A 1
+2026-09-26 23:43:31  [brain]  >> MIST B 0
+2026-09-26 23:43:31  [brain]  << ERR MIST on needs MODE MANUAL
+2026-09-26 23:43:32  [brain]  << sensor IN LOST (bad readings)
+2026-09-26 23:43:32  [brain]  << sensor OUT LOST (bad readings)
+2026-09-26 23:43:37  [brain]  >> MIST A 0
+2026-09-26 23:43:37  [brain]  >> MIST B 0
+2026-09-26 23:43:37  [brain]  BRAIN: FAULT: sensor lost
+2026-09-26 23:44:43  [brain]  >> MIST A 1
+2026-09-26 23:44:43  [brain]  >> MIST B 0
+2026-09-26 23:44:43  [brain]  << ERR MIST on needs MODE MANUAL
+2026-09-26 23:44:48  [brain]  >> MIST A 0
+2026-09-26 23:44:48  [brain]  >> MIST B 0
+2026-09-26 23:45:24  [end]  >> MIST A 0
+2026-09-26 23:45:24  [end]  >> MIST B 0
+2026-09-26 23:45:24  [end]  >> MODE OFF
+2026-09-26 23:45:24  [end]  >> STATUS
+2026-09-26 23:45:25  [end]  << mode OFF
+2026-09-26 23:45:25  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:45:27  [end]  END brain block. weights now: 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+00:55:19 rule block 1
+live page: http://localhost:8765
+2026-09-27 00:55:19  [idle]  logger connected to COM3
+2026-09-27 00:55:19  [idle]  >> HEADER
+2026-09-27 00:55:19  [idle]  >> STATUS
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 00:55:20  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 00:55:20  [idle]  >> MARK session 2 start 00:3x: lid gap 4 cm, wiring redone, both sensors 100 percent
+2026-09-27 00:55:20  [idle]  << MARK  session 2 start 00:3x: lid gap 4 cm, wiring redone, both sensors 100 percent
+2026-09-27 00:55:23  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-0055.csv
+2026-09-27 00:55:23  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 00:55:23  [idle]  >> MODE RULES
+2026-09-27 00:55:23  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 00:55:23  [baseline-rules]  << mode RULES
+2026-09-27 00:55:23  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:00:23  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 01:07:29  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:12:29  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 01:25:11  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:25:24  [end]  >> MIST A 0
+2026-09-27 01:25:24  [end]  >> MIST B 0
+2026-09-27 01:25:24  [end]  >> MODE OFF
+2026-09-27 01:25:24  [end]  >> STATUS
+2026-09-27 01:25:24  [end]  << mist A=0 B=0 (manual)
+2026-09-27 01:25:24  [end]  << mode OFF
+2026-09-27 01:25:24  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:25:26  [end]  END
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 01:25:30  [idle]  logger connected to COM3
+2026-09-27 01:25:30  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 01:25:30  [idle]  >> HEADER
+2026-09-27 01:25:30  [idle]  >> SET man=400
+2026-09-27 01:25:30  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 01:25:30  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:25:30  [idle]  << mode MANUAL
+2026-09-27 01:25:32  [brain]  >> MARK brain block start
+2026-09-27 01:25:32  [brain]  << MARK  brain block start
+2026-09-27 01:25:33  [brain]  >> MIST A 0
+2026-09-27 01:25:33  [brain]  >> MIST B 0
+2026-09-27 01:55:32  [end]  >> MIST A 0
+2026-09-27 01:55:32  [end]  >> MIST B 0
+2026-09-27 01:55:32  [end]  >> MODE OFF
+2026-09-27 01:55:32  [end]  >> STATUS
+2026-09-27 01:55:32  [end]  << mode OFF
+2026-09-27 01:55:32  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:55:35  [end]  END brain block. weights now: 1.6055 0.0027 -0.0444 0.0000 0.0000 0.2127
+01:55:38 rule block 2
+live page: http://localhost:8765
+2026-09-27 01:55:38  [idle]  logger connected to COM3
+2026-09-27 01:55:38  [idle]  >> HEADER
+2026-09-27 01:55:38  [idle]  >> STATUS
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 01:55:38  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:55:41  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-0155.csv
+2026-09-27 01:55:41  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 01:55:41  [idle]  >> MODE RULES
+2026-09-27 01:55:41  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:55:41  [baseline-rules]  << mode RULES
+2026-09-27 02:21:20  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 02:25:41  [end]  >> MIST A 0
+2026-09-27 02:25:41  [end]  >> MIST B 0
+2026-09-27 02:25:41  [end]  >> MODE OFF
+2026-09-27 02:25:41  [end]  >> STATUS
+2026-09-27 02:25:42  [end]  << mist A=0 B=0 (manual)
+2026-09-27 02:25:42  [end]  << mode OFF
+2026-09-27 02:25:42  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:25:44  [end]  END
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 02:25:47  [idle]  logger connected to COM3
+2026-09-27 02:25:47  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 02:25:47  [idle]  >> HEADER
+2026-09-27 02:25:47  [idle]  >> SET man=400
+2026-09-27 02:25:47  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 02:25:47  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:25:47  [idle]  << mode MANUAL
+2026-09-27 02:25:50  [brain]  >> MARK brain block start
+2026-09-27 02:25:50  [brain]  << MARK  brain block start
+2026-09-27 02:25:51  [brain]  >> MIST A 0
+2026-09-27 02:25:51  [brain]  >> MIST B 0
+   E (8590024) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+   E (8590024) task_wdt:  - loopTask (CPU 1)
+   E (8590024) task_wdt: Tasks currently running:
+   E (8590024) task_wdt: CPU 0: IDLE0
+   E (8590024) task_wdt: CPU 1: IDLE1
+   Guru Meditation Error: Core  0 panic'ed (Interrupt wdt timeout on CPU0).
+   Core  0 register dump:
+   PC      : 0x400dd7c5  PS      : 0x00060035  A0      : 0x400838a0  A1      : 0x3ffbf43c
+   A2      : 0x008312c8  A3      : 0x00000001  A4      : 0x00000000  A5      : 0x00000002
+   A6      : 0x3ffbddac  A7      : 0x00000001  A8      : 0x800dd7c5  A9      : 0x3ffbf41c
+   A10     : 0x00000001  A11     : 0x00000023  A12     : 0x00000014  A13     : 0xffffffff
+   A14     : 0x00000000  A15     : 0xfffffffa  SAR     : 0x00000004  EXCCAUSE: 0x00000005
+   EXCVADDR: 0x00000000  LBEG    : 0x00000000  LEND    : 0x00000000  LCOUNT  : 0x00000000
+   Core  0 was running in ISR context:
+   EPC1    : 0x400de837  EPC2    : 0x00000000  EPC3    : 0x00000000  EPC4    : 0x00000000
+   Backtrace: 0x400dd7c2:0x3ffbf43c |<-CORRUPTED
+   Core  1 register dump:
+   PC      : 0x400887f4  PS      : 0x00060035  A0      : 0x8008832c  A1      : 0x3ffbfbdc
+   A2      : 0x3ffb9394  A3      : 0xffffffff  A4      : 0x8008894d  A5      : 0x00060023
+   A6      : 0x00000003  A7      : 0x0000abab  A8      : 0x00060023  A9      : 0xb33fffff
+   A10     : 0x00000004  A11     : 0x00000054  A12     : 0xb33fffff  A13     : 0x3f40c14c
+   A14     : 0x003fffff  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x00000007
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0xffffffff
+   Backtrace: 0x400887f1:0x3ffbfbdc |<-CORRUPTED
+   ELF file SHA256: c2033da73
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-27 02:50:27  [brain]  << sensor IN found at 0x76
+2026-09-27 02:50:27  [brain]  << sensor OUT found at 0x77
+2026-09-27 02:50:27  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 02:50:28  [brain]  << sensor IN reading OK
+2026-09-27 02:50:28  [brain]  << sensor OUT reading OK
+2026-09-27 02:50:28  [brain]  board restarted (uptime went backwards): re-sending MODE MANUAL, brain keeps its memory
+2026-09-27 02:50:28  [brain]  >> SET man=400
+2026-09-27 02:50:28  [brain]  >> MODE MANUAL
+2026-09-27 02:50:28  [brain]  >> MIST A 0
+2026-09-27 02:50:28  [brain]  >> MIST B 0
+2026-09-27 02:50:28  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:50:28  [brain]  << mode MANUAL
+2026-09-27 02:55:50  [end]  >> MIST A 0
+2026-09-27 02:55:50  [end]  >> MIST B 0
+2026-09-27 02:55:50  [end]  >> MODE OFF
+2026-09-27 02:55:50  [end]  >> STATUS
+2026-09-27 02:55:50  [end]  << mode OFF
+2026-09-27 02:55:50  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:55:52  [end]  END brain block. weights now: 1.6055 0.0027 -0.0928 0.0000 0.0000 0.5325

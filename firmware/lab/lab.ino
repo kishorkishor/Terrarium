@@ -4,7 +4,7 @@
  * Hardware it expects, and nothing else:
  *   BME280 "IN"   0x76  inside the box, the control sensor   (SDO -> GND or open)
  *   BME280 "OUT"  0x77  outside the box, room reference      (SDO -> 3V3)
- *   both on SDA = GPIO21, SCL = GPIO22 (or GPIO23, auto-detected), VCC = 3V3
+ *   both on SDA = GPIO21, SCL = GPIO22, VCC = 3V3
  *   Mist A (main)   GPIO25 -> MOSFET board A GND1 terminal (OUT1)   active-low
  *   Mist B (backup) GPIO16 -> MOSFET board A GND2 terminal (OUT2)   active-low
  *   Float switch (optional) GPIO27 to GND. Not fitted = reads "tank OK".
@@ -23,6 +23,8 @@
  *
  * A 15 s hardware watchdog reboots the chip if it ever freezes (bus lock-up);
  * settings and mode come back from flash, mist starts off.
+ * If the inside sensor (0x76) is dead for 60 s and 0x77 is healthy, 0x77 becomes the
+ * control sensor (event "CONTROL SENSOR FALLBACK"; rh_in then carries 0x77).
  * Safety, always on: mist off if the inside sensor is lost (RULES), if the
  * tank is empty, or when a burst hits its cap. Lost sensors are re-probed
  * every 5 s, so a sensor that drops off comes back without a reboot when it can.
@@ -33,8 +35,7 @@
 #include <esp_task_wdt.h>
 
 #define PIN_SDA        21
-#define PIN_SCL        22          // first choice; D23 is tried automatically if nothing answers
-#define PIN_SCL_ALT    23
+#define PIN_SCL        22
 int sclPin = PIN_SCL;
 #define PIN_MIST_A     25
 #define PIN_MIST_B     16
@@ -130,24 +131,13 @@ bool initSensor(Adafruit_BME280& b, uint8_t addr) {
   return true;
 }
 
-void unjamBus() {
-  Wire.end();
-  pinMode(PIN_SDA, INPUT_PULLUP); pinMode(sclPin, OUTPUT);
-  for (int i = 0; i < 9; i++) { digitalWrite(sclPin, LOW); delayMicroseconds(5); digitalWrite(sclPin, HIGH); delayMicroseconds(5); }
-  pinMode(sclPin, INPUT_PULLUP);
-  Wire.begin(PIN_SDA, sclPin); Wire.setClock(100000); Wire.setTimeOut(20);
-}
-
+/* No manual bus "unjam" here: tearing the I2C driver down and up (Wire.end/begin)
+ * while the sensor objects still reference it crashed the chip (StoreProhibited,
+ * seen 2026-09-26 23:40). The ESP32 driver clears a stuck bus itself on timeout,
+ * and the 15 s watchdog covers anything worse.                                 */
 void probe() {
-  if ((inFitted && !rin.ok) || (outFitted && !rout.ok)) unjamBus();
-  if (!inFitted && !outFitted) {                 // nothing at all: try the other SCL pin
-    int other = sclPin == PIN_SCL ? PIN_SCL_ALT : PIN_SCL;
-    Wire.end(); Wire.begin(PIN_SDA, other); Wire.setClock(100000); Wire.setTimeOut(20);
-    Wire.beginTransmission(ADDR_IN); bool a = Wire.endTransmission() == 0;
-    Wire.beginTransmission(ADDR_OUT); bool b = Wire.endTransmission() == 0;
-    if (a || b) { sclPin = other; event(String("SCL found on GPIO") + sclPin); }
-    else { Wire.end(); Wire.begin(PIN_SDA, sclPin); Wire.setClock(100000); Wire.setTimeOut(20); }
-  }
+  /* (auto-detect of SCL on D23 removed: it needed Wire.end()/begin(), which can crash the
+     driver when the bus is hung. SCL is D22.) */
   if (!inFitted || !rin.ok) {
     if (inFitted && rin.bad >= 3) powerCycle(PIN_PWR_IN);
     bool ok = initSensor(bmeIn, ADDR_IN);
@@ -162,17 +152,21 @@ void probe() {
   }
 }
 
+bool swapped = false;             // true when the 0x77 sensor is being used as the control sensor
+int inDeadS = 0;
 void readSensor(Adafruit_BME280& b, Reading& r, bool fitted, const char* name) {
   if (!fitted) { r.ok = false; r.t = r.rh = r.p = NAN; return; }
   bool got = b.takeForcedMeasurement();
   float t = b.readTemperature(), h = b.readHumidity(), p = b.readPressure() / 100.0f;
   // a wet or latched BME280 returns nonsense (e.g. 179.4 C / 100 %) -> reject
-  bool sane = got && !isnan(t) && !isnan(h) && t > -10 && t < 60 && h >= 0 && h < 99.99 && p > 800 && p < 1100;
+  bool sane = got && !isnan(t) && !isnan(h) && t > 10 && t < 45 && h > 5 && h < 99.99 && p > 950 && p < 1060
+              && (isnan(r.t) || fabs(t - r.t) < 2.0);   // a real sensor never jumps 2 C between 1 s samples
   if (sane) {
     if (!r.ok) event(String("sensor ") + name + " reading OK");
     r.t = t; r.rh = h; r.p = p; r.ok = true; r.bad = 0;
   } else {
     r.bad++;
+    if (r.bad == 3 || r.bad % 30 == 0) event(String("sensor ") + name + " rejected reading: forced=" + got + " t=" + t + " rh=" + h + " p=" + p);
     if (r.bad >= 3) {
       if (r.ok) event(String("sensor ") + name + " LOST (bad readings)");
       r.ok = false; r.t = r.rh = r.p = NAN;
@@ -214,15 +208,11 @@ bool pulledUp(int pin) {
   return h >= 18;
 }
 void diag() {
-  Wire.end();
   bool sda = pulledUp(PIN_SDA), scl = pulledUp(sclPin);
   // with the chip's own weak pull-up on: a free wire reads HIGH; LOW means something pulls the line to GND
-  pinMode(sclPin, INPUT_PULLUP); pinMode(PIN_SDA, INPUT_PULLUP); delay(3);
-  int sclUp = 0, sdaUp = 0; for (int k = 0; k < 20; k++) { sclUp += digitalRead(sclPin); sdaUp += digitalRead(PIN_SDA); delayMicroseconds(200); }
-  pinMode(sclPin, INPUT); pinMode(PIN_SDA, INPUT);
+  int sclUp = 20, sdaUp = 20;   // line tests disabled while the driver owns the pins (use firmware/i2c-health for that)
   Serial.printf("S,diag2,SDA with own pull-up high %d/20, SCL with own pull-up high %d/20 (%s)\n", sdaUp, sclUp,
                 sclUp < 3 ? "SCL is being PULLED TO GND: short, wet sensor or unpowered chip" : sclUp > 17 ? "SCL free: wire not connected" : "SCL unstable");
-  Wire.begin(PIN_SDA, sclPin); Wire.setClock(100000); Wire.setTimeOut(20);
   String found = "";
   for (uint8_t a = 1; a < 127; a++) { Wire.beginTransmission(a); if (Wire.endTransmission() == 0) found += String(" 0x") + String(a, HEX); }
   Serial.printf("S,diag,SDA(D21)=%s,SCL(D22)=%s,found:%s\n", sda ? "connected" : "NOT-CONNECTED", sclPin,
@@ -293,7 +283,7 @@ void setup() {
   Serial.begin(115200);
   delay(300);
   Wire.begin(PIN_SDA, sclPin);
-  Wire.setClock(100000);
+  Wire.setClock(50000);
   Wire.setTimeOut(20);
   prefs.begin("lab", false);
 #if ESP_ARDUINO_VERSION_MAJOR >= 3
@@ -330,8 +320,15 @@ void loop() {
   if (now - lastSample >= (unsigned long)cfg.periodS * 1000UL) {
     lastSample = now;
     tankOk = !ENABLE_FLOAT || digitalRead(PIN_FLOAT) == HIGH;
+    if (swapped) { Reading tmp = rin; rin = rout; rout = tmp; }   // undo last cycle's swap so each object gets its own reading
     readSensor(bmeIn, rin, inFitted, "IN");
     readSensor(bmeOut, rout, outFitted, "OUT");
+    // fallback: control sensor dead for 60 s while the second sensor is healthy -> use the second one
+    if (!swapped) {
+      inDeadS = rin.ok ? 0 : inDeadS + cfg.periodS;
+      if (inDeadS >= 60 && rout.ok) { swapped = true; event("CONTROL SENSOR FALLBACK: 0x76 dead for 60 s, using 0x77 as the control sensor from now on"); }
+    }
+    if (swapped) { Reading tmp = rin; rin = rout; rout = tmp; }   // data line: columns t_in/rh_in now carry the 0x77 sensor
     control();
     Serial.printf("D,%lu,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%d,%d,%s,%d,%d,%d\n", now,
       rin.t, rin.rh, rin.p, rout.t, rout.rh, rout.p, mistA, mistB, MODE_NAME[cfg.mode], rin.ok, rout.ok, tankOk);

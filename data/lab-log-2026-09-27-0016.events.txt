@@ -1,0 +1,149 @@
+2026-09-27 00:16:08  [idle]  logger connected to COM3
+2026-09-27 00:16:08  [idle]  >> HEADER
+2026-09-27 00:16:08  [idle]  >> STATUS
+2026-09-27 00:16:09  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-27 00:16:11  [idle]  START protocol log -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-log-2026-09-27-0016.csv
+2026-09-27 00:16:20  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:21  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:31  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:36  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:41  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:41  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:46  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:46  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:16:51  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:16:51  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:16:56  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:16:56  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:17:00  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:01  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:17:05  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:17:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:17:10  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:10  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:17:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:17:31  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:17:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:36  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:17:41  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:41  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:17:46  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:46  [log]  << sensor OUT rejected reading: forced=1 t=31.01 rh=51.73 p=-9736.54
+2026-09-27 00:17:51  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:51  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:17:56  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:17:56  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:18:01  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:18:01  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:18:06  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:18:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:18:10  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:18:11  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:18:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:18:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2348.69
+2026-09-27 00:18:31  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:18:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2348.69
+2026-09-27 00:18:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:18:36  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:18:41  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:18:41  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:18:46  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:18:46  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2348.69
+2026-09-27 00:19:06  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:11  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:11  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:16  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:16  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:21  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:19:21  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:19:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:31  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:19:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:36  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:41  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:41  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:19:46  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:46  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:51  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=71.32 p=1850.87
+2026-09-27 00:19:51  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:19:56  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:19:56  [log]  << sensor OUT rejected reading: forced=1 t=30.97 rh=54.46 p=-9736.54
+2026-09-27 00:20:01  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:01  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:06  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:11  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:20:11  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:20:16  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=-1627.34
+2026-09-27 00:20:16  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9545.69
+2026-09-27 00:20:21  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:20:21  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:20:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:31  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:36  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:41  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:41  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:46  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:46  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:20:51  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:20:51  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-8528.40
+2026-09-27 00:20:56  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:20:56  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:21:01  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:21:01  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:21:06  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:21:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:21:11  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:21:11  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2356.54
+2026-09-27 00:21:16  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=6703.05
+2026-09-27 00:21:16  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9583.87
+2026-09-27 00:21:21  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:21:21  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:21:26  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:21:26  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:21:31  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-2198.50
+2026-09-27 00:21:36  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1301.99
+2026-09-27 00:21:36  [log]  << sensor OUT rejected reading: forced=1 t=30.93 rh=100.00 p=329840.34
+2026-09-27 00:21:38  [log]  << sensor IN reading OK
+2026-09-27 00:21:39  [log]  << sensor OUT reading OK
+2026-09-27 00:24:22  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=72.97 p=1008.08
+2026-09-27 00:24:22  [log]  << sensor IN LOST (bad readings)
+2026-09-27 00:24:25  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=100.00 p=1008.05
+2026-09-27 00:24:30  [log]  << sensor IN rejected reading: forced=1 t=180.63 rh=100.00 p=-132.85
+2026-09-27 00:24:30  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-77.63
+2026-09-27 00:24:30  [log]  << sensor OUT LOST (bad readings)
+2026-09-27 00:24:32  [log]  << sensor OUT reading OK
+2026-09-27 00:24:35  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=64.22 p=903.99
+2026-09-27 00:24:40  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=100.00 p=720.68
+2026-09-27 00:24:45  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=713.39
+2026-09-27 00:24:46  [log]  << sensor OUT rejected reading: forced=1 t=30.97 rh=73.16 p=1242.34
+2026-09-27 00:24:46  [log]  << sensor OUT LOST (bad readings)
+2026-09-27 00:24:51  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=1850.87
+2026-09-27 00:24:51  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=-9736.54
+2026-09-27 00:24:56  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2887.64
+2026-09-27 00:24:56  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2442.03
+2026-09-27 00:25:01  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=-3852.72
+2026-09-27 00:25:01  [log]  << sensor OUT rejected reading: forced=1 t=30.98 rh=52.66 p=3088.83
+2026-09-27 00:25:06  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.31
+2026-09-27 00:25:06  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=2348.69
+2026-09-27 00:25:11  [log]  << sensor IN rejected reading: forced=1 t=179.40 rh=0.00 p=2968.35
+2026-09-27 00:25:11  [log]  << sensor OUT rejected reading: forced=1 t=182.05 rh=100.00 p=43.18
+2026-09-27 00:25:14  [log]  << sensor IN reading OK
+2026-09-27 00:25:14  [log]  << sensor OUT reading OK
+2026-09-27 00:27:04  [end]  >> MIST A 0
+2026-09-27 00:27:04  [end]  >> MIST B 0
+2026-09-27 00:27:04  [end]  >> STATUS
+2026-09-27 00:27:05  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 00:27:07  [end]  END

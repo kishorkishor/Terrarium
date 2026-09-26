@@ -1,0 +1,18 @@
+2026-09-27 01:25:30  [idle]  logger connected to COM3
+2026-09-27 01:25:30  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 01:25:30  [idle]  >> HEADER
+2026-09-27 01:25:30  [idle]  >> SET man=400
+2026-09-27 01:25:30  [idle]  >> MODE MANUAL
+2026-09-27 01:25:30  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:25:30  [idle]  << mode MANUAL
+2026-09-27 01:25:32  [brain]  >> MARK brain block start
+2026-09-27 01:25:32  [brain]  << MARK  brain block start
+2026-09-27 01:25:33  [brain]  >> MIST A 0
+2026-09-27 01:25:33  [brain]  >> MIST B 0
+2026-09-27 01:55:32  [end]  >> MIST A 0
+2026-09-27 01:55:32  [end]  >> MIST B 0
+2026-09-27 01:55:32  [end]  >> MODE OFF
+2026-09-27 01:55:32  [end]  >> STATUS
+2026-09-27 01:55:32  [end]  << mode OFF
+2026-09-27 01:55:32  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:55:35  [end]  END brain block. weights now: 1.6055 0.0027 -0.0444 0.0000 0.0000 0.2127

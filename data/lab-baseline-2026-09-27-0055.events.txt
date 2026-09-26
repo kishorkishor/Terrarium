@@ -1,0 +1,24 @@
+2026-09-27 00:55:19  [idle]  logger connected to COM3
+2026-09-27 00:55:19  [idle]  >> HEADER
+2026-09-27 00:55:19  [idle]  >> STATUS
+2026-09-27 00:55:20  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 00:55:20  [idle]  >> MARK session 2 start 00:3x: lid gap 4 cm, wiring redone, both sensors 100 percent
+2026-09-27 00:55:20  [idle]  << MARK  session 2 start 00:3x: lid gap 4 cm, wiring redone, both sensors 100 percent
+2026-09-27 00:55:23  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-0055.csv
+2026-09-27 00:55:23  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 00:55:23  [idle]  >> MODE RULES
+2026-09-27 00:55:23  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 00:55:23  [baseline-rules]  << mode RULES
+2026-09-27 00:55:23  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:00:23  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 01:07:29  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:12:29  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 01:25:11  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 01:25:24  [end]  >> MIST A 0
+2026-09-27 01:25:24  [end]  >> MIST B 0
+2026-09-27 01:25:24  [end]  >> MODE OFF
+2026-09-27 01:25:24  [end]  >> STATUS
+2026-09-27 01:25:24  [end]  << mist A=0 B=0 (manual)
+2026-09-27 01:25:24  [end]  << mode OFF
+2026-09-27 01:25:24  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 01:25:26  [end]  END

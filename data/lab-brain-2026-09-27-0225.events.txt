@@ -1,0 +1,30 @@
+2026-09-27 02:25:47  [idle]  logger connected to COM3
+2026-09-27 02:25:47  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 02:25:47  [idle]  >> HEADER
+2026-09-27 02:25:47  [idle]  >> SET man=400
+2026-09-27 02:25:47  [idle]  >> MODE MANUAL
+2026-09-27 02:25:47  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:25:47  [idle]  << mode MANUAL
+2026-09-27 02:25:50  [brain]  >> MARK brain block start
+2026-09-27 02:25:50  [brain]  << MARK  brain block start
+2026-09-27 02:25:51  [brain]  >> MIST A 0
+2026-09-27 02:25:51  [brain]  >> MIST B 0
+2026-09-27 02:50:27  [brain]  << sensor IN found at 0x76
+2026-09-27 02:50:27  [brain]  << sensor OUT found at 0x77
+2026-09-27 02:50:27  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-27 02:50:28  [brain]  << sensor IN reading OK
+2026-09-27 02:50:28  [brain]  << sensor OUT reading OK
+2026-09-27 02:50:28  [brain]  board restarted (uptime went backwards): re-sending MODE MANUAL, brain keeps its memory
+2026-09-27 02:50:28  [brain]  >> SET man=400
+2026-09-27 02:50:28  [brain]  >> MODE MANUAL
+2026-09-27 02:50:28  [brain]  >> MIST A 0
+2026-09-27 02:50:28  [brain]  >> MIST B 0
+2026-09-27 02:50:28  [brain]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:50:28  [brain]  << mode MANUAL
+2026-09-27 02:55:50  [end]  >> MIST A 0
+2026-09-27 02:55:50  [end]  >> MIST B 0
+2026-09-27 02:55:50  [end]  >> MODE OFF
+2026-09-27 02:55:50  [end]  >> STATUS
+2026-09-27 02:55:50  [end]  << mode OFF
+2026-09-27 02:55:50  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 02:55:52  [end]  END brain block. weights now: 1.6055 0.0027 -0.0928 0.0000 0.0000 0.5325

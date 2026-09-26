@@ -1,0 +1,13 @@
+2026-09-26 23:45:30  [idle]  logger connected to COM3
+2026-09-26 23:45:30  [idle]  >> HEADER
+2026-09-26 23:45:30  [idle]  >> STATUS
+2026-09-26 23:45:30  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+2026-09-26 23:45:33  [idle]  << sensor OUT reading OK
+2026-09-26 23:45:33  [idle]  >> MARK session 2 restart after firmware fix: lid gap 4 cm
+2026-09-26 23:45:33  [idle]  << MARK  session 2 restart after firmware fix: lid gap 4 cm
+2026-09-26 23:45:33  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-26-2345.csv
+2026-09-26 23:45:33  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-26 23:45:33  [idle]  >> MODE RULES
+2026-09-26 23:45:34  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=bad,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-26 23:45:34  [baseline-rules]  << mode RULES
+2026-09-26 23:45:36  [baseline-rules]  << sensor OUT LOST (bad readings)

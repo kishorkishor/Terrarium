@@ -241,10 +241,11 @@ def protocol_step(b, mists='AB', repeats=3, base_s=300, decay_s=1200):
             b.phase = f'{mist}{k}-decay'; b.send(f'MARK {b.phase}'); wait(b, decay_s)
 
 
-def protocol_baseline(b):
+def protocol_baseline(b, minutes=0):
     b.send('SET lo=75 hi=90 max=300 cool=180 use=A'); b.send('MODE RULES')
     b.phase = 'baseline-rules'
-    while not stopped():
+    t0 = time.time()
+    while not stopped() and (minutes <= 0 or time.time() - t0 < minutes * 60):
         b.pump(5)
 
 
@@ -260,6 +261,7 @@ def main():
     ap.add_argument('--protocol', default='log', choices=['log', 'baseline', 'step', 'decay'])
     ap.add_argument('--mists', default='AB', help='which mist makers the step test uses: A, B or AB')
     ap.add_argument('--repeats', type=int, default=3)
+    ap.add_argument('--minutes', type=float, default=0, help='baseline: stop after this many minutes (0 = until STOP)')
     ap.add_argument('--http', type=int, default=8765, help='live page port (0 = off)')
     a = ap.parse_args()
     os.makedirs(DATA, exist_ok=True)
@@ -274,7 +276,7 @@ def main():
         if a.protocol == 'step':
             protocol_step(b, mists=a.mists.upper(), repeats=a.repeats)
         elif a.protocol == 'baseline':
-            protocol_baseline(b)
+            protocol_baseline(b, a.minutes)
         elif a.protocol == 'decay':
             protocol_decay(b)
         else:
@@ -286,7 +288,7 @@ def main():
     finally:
         b.phase = 'end'
         b.send('MIST A 0'); b.send('MIST B 0')
-        if a.protocol == 'step':
+        if a.protocol in ('step', 'baseline'):
             b.send('MODE OFF')
         b.send('STATUS'); b.pump(2)
         b.note('END')
