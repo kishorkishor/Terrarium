@@ -1,0 +1,44 @@
+2026-09-28 17:20:17  [idle]  logger connected to COM3
+2026-09-28 17:20:17  [idle]  >> HEADER
+2026-09-28 17:20:17  [idle]  >> STATUS
+2026-09-28 17:20:17  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:20:20  [idle]  START lid-cycle test: 2 cycles x 20 min, lid 1 cm, matched rule vs learning -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-lidcycle-2026-09-28-1720.csv
+2026-09-28 17:20:20  [waiting-for-operator]  waiting for the operator (button or data/GO)
+2026-09-28 17:21:30  [waiting-for-operator]  >> MARK operator present, test starting
+2026-09-28 17:21:30  [water-check]  >> SET man=60
+2026-09-28 17:21:30  [water-check]  >> MODE MANUAL
+2026-09-28 17:21:30  [water-check]  << MARK  operator present, test starting
+2026-09-28 17:21:30  [water-check]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:21:30  [water-check]  << mode MANUAL
+2026-09-28 17:21:36  [water-check]  >> MIST A 1
+2026-09-28 17:21:36  [water-check]  << mist A=1 B=0 (manual)
+2026-09-28 17:22:24  [water-check]  >> MIST A 0
+2026-09-28 17:22:24  [water-check]  << mist A=0 B=0 (manual)
+2026-09-28 17:22:48  [water-check]  >> MIST A 0
+2026-09-28 17:22:48  [water-check]  >> MODE OFF
+2026-09-28 17:22:48  [water-check]  water check: inside 77.3 -> peak 78.2 % (+0.9) around a 40 s burst
+2026-09-28 17:22:48  [water-check]  >> MARK water check failed: no fog
+2026-09-28 17:22:48  [water-check]  << mode OFF
+2026-09-28 17:22:48  [water-check]  << MARK  water check failed: no fog
+2026-09-28 17:24:32  [water-check]  >> SET man=60
+2026-09-28 17:24:32  [water-check]  >> MODE MANUAL
+2026-09-28 17:24:32  [water-check]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:24:32  [water-check]  << mode MANUAL
+2026-09-28 17:24:38  [water-check]  >> MIST A 1
+2026-09-28 17:24:38  [water-check]  << mist A=1 B=0 (manual)
+2026-09-28 17:25:26  [water-check]  >> MIST A 0
+2026-09-28 17:25:26  [water-check]  << mist A=0 B=0 (manual)
+2026-09-28 17:25:50  [water-check]  >> MIST A 0
+2026-09-28 17:25:50  [water-check]  >> MODE OFF
+2026-09-28 17:25:50  [water-check]  water check: inside 75.6 -> peak 75.6 % (+0.0) around a 40 s burst
+2026-09-28 17:25:50  [water-check]  ABORT: still no fog after refilling
+2026-09-28 17:25:50  [end]  >> MIST A 0
+2026-09-28 17:25:50  [end]  >> MIST B 0
+2026-09-28 17:25:50  [end]  >> MODE OFF
+2026-09-28 17:25:50  [end]  >> SET lo=75 hi=90 max=300 cool=180 man=600
+2026-09-28 17:25:50  [end]  >> STATUS
+2026-09-28 17:25:50  [end]  << mode OFF
+2026-09-28 17:25:50  [end]  << mode OFF
+2026-09-28 17:25:50  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:25:50  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:25:53  [end]  END lid-cycle test (production settings restored)

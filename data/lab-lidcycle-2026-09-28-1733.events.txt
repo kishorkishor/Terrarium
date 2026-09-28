@@ -1,8 +1,6 @@
-live page: http://localhost:8766
 2026-09-28 17:33:23  [idle]  logger connected to COM3
 2026-09-28 17:33:23  [idle]  >> HEADER
 2026-09-28 17:33:23  [idle]  >> STATUS
-   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
 2026-09-28 17:33:23  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
 2026-09-28 17:33:26  [idle]  START lid-cycle test: 2 cycles x 20 min, lid 1 cm, matched rule vs learning -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-lidcycle-2026-09-28-1733.csv
 2026-09-28 17:33:26  [waiting-for-operator]  waiting for the operator (button or data/GO)
@@ -99,6 +97,3 @@ live page: http://localhost:8766
 2026-09-28 18:21:23  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
 2026-09-28 18:21:23  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
 2026-09-28 18:21:26  [end]  END lid-cycle test (production settings restored)
-cyc ctrl          start   RH0  mist s bursts   peak   mean    end  s>=75  s>=85  band%
-1   rule       17:38:17  70.4    1021      4   83.2   76.6   77.3     31   None   78.8
-2   learning   18:01:22  74.4     726      3   87.8   81.6   85.9     21     88   97.9

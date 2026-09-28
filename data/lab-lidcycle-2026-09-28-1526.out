@@ -1,0 +1,155 @@
+live page: http://localhost:8766
+2026-09-28 15:26:42  [idle]  logger connected to COM3
+2026-09-28 15:26:42  [idle]  >> HEADER
+2026-09-28 15:26:42  [idle]  >> STATUS
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-28 15:26:42  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:26:45  [idle]  START lid-cycle test: 4 cycles x 20 min, lid 1 cm, matched rule vs learning -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-lidcycle-2026-09-28-1526.csv
+2026-09-28 15:26:45  [waiting-for-operator]  waiting for the operator (button or data/GO)
+2026-09-28 15:34:40  [waiting-for-operator]  >> MARK operator present, test starting
+2026-09-28 15:34:40  [water-check]  >> SET man=60
+2026-09-28 15:34:40  [water-check]  >> MODE MANUAL
+2026-09-28 15:34:40  [water-check]  << MARK  operator present, test starting
+2026-09-28 15:34:40  [water-check]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:34:40  [water-check]  << mode MANUAL
+2026-09-28 15:34:46  [water-check]  >> MIST A 1
+2026-09-28 15:34:46  [water-check]  << mist A=1 B=0 (manual)
+2026-09-28 15:35:34  [water-check]  >> MIST A 0
+2026-09-28 15:35:34  [water-check]  << mist A=0 B=0 (manual)
+2026-09-28 15:35:58  [water-check]  >> MIST A 0
+2026-09-28 15:35:58  [water-check]  >> MODE OFF
+2026-09-28 15:35:58  [water-check]  water check: inside 71.2 -> peak 71.2 % (+0.0) around a 40 s burst
+2026-09-28 15:35:58  [water-check]  >> MARK water check failed: no fog
+2026-09-28 15:35:58  [water-check]  << mode OFF
+2026-09-28 15:35:58  [water-check]  << MARK  water check failed: no fog
+2026-09-28 15:41:02  [water-check]  >> SET man=60
+2026-09-28 15:41:02  [water-check]  >> MODE MANUAL
+2026-09-28 15:41:03  [water-check]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:41:03  [water-check]  << mode MANUAL
+2026-09-28 15:41:08  [water-check]  >> MIST A 1
+2026-09-28 15:41:09  [water-check]  << mist A=1 B=0 (manual)
+2026-09-28 15:41:57  [water-check]  >> MIST A 0
+2026-09-28 15:41:57  [water-check]  << mist A=0 B=0 (manual)
+2026-09-28 15:42:21  [water-check]  >> MIST A 0
+2026-09-28 15:42:21  [water-check]  >> MODE OFF
+2026-09-28 15:42:21  [water-check]  water check: inside 75.7 -> peak 79.5 % (+3.8) around a 40 s burst
+2026-09-28 15:42:21  [c1-dry]  >> MODE OFF
+2026-09-28 15:42:21  [c1-dry]  >> MARK cycle 1 dry-down: lid off until inside <= 73.0 %
+2026-09-28 15:42:21  [c1-dry]  << mode OFF
+2026-09-28 15:42:21  [c1-dry]  << mode OFF
+2026-09-28 15:42:21  [c1-dry]  << MARK  cycle 1 dry-down: lid off until inside <= 73.0 %
+2026-09-28 15:44:08  [c1-close]  cycle 1: waiting for lid at 1 cm (button)
+2026-09-28 15:45:14  [c1-close]  >> MARK cycle 1 lid set to 1 cm (confirmed)
+2026-09-28 15:45:14  [c1-rule]  >> SET lo=77 hi=88 max=300 cool=60 use=A
+2026-09-28 15:45:14  [c1-rule]  >> MODE RULES
+2026-09-28 15:45:14  [c1-rule]  >> MARK cycle 1 matched rule start (below 77 %, stop at 88 % or 300 s, rest 60 s)
+2026-09-28 15:45:15  [c1-rule]  << MARK  cycle 1 lid set to 1 cm (confirmed)
+2026-09-28 15:45:15  [c1-rule]  << S,mode=OFF,lo=77.0,hi=88.0,max=300,cool=60,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:45:15  [c1-rule]  << mode RULES
+2026-09-28 15:45:15  [c1-rule]  << MARK  cycle 1 matched rule start (below 77 %, stop at 88 % or 300 s, rest 60 s)
+2026-09-28 15:45:15  [c1-rule]  << mist A=1 B=0 (below lo)
+2026-09-28 15:50:15  [c1-rule]  << mist A=0 B=0 (burst cap)
+2026-09-28 16:05:15  [c1-rule]  >> MODE OFF
+2026-09-28 16:05:16  [c1-rule]  << mode OFF
+2026-09-28 16:05:17  [c1-rule]  cycle 1 (rule) done
+2026-09-28 16:05:17  [c2-dry]  >> MODE OFF
+2026-09-28 16:05:17  [c2-dry]  >> MARK cycle 2 dry-down: lid off until inside <= 73.0 %
+2026-09-28 16:05:17  [c2-dry]  << mode OFF
+2026-09-28 16:05:17  [c2-dry]  << MARK  cycle 2 dry-down: lid off until inside <= 73.0 %
+   E (5160102) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:
+   E (5160102) task_wdt:  - loopTask (CPU 1)
+   E (5160102) task_wdt: Tasks currently running:
+   E (5160102) task_wdt: CPU 0: IDLE0
+   E (5160102) task_wdt: CPU 1: IDLE1
+   Guru Meditation Error: Core  0 panic'ed (Interrupt wdt timeout on CPU0).
+   Core  0 register dump:
+   PC      : 0x400dd7c5  PS      : 0x00060035  A0      : 0x400838a0  A1      : 0x3ffbf43c
+   A2      : 0x004ebca6  A3      : 0x00000001  A4      : 0x00000000  A5      : 0x00000002
+   A6      : 0x3ffbddac  A7      : 0x00000001  A8      : 0x800dd7c5  A9      : 0x3ffbf41c
+   A10     : 0x00000001  A11     : 0x00000023  A12     : 0x00000014  A13     : 0xffffffff
+   A14     : 0x00000000  A15     : 0xfffffffa  SAR     : 0x00000004  EXCCAUSE: 0x00000005
+   EXCVADDR: 0x00000000  LBEG    : 0x00000000  LEND    : 0x00000000  LCOUNT  : 0x00000000
+   Core  0 was running in ISR context:
+   EPC1    : 0x400de837  EPC2    : 0x00000000  EPC3    : 0x00000000  EPC4    : 0x00000000
+   Backtrace: 0x400dd7c2:0x3ffbf43c |<-CORRUPTED
+   Core  1 register dump:
+   PC      : 0x40088277  PS      : 0x00060035  A0      : 0x80085931  A1      : 0x3ffbfbfc
+   A2      : 0x3ffb93ac  A3      : 0x3ffb8e70  A4      : 0x3ffbfc48  A5      : 0x00000000
+   A6      : 0x3ffb9394  A7      : 0x3ffb93ac  A8      : 0x3ffb9400  A9      : 0x3ffbddc8
+   A10     : 0x003fffff  A11     : 0xffffffff  A12     : 0x8008894d  A13     : 0x00060023
+   A14     : 0x00000003  A15     : 0x0000abab  SAR     : 0x00000000  EXCCAUSE: 0x00000005
+   EXCVADDR: 0x00000000  LBEG    : 0x40084e08  LEND    : 0x40084e24  LCOUNT  : 0xffffffff
+   Backtrace: 0x40088274:0x3ffbfbfc |<-CORRUPTED
+   ELF file SHA256: c2033da73
+   Rebooting...
+   ets Jul 29 2019 12:21:46
+   rst:0xc (SW_CPU_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+   configsip: 0, SPIWP:0xee
+   clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+   mode:DIO, clock div:1
+   load:0x3fff0030,len:4876
+   ho 0 tail 12 room 4
+   load:0x40078000,len:16532
+   load:0x40080400,len:3500
+   entry 0x400805b4
+   == TERRARIUM LAB FIRMWARE ==
+2026-09-28 16:06:14  [c2-dry]  << sensor IN found at 0x76
+2026-09-28 16:06:14  [c2-dry]  << sensor OUT found at 0x77
+2026-09-28 16:06:14  [c2-dry]  << S,mode=OFF,lo=77.0,hi=88.0,max=300,cool=60,man=60,use=A,period=1,in=bad,out=bad,tank=ok,mistA=0,mistB=0
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-28 16:06:14  [c2-dry]  << sensor IN reading OK
+2026-09-28 16:06:14  [c2-dry]  << sensor OUT reading OK
+2026-09-28 16:19:32  [c2-close]  cycle 2: waiting for lid at 1 cm (button)
+2026-09-28 16:29:27  [c2-close]  >> MARK cycle 2 lid set to 1 cm (confirmed)
+2026-09-28 16:29:27  [c2-learning]  >> SET man=400
+2026-09-28 16:29:27  [c2-learning]  >> MODE MANUAL
+2026-09-28 16:29:27  [c2-learning]  >> MARK cycle 2 learning controller start (seeded from the step test)
+2026-09-28 16:29:28  [c2-learning]  << MARK  cycle 2 lid set to 1 cm (confirmed)
+2026-09-28 16:29:28  [c2-learning]  << S,mode=OFF,lo=77.0,hi=88.0,max=300,cool=60,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 16:29:28  [c2-learning]  << mode MANUAL
+2026-09-28 16:29:28  [c2-learning]  << MARK  cycle 2 learning controller start (seeded from the step test)
+2026-09-28 16:29:29  [c2-learning]  >> MIST A 1
+2026-09-28 16:29:29  [c2-learning]  >> MIST B 0
+2026-09-28 16:29:29  [c2-learning]  << mist A=1 B=0 (manual)
+2026-09-28 16:32:03  [c2-learning]  >> MIST A 0
+2026-09-28 16:32:03  [c2-learning]  >> MIST B 0
+2026-09-28 16:32:03  [c2-learning]  << mist A=0 B=0 (manual)
+2026-09-28 16:49:29  [c2-learning]  >> MIST A 0
+2026-09-28 16:49:29  [c2-learning]  >> MIST B 0
+2026-09-28 16:49:29  [c2-learning]  >> MODE OFF
+2026-09-28 16:49:29  [c2-learning]  << mode OFF
+2026-09-28 16:49:30  [c2-learning]  cycle 2 (learning) done
+2026-09-28 16:49:30  [c3-dry]  >> MODE OFF
+2026-09-28 16:49:30  [c3-dry]  >> MARK cycle 3 dry-down: lid off until inside <= 73.0 %
+2026-09-28 16:49:30  [c3-dry]  << mode OFF
+2026-09-28 16:49:30  [c3-dry]  << MARK  cycle 3 dry-down: lid off until inside <= 73.0 %
+2026-09-28 17:05:48  [c3-close]  cycle 3: waiting for lid at 1 cm (button)
+2026-09-28 17:07:48  [c3-close]  << sensor IN rejected reading: forced=1 t=179.40 rh=60.79 p=720.68
+2026-09-28 17:07:48  [c3-close]  << sensor IN LOST (bad readings)
+2026-09-28 17:07:49  [c3-close]  << sensor IN reading OK
+2026-09-28 17:13:46  [c3-close]  >> MARK cycle 3 lid set to 1 cm (confirmed)
+2026-09-28 17:13:46  [c3-rule]  >> SET lo=77 hi=88 max=300 cool=60 use=A
+2026-09-28 17:13:46  [c3-rule]  >> MODE RULES
+2026-09-28 17:13:46  [c3-rule]  >> MARK cycle 3 matched rule start (below 77 %, stop at 88 % or 300 s, rest 60 s)
+2026-09-28 17:13:47  [c3-rule]  << MARK  cycle 3 lid set to 1 cm (confirmed)
+2026-09-28 17:13:47  [c3-rule]  << S,mode=OFF,lo=77.0,hi=88.0,max=300,cool=60,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:13:47  [c3-rule]  << mode RULES
+2026-09-28 17:13:47  [c3-rule]  << mist A=1 B=0 (below lo)
+2026-09-28 17:13:47  [c3-rule]  << MARK  cycle 3 matched rule start (below 77 %, stop at 88 % or 300 s, rest 60 s)
+2026-09-28 17:16:35  [c3-rule]  >> MODE OFF
+2026-09-28 17:16:35  [c3-rule]  << mist A=0 B=0 (mode change)
+2026-09-28 17:16:35  [c3-rule]  << mode OFF
+2026-09-28 17:16:36  [c3-rule]  ABORT: STOP file
+2026-09-28 17:16:36  [end]  >> MIST A 0
+2026-09-28 17:16:36  [end]  >> MIST B 0
+2026-09-28 17:16:36  [end]  >> MODE OFF
+2026-09-28 17:16:36  [end]  >> SET lo=75 hi=90 max=300 cool=180 man=600
+2026-09-28 17:16:36  [end]  >> STATUS
+2026-09-28 17:16:37  [end]  << mode OFF
+2026-09-28 17:16:37  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:16:37  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 17:16:40  [end]  END lid-cycle test (production settings restored)
+cyc ctrl          start   RH0  mist s bursts   peak   mean    end  s>=75  s>=85  band%
+1   rule       15:45:15  72.4     300      1   87.7   82.8   80.2     18     86   98.1
+2   learning   16:29:28  70.6     155      1   82.4   79.2   79.7     58   None   94.5
+3   rule       17:13:47  61.3     169      1   61.3   61.3   61.3   None   None    0.0

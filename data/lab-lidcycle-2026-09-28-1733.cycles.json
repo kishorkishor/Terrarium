@@ -1,0 +1,45 @@
+[
+ {
+  "cycle": 1,
+  "controller": "rule",
+  "start": "17:38:17",
+  "samples": 1203,
+  "start_rh": 70.38,
+  "mist_s": 1021,
+  "bursts": 4,
+  "burst_s": [
+   300,
+   300,
+   300,
+   121
+  ],
+  "peak_rh": 83.22,
+  "mean_rh": 76.61,
+  "end_rh": 77.3,
+  "s_to_75": 31,
+  "s_to_85": null,
+  "in_band_pct": 78.8,
+  "above_90_pct": 0.0
+ },
+ {
+  "cycle": 2,
+  "controller": "learning",
+  "start": "18:01:22",
+  "samples": 1202,
+  "start_rh": 74.38,
+  "mist_s": 726,
+  "bursts": 3,
+  "burst_s": [
+   116,
+   305,
+   305
+  ],
+  "peak_rh": 87.82,
+  "mean_rh": 81.56,
+  "end_rh": 85.87,
+  "s_to_75": 21,
+  "s_to_85": 88,
+  "in_band_pct": 97.9,
+  "above_90_pct": 0.0
+ }
+]

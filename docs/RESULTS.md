@@ -92,7 +92,23 @@ Lid 4 cm, room 69 %RH, box 69 %RH at start; 100 % valid readings in all five blo
 
 Reading: the box's passive equilibrium is ~74 %RH and one mister tops out near 82 %, so both controllers mist most of the time. The brain leads both pairs (74.3 vs 65.6, 99.4 vs 90.9 % in band) by resting 60 s instead of 180 s, at ~40 % more mist. **Dead mister (software-injected, 12 min, 450 s of commanded mist lost): not detected.** The leak-corrected mister check has no discriminating power on a leaky box near equilibrium; an offline burst-onset check false-alarmed on healthy blocks and was not adopted. Figure `docs/figures/session-2026-09-27-2003.png`.
 
-### 3.5 Simulation (logic test only, not evidence)
+### 3.5 Dry-start test at 1 cm, matched rule vs learning, 28 Sep 15:45–18:21 (`tools/lab/lid_cycle_test.py`)
+At 1 cm the box holds ~80 %RH by itself (room 64–66 %), above both controllers' 77 % trigger, so each cycle started with the lid off until the inside reading fell to 73 %, then lid back at 1 cm and one controller for 20 min. Rule matched to the brain: below 77 %, stop at 88 % or 300 s, rest 60 s. Data: `data/lab-lidcycle-2026-09-28-1526.csv` (pair 1; its cycle 3 is invalid, see below) and `data/lab-lidcycle-2026-09-28-1733.csv` (pair 2), with `.brain.csv`, `.events.txt`, `.cycles.json`.
+
+| Pair, controller | Start %RH | Mist s | Bursts | Peak %RH | End %RH | In band | Mister strength, first 60 s of bursts (g/m³/s) |
+|---|---|---|---|---|---|---|---|
+| 1, rule | 72.4 | 300 | 1 | 87.7 | 80.2 | 98.1 % | 0.20 |
+| 1, learning | 70.6 | 155 | 1 | 82.4 | 79.7 | 94.5 % | 0.09 |
+| 2, rule | 70.4 | 1021 | 4 | 83.2 | 77.3 | 78.8 % | 0.04–0.10 |
+| 2, learning | 74.4 | 726 | 3 | 87.8 | 85.9 | 97.9 % | 0.13–0.17 |
+
+Reading: the brain's first bursts were model-sized (155 s, 120 s) against the rule's 300 s cap; in pair 1 it used half the mist and both ended near the box's own ~80 %. **Inconclusive about water:** the mister's delivered strength varied up to fivefold between cycles, weakest just after the tray was refilled before pair 2 (overfilled tray), so the rule faced a weak mister in pair 2 and the brain a weaker one in pair 1. The lid position may also have shifted between pairs (the sensor cable was re-taped). One cycle per controller per pair cannot separate controller from actuator variability.
+
+Two hardware findings from this run:
+- **Frozen humidity channel (17:07:48).** A bus glitch while the lid was moved cleared the BME280's ctrl_hum; the Adafruit library converted the chip's "not measured" value (raw 0x8000) into a steady ~61.3 % that drifted only with temperature, while the box was full of mist; the rule kept misting. Range checks and a 12-identical-readings stuck check both miss this. Firmware fix (commit 54b1661): read the raw humidity register every sample and reject 0x8000, and verify ctrl_hum after init. It caught a failed setup on the next glitch (17:36:40) and recovered.
+- **ESP32 restarts explained.** 27 Sep 02:50 and 28 Sep 16:06 share one signature (decoded with addr2line against the matching ELF): the Arduino loop task blocked in the ESP-IDF I2C master driver, the driver's ISR waited on a spinlock (`xQueueGenericSendFromISR` / `xQueueGiveFromISR`), the 15 s task watchdog fired, and its panic handler tripped the interrupt watchdog. Recovery ~20 s each time. The 16:06 one happened as the lid was about to be handled.
+
+### 3.6 Simulation (logic test only, not evidence)
 `tools/brain/run_demo.py`, 76 simulated hours with four faults, drift and a memory glitch: brain 99.2 % in band vs rules 93.1 %, 282 vs 353 mist-min/day, all faults named correctly on 7 random seeds, no false alarms. Constants in `sim_box.py` now use the measured mister strength (0.17 open / 0.10 closed) and decay. Figure `docs/figures/brain-sim-demo.png`.
 
 ## 4. What the results support, and what they do not
@@ -106,7 +122,7 @@ Reading: the box's passive equilibrium is ~74 %RH and one mister tops out near 8
 
 **Not yet supported**
 - Burst planning was exercised on a dry box (27 Sep evening): with the target unreachable the planner falls back to maximum bursts, which wins time-in-band at a water cost. A lower-edge holding mode is the obvious next improvement.
-- **Control/water advantage from learning:** not shown; needs a rule with matched trigger (77 %) and rest (60 s), ideally where the target is reachable (session script prepared: matched rule vs brain, 4 × 30 min).
+- **Control/water advantage from learning:** not shown. The matched-rule dry-start test at 1 cm (3.5) was inconclusive because the mister's output varied up to fivefold between cycles; it would need many more cycles and a measured mister output.
 - **Dead-mister detection failed on the real box** (27 Sep evening): humidity-only checks cannot see a dead mister on a leaky box near its passive equilibrium. Needs a direct actuator signal or a commissioning-time onset signature.
 - Running on the chip: the brain ran on the laptop over USB (5 s steps). The port is straightforward (6 weights, two 6×6 matrices) but not done.
 - Days-long behaviour, plants inside, more than one box: not tested.
