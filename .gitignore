@@ -27,3 +27,4 @@ tools/tester/*.spec
 tools/tester/__pycache__/
 tools/report/node_modules/
 firmware/*/build/
+docs/paper/preview/

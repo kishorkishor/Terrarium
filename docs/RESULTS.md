@@ -1,4 +1,6 @@
-# Terrarium brain: everything so far (as of 2026-09-28 00:10)
+# Terrarium brain: everything so far (as of 2026-09-28, audited)
+
+> **Audit 2026-09-28.** A burst-level re-analysis corrected three claims made earlier: (1) the learning controller's control advantage over the production rule comes from its trigger (77 vs 75 %) and rest (60 vs 180 s), not from learning (15 of 18 evening bursts ran at the same 300 s cap); (2) the night session's zero misting is not evidence of water saving (trigger never crossed, and each learning block began just after a rule burst); (3) the 26 Sep 23:12 reboot was a crash in the first firmware's bus-recovery routine, not a watchdog recovery, and 106 s passed without control; the 27 Sep 02:50 restart cost about 20 s, not 6 s.
 
 One file that holds the state of the project: what we are building, what has been measured on the real box, where every number lives, and what is left. Nothing in the results sections is simulated.
 
@@ -52,9 +54,9 @@ Lid 1 cm. Brain on the laptop, pre-seeded from 3.1, learning throughout.
 
 | Injected fault | Brain's response |
 |---|---|
-| Lid fully off (23:02:11) | "suspect loss" after **1 s**; quiet watch; three 35 s test bursts; **"lid open / leak" after 400 s**; kept controlling with the fast model meanwhile |
+| Lid fully off (23:02:11) | "suspect loss" after **1 s**; quiet watch; three test bursts of 10–40 s (fast model, 84 % target); **"lid open / leak" after 400 s**; kept controlling with the fast model meanwhile |
 | Lid back (23:10:47) | recovered; fault held until the box behaved normally for 10 min (by design) |
-| Wet tissue on sensor (23:12:50) | sensor did not stick, but it **locked the I2C bus**; the watchdog rebooted the chip in 15 s and re-found both sensors in 1 s |
+| Wet tissue on sensor (23:12:50) | sensor did not stick, but the bus fault **crashed the first firmware's bus-recovery routine** (StoreProhibited panic); the chip restarted and both sensors were back at 23:12:56; the laptop runner did not handle the restart, so **106 s passed without control** |
 | Tissue removed (23:16:30) | reading fell 90 → 74 % in 40 s (sensor drying); brain raised "suspect loss", tested, and **cleared it as "false alarm, nothing wrong" at 23:23:03** |
 
 Model: leak weight −0.036 (seed, closed box) → −0.131 after 25 min with the gap, before any fault: the slow learner re-fitted the leakier box on its own.
@@ -73,7 +75,7 @@ Lid 4 cm, wiring redone, 100 % good readings in all four blocks.
 | **Rule, 60 min** | | 99.4 % | | **14.6** | 4 | |
 | **Brain, 60 min** | | **100.0 %** | | **0.0** | 0 | |
 
-Reading: with the gap and the water surface, the box settles at 78–80 %RH by itself, inside the band. The rule waits for 75 %, then mists a full 5 min to 88 % (the ceiling; 90 % is never reached), the box drains back in ~10 min, repeat. The brain plans a burst only when its model says one is needed; tonight it never was. Same box, alternating blocks, outside humidity drifting 73 → 71 %. One chip crash at 02:50 (interrupt watchdog); the laptop runner recovered it in a second, 6 s of data lost.
+Reading: with the gap and the water surface, the box settles at 78–80 %RH by itself, inside the band. The rule waits for 75 %, then mists a full 5 min to 88 % (the ceiling; 90 % is never reached), the box drains back in ~10 min, repeat. **Correction (audit):** the brain did not judge that no misting was needed: its 77 % trigger was never crossed at its 5 s sampling, and both brain blocks began just after a rule burst (79.3 and 87.6 % at block start), so carry-over favoured them. This session is **not** evidence of water saving. Outside humidity drifted 73 → 71 %. One chip restart at 02:50 (interrupt watchdog); the laptop runner resumed control after about 20 s (18 s data gap).
 
 Figure: `docs/figures/session-2026-09-27-0055.png`. Metrics: `data/session-2026-09-27-0055.json`.
 
@@ -96,14 +98,15 @@ Reading: the box's passive equilibrium is ~74 %RH and one mister tops out near 8
 ## 4. What the results support, and what they do not
 
 **Supported by measured data**
-- One learned model, seeded from a 90 min step test, controls a real box and holds the target band as well as or better than the rule (100 % vs 99.4 % over the alternating hour; 95.4 % vs 96.5 % over the fault session where the brain also carried a fault).
-- Water: on a box that needs no misting it used none where the rule used 14.6 min/h (27 Sep night); on a dry leaky box it held the band more of the time than the rule (74 vs 66 %, 99 vs 91 %) but used ~40 % more mist (27 Sep evening).
+- One learned model, seeded from a 90 min step test, controls a real box at least as well as the production rule (99.4 vs 90.9 % and 74.3 vs 65.6 % in band in the evening pairs). **But the burst logs attribute this to its trigger and rest settings, not to learning:** 15 of its 18 evening bursts ran to the same 300 s cap as the rule. Water: no saving shown (night result confounded by carry-over; evening used ~40 % more mist).
+- Learning changed its decisions: each block began with the closed-box seed (planned 80–125 s); within one burst cycle (2.5–3 min) the leak estimate rose 2.3–4.1× and later plans went to the cap.
 - It names a lid-open fault by itself (400 s) after suspecting it in 1 s, keeps controlling meanwhile, and clears its own false alarm by testing (6.5 min).
 - It re-fits its model when the box changes (leak weight 3.6× within 25 min of the gap).
-- The chip survives a wet sensor: bus lock-up → watchdog reboot → sensors back in 1 s.
+- A wet sensor faulted the bus; the first firmware's recovery routine crashed the chip (it restarted and re-found the sensors in 6 s); the routine was removed.
 
 **Not yet supported**
 - Burst planning was exercised on a dry box (27 Sep evening): with the target unreachable the planner falls back to maximum bursts, which wins time-in-band at a water cost. A lower-edge holding mode is the obvious next improvement.
+- **Control/water advantage from learning:** not shown; needs a rule with matched trigger (77 %) and rest (60 s), ideally where the target is reachable (session script prepared: matched rule vs brain, 4 × 30 min).
 - **Dead-mister detection failed on the real box** (27 Sep evening): humidity-only checks cannot see a dead mister on a leaky box near its passive equilibrium. Needs a direct actuator signal or a commissioning-time onset signature.
 - Running on the chip: the brain ran on the laptop over USB (5 s steps). The port is straightforward (6 weights, two 6×6 matrices) but not done.
 - Days-long behaviour, plants inside, more than one box: not tested.
@@ -112,7 +115,7 @@ Reading: the box's passive equilibrium is ~74 %RH and one mister tops out near 8
 1. The BME280 "179.4 °C / 100 %" state is the chip at power-on defaults: register writes fail on a marginal bus or after hot-replugging its clock wire, while single-byte reads still work. Power cycling does not fix it; solid SDA/SCL wiring does.
 2. Two sensors' SCL wires sharing one breadboard row failed intermittently for hours; a clean rewire gave 100 % good data for 3 h.
 3. Tearing the ESP32 I2C driver down and up in firmware (Wire.end/begin) crashed the chip (StoreProhibited); removed.
-4. A wet BME280 locks the bus; a hardware watchdog plus re-probing recovers it without a reboot of the laptop side.
+4. A wet BME280 faults the bus. With the recovery routine removed, re-probing every 5 s plus the task watchdog handled later faults; one unexplained interrupt-watchdog restart remained (27 Sep 02:50).
 5. Corrupted reads can pass naive sanity checks (100.00 %RH, 0 °C); the filter now requires plausible temperature, pressure and step size.
 
 ## 6. What is left

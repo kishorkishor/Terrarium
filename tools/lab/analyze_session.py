@@ -74,9 +74,10 @@ def main():
     blocks, all_rows, all_events = [], [], []
     for p in files:
         rows, ev = load(p)
-        name = 'rules' if 'baseline' in os.path.basename(p) else 'brain'
+        base = os.path.basename(p)
+        name = 'rules' if 'baseline' in base else ('matched' if 'matchedrule' in base else 'brain')
         # a rules file may contain an OFF stretch before "mode RULES"; keep from that command on
-        if name == 'rules':
+        if name in ('rules', 'matched'):
             starts = [t for t, _, e in ev if 'mode RULES' in e]
             if starts:
                 rows = [r for r in rows if r['t'] >= starts[-1]]

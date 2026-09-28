@@ -241,9 +241,11 @@ def protocol_step(b, mists='AB', repeats=3, base_s=300, decay_s=1200):
             b.phase = f'{mist}{k}-decay'; b.send(f'MARK {b.phase}'); wait(b, decay_s)
 
 
-def protocol_baseline(b, minutes=0):
-    b.send('SET lo=75 hi=90 max=300 cool=180 use=A'); b.send('MODE RULES')
-    b.phase = 'baseline-rules'
+def protocol_baseline(b, minutes=0, lo=75, hi=90, cap=300, cool=180):
+    # defaults = the enclosure's production rule; --rule-lo 77 --rule-hi 88 --rule-cool 60 gives the
+    # 'matched' rule with the learning controller's trigger, target and rest (ablation baseline)
+    b.send(f'SET lo={lo:g} hi={hi:g} max={cap:d} cool={cool:d} use=A'); b.send('MODE RULES')
+    b.phase = 'baseline-rules' if (lo, hi, cap, cool) == (75, 90, 300, 180) else f'rule-{lo:g}-{hi:g}-{cool:d}s'
     t0 = time.time()
     while not stopped() and (minutes <= 0 or time.time() - t0 < minutes * 60):
         b.pump(5)
@@ -263,11 +265,18 @@ def main():
     ap.add_argument('--repeats', type=int, default=3)
     ap.add_argument('--minutes', type=float, default=0, help='baseline: stop after this many minutes (0 = until STOP)')
     ap.add_argument('--http', type=int, default=8765, help='live page port (0 = off)')
+    ap.add_argument('--rule-lo', type=float, default=75, help='baseline: mist below this %%RH')
+    ap.add_argument('--rule-hi', type=float, default=90, help='baseline: stop at this %%RH')
+    ap.add_argument('--rule-cap', type=int, default=300, help='baseline: burst cap, s')
+    ap.add_argument('--rule-cool', type=int, default=180, help='baseline: rest after a burst, s')
     a = ap.parse_args()
     os.makedirs(DATA, exist_ok=True)
     if stopped():
         os.remove(STOP_FILE)
-    path = os.path.join(DATA, f'lab-{a.protocol}-{dt.datetime.now():%Y-%m-%d-%H%M}.csv')
+    name = a.protocol
+    if a.protocol == 'baseline' and (a.rule_lo, a.rule_hi, a.rule_cap, a.rule_cool) != (75, 90, 300, 180):
+        name = 'matchedrule'          # keep ablation runs apart from the production-rule runs
+    path = os.path.join(DATA, f'lab-{name}-{dt.datetime.now():%Y-%m-%d-%H%M}.csv')
     if a.http: serve(a.http)
     b = Board(a.port, path)
     b.send('HEADER'); b.send('STATUS'); b.pump(3)
@@ -276,7 +285,7 @@ def main():
         if a.protocol == 'step':
             protocol_step(b, mists=a.mists.upper(), repeats=a.repeats)
         elif a.protocol == 'baseline':
-            protocol_baseline(b, a.minutes)
+            protocol_baseline(b, a.minutes, a.rule_lo, a.rule_hi, a.rule_cap, a.rule_cool)
         elif a.protocol == 'decay':
             protocol_decay(b)
         else:

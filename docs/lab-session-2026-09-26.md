@@ -18,7 +18,7 @@ The rule's one burst ran the full 5 min cap (70.8 to 88.2 %). The brain, during 
 |---|---|---|
 | Lid fully off | 23:02:11 | "suspect loss" after 1 s; quiet watch 4 min; three short test bursts; **"lid open / leak" after 400 s**. Kept controlling with the fast model in the meantime. |
 | Lid back, 1 cm gap | 23:10:47 | Humidity recovered; fault state held until the box behaved normally again (by design, 10 min of agreement). |
-| Wet tissue on inside sensor | 23:12:50 | Sensor did not stick (read 89–90 %, warmed to 32 °C). The sensor **locked up the I2C bus**; the firmware watchdog rebooted the chip at 23:12:57 and the sensors were re-found within 1 s. The laptop runner did not handle the reboot and was restarted at 23:14 (fixed in `brain_runner.py`). |
+| Wet tissue on inside sensor | 23:12:50 | Sensor did not stick (read 89–90 %, warmed to 32 °C). The bus fault **crashed the firmware's bus-recovery routine** (StoreProhibited panic, see `data/lab-brain-runner.out`); the chip restarted and the sensors were re-found at 23:12:56. The laptop runner did not handle the restart; control resumed only when it was relaunched, **106 s** after the last brain step (fixed in `brain_runner.py`; the recovery routine was removed from the firmware). |
 | Tissue removed | 23:16:30 | Reading fell 90 to 74 % in 40 s (sensor drying). Brain raised "suspect loss" at 23:16:37, ran its quiet-then-mist test, and at 23:23:03 concluded **"false alarm, nothing wrong"** and cleared it. |
 
 ## What the model learned
@@ -27,5 +27,5 @@ Seed (closed box, 25 Sep): mist 1.61, leak −0.036, bias 0.19 (per 5 s step, ab
 ## Honest limitations
 1. **Short.** 15 min of rule and 47 min of brain, one evening. The 1 cm gap gave about one humidity cycle per hour, so the rule-versus-brain comparison rests on one burst each. Next session: 3–4 cm gap, alternate 30 min blocks.
 2. **Brain on the laptop, not on the chip.** The model is six weights and two 6×6 matrices; the port is straightforward but not done.
-3. **Wet-sensor fault did not reproduce** the fogging seen on 25 Sep (179 °C / 100 %). It did reproduce the bus lock-up and the watchdog recovery.
+3. **Wet-sensor fault did not reproduce** the fogging seen on 25 Sep (179 °C / 100 %). It did reproduce a bus fault, which exposed a crash in the firmware's bus-recovery routine (since removed).
 4. **One false alarm** (sensor drying after the tissue), self-cleared in 6.5 min. A temperature check would prevent it: the reading fell while the sensor's own temperature fell 2 °C.
