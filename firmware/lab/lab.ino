@@ -122,12 +122,36 @@ void powerCycle(int pin) {
   digitalWrite(pin, LOW); delay(500); digitalWrite(pin, HIGH); delay(50);
 }
 
+/* Raw register reads that bypass the library. The library does not report failed register writes,
+ * and it converts the chip's "humidity not measured" value 0x8000 into a plausible-looking RH.
+ * Seen 28 Sep 17:07: a bus glitch while the lid was moved cleared ctrl_hum, and the reading froze
+ * near 61 % (drifting only with temperature) while the enclosure was full of mist.            */
+int readReg8(uint8_t addr, uint8_t reg) {
+  Wire.beginTransmission(addr); Wire.write(reg);
+  if (Wire.endTransmission(false) != 0) return -1;
+  if (Wire.requestFrom(addr, (uint8_t)1) != 1) return -1;
+  return Wire.read();
+}
+long readRawHum(uint8_t addr) {
+  Wire.beginTransmission(addr); Wire.write(0xFD);            // hum_msb, hum_lsb
+  if (Wire.endTransmission(false) != 0) return -1;
+  if (Wire.requestFrom(addr, (uint8_t)2) != 2) return -1;
+  long msb = Wire.read(), lsb = Wire.read();
+  return (msb << 8) | lsb;
+}
+
 bool initSensor(Adafruit_BME280& b, uint8_t addr) {
   if (!b.begin(addr, &Wire)) return false;
   // forced mode, x1 oversampling, no filter: least self-heating at 1 Hz
   b.setSampling(Adafruit_BME280::MODE_FORCED,
                 Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::SAMPLING_X1, Adafruit_BME280::SAMPLING_X1,
                 Adafruit_BME280::FILTER_OFF);
+  // verify the humidity oversampling actually reached the chip (ctrl_hum bits 2:0 = 001 for x1)
+  int ctrlHum = readReg8(addr, 0xF2);
+  if (ctrlHum < 0 || (ctrlHum & 0x07) != 0x01) {
+    event(String("sensor 0x") + String(addr, HEX) + " init: ctrl_hum not applied (read " + ctrlHum + "), will retry");
+    return false;
+  }
   return true;
 }
 
@@ -158,8 +182,12 @@ void readSensor(Adafruit_BME280& b, Reading& r, bool fitted, const char* name) {
   if (!fitted) { r.ok = false; r.t = r.rh = r.p = NAN; return; }
   bool got = b.takeForcedMeasurement();
   float t = b.readTemperature(), h = b.readHumidity(), p = b.readPressure() / 100.0f;
+  // the chip reports 0x8000 when humidity was not measured (ctrl_hum lost); the library hides it
+  long rawH = readRawHum(name[0] == 'I' ? ADDR_IN : ADDR_OUT);
+  bool humMeasured = rawH >= 0 && rawH != 0x8000;
+  if (!humMeasured && r.bad == 0) event(String("sensor ") + name + " humidity not measured (raw " + rawH + ")");
   // a wet or latched BME280 returns nonsense (e.g. 179.4 C / 100 %) -> reject
-  bool sane = got && !isnan(t) && !isnan(h) && t > 10 && t < 45 && h > 5 && h < 99.99 && p > 950 && p < 1060
+  bool sane = got && humMeasured && !isnan(t) && !isnan(h) && t > 10 && t < 45 && h > 5 && h < 99.99 && p > 950 && p < 1060
               && (isnan(r.t) || fabs(t - r.t) < 2.0);   // a real sensor never jumps 2 C between 1 s samples
   if (sane) {
     if (!r.ok) event(String("sensor ") + name + " reading OK");

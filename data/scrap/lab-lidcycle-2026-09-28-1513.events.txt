@@ -1,0 +1,33 @@
+2026-09-28 15:13:58  [idle]  logger connected to COM3
+2026-09-28 15:13:58  [idle]  >> HEADER
+2026-09-28 15:13:58  [idle]  >> STATUS
+2026-09-28 15:13:58  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:14:01  [idle]  START lid-cycle test: 4 cycles x 20 min, lid 1 cm, matched rule vs learning -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-lidcycle-2026-09-28-1513.csv
+2026-09-28 15:14:01  [water-check]  >> SET man=60
+2026-09-28 15:14:01  [water-check]  >> MODE MANUAL
+2026-09-28 15:14:02  [water-check]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=60,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:14:02  [water-check]  << mode MANUAL
+2026-09-28 15:14:07  [water-check]  >> MIST A 1
+2026-09-28 15:14:08  [water-check]  << mist A=1 B=0 (manual)
+2026-09-28 15:14:56  [water-check]  >> MIST A 0
+2026-09-28 15:14:56  [water-check]  << mist A=0 B=0 (manual)
+2026-09-28 15:15:20  [water-check]  >> MIST A 0
+2026-09-28 15:15:20  [water-check]  >> MODE OFF
+2026-09-28 15:15:20  [water-check]  water check: inside 81.9 -> peak 85.8 % (+3.9) around a 40 s burst
+2026-09-28 15:15:20  [c1-dry]  >> MODE OFF
+2026-09-28 15:15:20  [c1-dry]  >> MARK cycle 1 dry-down: lid off until inside <= 73.0 %
+2026-09-28 15:15:20  [c1-dry]  << mode OFF
+2026-09-28 15:15:20  [c1-dry]  << mode OFF
+2026-09-28 15:15:20  [c1-dry]  << MARK  cycle 1 dry-down: lid off until inside <= 73.0 %
+2026-09-28 15:25:20  [c1-dry]  cycle 1: dry-down timeout after 10 min, continuing from 84.11 %
+2026-09-28 15:25:20  [c1-close]  cycle 1: waiting for lid at 1 cm (button)
+2026-09-28 15:25:41  [c1-close]  ABORT: STOP file
+2026-09-28 15:25:41  [end]  >> MIST A 0
+2026-09-28 15:25:41  [end]  >> MIST B 0
+2026-09-28 15:25:41  [end]  >> MODE OFF
+2026-09-28 15:25:41  [end]  >> SET lo=75 hi=90 max=300 cool=180 man=600
+2026-09-28 15:25:41  [end]  >> STATUS
+2026-09-28 15:25:41  [end]  << mode OFF
+2026-09-28 15:25:41  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:25:41  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=600,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-28 15:25:44  [end]  END lid-cycle test (production settings restored)

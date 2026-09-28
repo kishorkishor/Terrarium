@@ -24,7 +24,8 @@ FIELDS = ['ms', 't_in', 'rh_in', 'p_in', 't_out', 'rh_out', 'p_out',
           'mistA', 'mistB', 'mode', 'in_ok', 'out_ok', 'tank_ok']
 
 
-LIVE = {'phase': 'starting', 'row': {}, 'points': [], 'events': [], 'file': ''}
+LIVE = {'phase': 'starting', 'row': {}, 'points': [], 'events': [], 'file': '',
+        'prompt': '', 'await_go': False, 'go': False}   # prompt/go: operator instructions (lid_cycle_test)
 LIVE_LOCK = threading.Lock()
 
 PAGE = r"""<!doctype html><html><head><meta charset=utf-8><title>Lab live</title>
@@ -32,8 +33,11 @@ PAGE = r"""<!doctype html><html><head><meta charset=utf-8><title>Lab live</title
 h1{font-size:17px;margin:0 0 10px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
 .box{border-radius:10px;padding:12px;background:#222}.box b{display:block;font-size:26px;margin-top:4px}.box small{opacity:.7}
 .on{background:#1e6b3a}.bad{background:#a12b2b}canvas{width:100%;height:260px;background:#1b1b1b;border-radius:8px}
-pre{background:#1b1b1b;padding:10px;border-radius:8px;font-size:12px;max-height:30vh;overflow:auto}#t{opacity:.6;font-size:12px;margin:8px 0}</style></head><body>
+pre{background:#1b1b1b;padding:10px;border-radius:8px;font-size:12px;max-height:30vh;overflow:auto}#t{opacity:.6;font-size:12px;margin:8px 0}
+#pr{display:none;background:#8a6d1f;color:#fff;font-size:24px;font-weight:600;padding:18px;border-radius:10px;margin-bottom:12px;line-height:1.35}
+#go{display:none;margin-top:12px;font-size:20px;padding:10px 22px;border-radius:8px;border:0;cursor:pointer;background:#fff;color:#111;font-weight:700}</style></head><body>
 <h1>Terrarium lab: live experiment</h1>
+<div id=pr><span id=prt></span><br><button id=go onclick="fetch('/go');this.textContent='Thanks, starting'">Lid is set: start the cycle</button></div>
 <div class=grid>
 <div class=box id=ph><small>phase</small><b>-</b></div>
 <div class=box id=ri><small>inside RH %</small><b>-</b></div>
@@ -59,7 +63,9 @@ set('ph',s.phase);set('ri',r.rh_in||'-');set('ro',r.rh_out||'-');set('ti',r.t_in
 set('ma',r.mistA==='1'?'ON':'off',r.mistA==='1'?'on':'');set('mb',r.mistB==='1'?'ON':'off',r.mistB==='1'?'on':'');
 const ok=(r.in_ok==='1')+(r.out_ok==='1');set('sn',ok+' of 2 ok',ok===2?'':'bad');
 document.getElementById('t').textContent='last hour, blue = mist on, y-axis 50 to 100 %RH. file: '+s.file;
-document.getElementById('e').textContent=s.events.join('\n');draw(s.points)}catch(e){}}
+document.getElementById('e').textContent=s.events.join('\n');draw(s.points);
+const pr=document.getElementById('pr'),go=document.getElementById('go');pr.style.display=s.prompt?'block':'none';
+document.getElementById('prt').textContent=s.prompt||'';if(!s.await_go){go.style.display='none';go.textContent='Lid is set: start the cycle'}else{go.style.display='inline-block'}}catch(e){}}
 setInterval(tick,1000);tick();</script></body></html>"""
 
 
@@ -70,6 +76,10 @@ class _H(BaseHTTPRequestHandler):
             with LIVE_LOCK:
                 body = json.dumps(LIVE).encode()
             ct = 'application/json'
+        elif self.path == '/go':
+            with LIVE_LOCK:
+                LIVE['go'] = True
+            body = b'ok'; ct = 'text/plain'
         else:
             body = PAGE.encode(); ct = 'text/html; charset=utf-8'
         self.send_response(200); self.send_header('Content-Type', ct); self.send_header('Content-Length', str(len(body)))

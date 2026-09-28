@@ -1,0 +1,59 @@
+[
+ {
+  "cycle": 1,
+  "controller": "rule",
+  "start": "15:45:15",
+  "samples": 1202,
+  "start_rh": 72.44,
+  "mist_s": 300,
+  "bursts": 1,
+  "burst_s": [
+   300
+  ],
+  "peak_rh": 87.73,
+  "mean_rh": 82.76,
+  "end_rh": 80.15,
+  "s_to_75": 18,
+  "s_to_85": 86,
+  "in_band_pct": 98.1,
+  "above_90_pct": 0.0
+ },
+ {
+  "cycle": 2,
+  "controller": "learning",
+  "start": "16:29:28",
+  "samples": 1202,
+  "start_rh": 70.58,
+  "mist_s": 155,
+  "bursts": 1,
+  "burst_s": [
+   155
+  ],
+  "peak_rh": 82.36,
+  "mean_rh": 79.24,
+  "end_rh": 79.7,
+  "s_to_75": 58,
+  "s_to_85": null,
+  "in_band_pct": 94.5,
+  "above_90_pct": 0.0
+ },
+ {
+  "cycle": 3,
+  "controller": "rule",
+  "start": "17:13:47",
+  "samples": 170,
+  "start_rh": 61.33,
+  "mist_s": 169,
+  "bursts": 1,
+  "burst_s": [
+   169
+  ],
+  "peak_rh": 61.34,
+  "mean_rh": 61.3,
+  "end_rh": 61.27,
+  "s_to_75": null,
+  "s_to_85": null,
+  "in_band_pct": 0.0,
+  "above_90_pct": 0.0
+ }
+]
