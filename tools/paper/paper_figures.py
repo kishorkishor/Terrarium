@@ -144,10 +144,11 @@ def fig_fault_session():
 
 
 # ----------------------------------------------------------------- Fig. 3
-def fig_evening_session():
+def fig_evening_session(include_fault_block=False):
     blocks = [('lab-brain-2026-09-27-2003.csv', 'L'), ('lab-baseline-2026-09-27-2033.csv', 'R'),
-              ('lab-brain-2026-09-27-2103.csv', 'L'), ('lab-baseline-2026-09-27-2133.csv', 'R'),
-              ('lab-brain-2026-09-27-2203.csv', 'L')]
+              ('lab-brain-2026-09-27-2103.csv', 'L'), ('lab-baseline-2026-09-27-2133.csv', 'R')]
+    if include_fault_block:
+        blocks.append(('lab-brain-2026-09-27-2203.csv', 'L'))
     rows, starts = [], []
     for name, lab in blocks:
         r, e = load(name)
@@ -160,10 +161,11 @@ def fig_evening_session():
     fig, ax = plt.subplots(figsize=(W, 2.1)); style(ax)
     ax.axhspan(75, 90, color=BAND_C, lw=0, zorder=0)
     shade_mist(ax, rows, t0)
-    dm0 = (T('2026-09-27 22:09:48') - t0).total_seconds() / 60
-    dm1 = (T('2026-09-27 22:21:48') - t0).total_seconds() / 60
-    plt.rcParams['hatch.linewidth'] = 0.35
-    ax.axvspan(dm0, dm1, facecolor='none', edgecolor='#c77d7d', hatch='//////', lw=0, zorder=1)
+    if include_fault_block:
+        dm0 = (T('2026-09-27 22:09:48') - t0).total_seconds() / 60
+        dm1 = (T('2026-09-27 22:21:48') - t0).total_seconds() / 60
+        plt.rcParams['hatch.linewidth'] = 0.35
+        ax.axvspan(dm0, dm1, facecolor='none', edgecolor='#c77d7d', hatch='//////', lw=0, zorder=1)
     trace(ax, rows, t0)
     ends = [s for s, _ in starts[1:]] + [rows[-1][0]]
     for (s, lab), e in zip(starts, ends):
@@ -171,8 +173,9 @@ def fig_evening_session():
         if x0 > 0:
             ax.axvline(x0, color=INK2, lw=0.5, ls='--', zorder=2)
         ax.text((x0 + x1) / 2, 93.3, 'learning' if lab == 'L' else 'rule', ha='center', fontsize=6.3, color=INK2)
-    ax.text((dm0 + dm1) / 2, 62.2, 'dead mister', ha='center', fontsize=6, color='#a12b2b',
-            bbox=dict(boxstyle='square,pad=0.15', fc='white', ec='none'))
+    if include_fault_block:
+        ax.text((dm0 + dm1) / 2, 62.2, 'dead mister', ha='center', fontsize=6, color='#a12b2b',
+                bbox=dict(boxstyle='square,pad=0.15', fc='white', ec='none'))
     ax.set_ylim(60, 97); ax.set_xlim(0, (rows[-1][0] - t0).total_seconds() / 60)
     ax.set_ylabel('RH, %'); ax.set_xlabel('minutes from 20:03')
     ax.text(1, 66.3, 'outside', color=OUT_C, fontsize=6.3); ax.text(1, 84.2, 'inside', color=IN_C, fontsize=6.3)
