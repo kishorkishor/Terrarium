@@ -24,7 +24,7 @@ desktop.ini
 tools/tester/build/
 tools/tester/dist/
 tools/tester/*.spec
-tools/tester/__pycache__/
+__pycache__/
 tools/report/node_modules/
 firmware/*/build/
 docs/paper/preview/
