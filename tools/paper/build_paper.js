@@ -269,10 +269,6 @@ const paperChildren = () => [
   h1("VII", "Conclusion"),
   body("A six-weight model updated online at two timescales ran a low-cost misted enclosure, re-learned the enclosure within one burst cycle, detected and named a leak and withdrew its own false alarm by testing, with a state small enough for the enclosure's microcontroller. On real hardware it held the humidity band as well as or better than the production hysteresis rule, and on a tight enclosure it planned shorter first bursts than the rule. The next steps are the port to the ESP32, longer runs with plants, measured water and mister output, and direct actuator sensing."),
 
-  // ================================================================ ACK
-  h5("Acknowledgment"),
-  body("The authors used an AI assistant (Anthropic Claude) to help write the firmware, logging, analysis and controller code and to draft parts of this text from the recorded data. All experiments and measurements are the authors' own, and the authors take full responsibility for the content.", { indent: { firstLine: 0 } }),
-
   // ================================================================ REFS (all checked against Crossref)
   h5("References"),
   refPara(1, "M. Boughamsa and M. Ramdani, “Adaptive fuzzy control strategy for greenhouse micro-climate,” Int. J. Autom. Control, vol. 12, no. 1, 2018, doi: 10.1504/IJAAC.2018.088604."),
