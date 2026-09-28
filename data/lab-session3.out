@@ -1,0 +1,260 @@
+19:58:34 brain block 1
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 19:58:34  [idle]  logger connected to COM3
+2026-09-27 19:58:34  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 19:58:34  [idle]  >> HEADER
+2026-09-27 19:58:34  [idle]  >> SET man=400
+2026-09-27 19:58:34  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 19:58:35  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 19:58:35  [idle]  << mode MANUAL
+2026-09-27 19:58:35  [idle]  >> MARK session 3 start: box dry, lid as left (4 cm), both sensors 100 percent
+2026-09-27 19:58:35  [idle]  << MARK  session 3 start: box dry, lid as left (4 cm), both sensors 100 percent
+2026-09-27 19:58:37  [brain]  >> MARK brain block start
+2026-09-27 19:58:37  [brain]  << MARK  brain block start
+2026-09-27 19:58:38  [brain]  >> MIST A 1
+2026-09-27 19:58:38  [brain]  >> MIST B 0
+2026-09-27 19:58:38  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 19:58:48  [brain]  BRAIN: maintenance: main mister below 80 % of day-1 strength (clean or replace disc)
+2026-09-27 19:59:26  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 19:59:37  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 19:59:49  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:01  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:13  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:24  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:36  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:48  [brain]  >> MIST A 0
+2026-09-27 20:00:48  [brain]  >> MIST B 0
+2026-09-27 20:00:48  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:00:54  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:01:23  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:01:57  [end]  >> MIST A 0
+2026-09-27 20:01:57  [end]  >> MIST B 0
+2026-09-27 20:01:57  [end]  >> MODE OFF
+2026-09-27 20:01:57  [end]  >> STATUS
+2026-09-27 20:01:57  [end]  << mode OFF
+2026-09-27 20:01:57  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:01:59  [end]  END brain block. weights now: 0.0000 13.4494 -1.8221 0.0000 0.0000 1.6793
+20:03:03 brain block 1
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 20:03:04  [idle]  logger connected to COM3
+2026-09-27 20:03:04  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 20:03:04  [idle]  >> HEADER
+2026-09-27 20:03:04  [idle]  >> SET man=400
+2026-09-27 20:03:04  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 20:03:04  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:03:04  [idle]  << mode MANUAL
+2026-09-27 20:03:04  [idle]  >> MARK session 3 restart 20:0x: box dry, lid ON with 4 cm gap, water added
+2026-09-27 20:03:04  [idle]  << MARK  session 3 restart 20:0x: box dry, lid ON with 4 cm gap, water added
+2026-09-27 20:03:06  [brain]  >> MARK brain block start
+2026-09-27 20:03:06  [brain]  << MARK  brain block start
+2026-09-27 20:03:07  [brain]  >> MIST A 1
+2026-09-27 20:03:07  [brain]  >> MIST B 0
+2026-09-27 20:03:07  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 20:05:09  [brain]  >> MIST A 0
+2026-09-27 20:05:09  [brain]  >> MIST B 0
+2026-09-27 20:05:09  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:06:20  [brain]  >> MIST A 1
+2026-09-27 20:06:20  [brain]  >> MIST B 0
+2026-09-27 20:06:20  [brain]  << mist A=1 B=0 (manual)
+   ����������������������������������������������������������������67,68.51,1004.77,1,0,MANUAL,1,1,1
+2026-09-27 20:11:25  [brain]  >> MIST A 0
+2026-09-27 20:11:25  [brain]  >> MIST B 0
+2026-09-27 20:11:25  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:12:35  [brain]  >> MIST A 1
+2026-09-27 20:12:35  [brain]  >> MIST B 0
+2026-09-27 20:12:35  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 20:17:39  [brain]  >> MIST A 0
+2026-09-27 20:17:39  [brain]  >> MIST B 0
+2026-09-27 20:17:39  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:18:49  [brain]  >> MIST A 1
+2026-09-27 20:18:49  [brain]  >> MIST B 0
+2026-09-27 20:18:49  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 20:23:54  [brain]  >> MIST A 0
+2026-09-27 20:23:54  [brain]  >> MIST B 0
+2026-09-27 20:23:54  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:25:04  [brain]  >> MIST A 1
+2026-09-27 20:25:04  [brain]  >> MIST B 0
+2026-09-27 20:25:04  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 20:30:09  [brain]  >> MIST A 0
+2026-09-27 20:30:09  [brain]  >> MIST B 0
+2026-09-27 20:30:09  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:31:19  [brain]  >> MIST A 1
+2026-09-27 20:31:19  [brain]  >> MIST B 0
+2026-09-27 20:31:19  [brain]  << mist A=1 B=0 (manual)
+   ����������������������������������������������������������������.67,68.52,1005.10,1,0,MANUAL,1,1,1
+2026-09-27 20:33:06  [end]  >> MIST A 0
+2026-09-27 20:33:06  [end]  >> MIST B 0
+2026-09-27 20:33:06  [end]  >> MODE OFF
+2026-09-27 20:33:06  [end]  >> STATUS
+2026-09-27 20:33:06  [end]  << mist A=0 B=0 (manual)
+2026-09-27 20:33:06  [end]  << mode OFF
+2026-09-27 20:33:06  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:33:08  [end]  END brain block. weights now: 1.5276 0.0208 -0.2273 0.0000 0.0000 0.4893
+20:33:12 rule block 1
+live page: http://localhost:8765
+2026-09-27 20:33:12  [idle]  logger connected to COM3
+2026-09-27 20:33:12  [idle]  >> HEADER
+2026-09-27 20:33:12  [idle]  >> STATUS
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 20:33:12  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:33:15  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-2033.csv
+2026-09-27 20:33:15  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 20:33:15  [idle]  >> MODE RULES
+2026-09-27 20:33:15  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:33:15  [baseline-rules]  << mode RULES
+2026-09-27 20:36:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:41:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 20:44:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:49:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 20:52:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:57:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 21:00:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 21:03:18  [end]  >> MIST A 0
+2026-09-27 21:03:18  [end]  >> MIST B 0
+2026-09-27 21:03:18  [end]  >> MODE OFF
+2026-09-27 21:03:18  [end]  >> STATUS
+2026-09-27 21:03:18  [end]  << mist A=0 B=0 (manual)
+2026-09-27 21:03:18  [end]  << mode OFF
+2026-09-27 21:03:18  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:03:20  [end]  END
+21:03:23 brain block 2
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 21:03:23  [idle]  logger connected to COM3
+2026-09-27 21:03:23  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 21:03:23  [idle]  >> HEADER
+2026-09-27 21:03:23  [idle]  >> SET man=400
+2026-09-27 21:03:23  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 21:03:24  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:03:24  [idle]  << mode MANUAL
+2026-09-27 21:03:26  [brain]  >> MARK brain block start
+2026-09-27 21:03:26  [brain]  << MARK  brain block start
+2026-09-27 21:03:27  [brain]  >> MIST A 1
+2026-09-27 21:03:27  [brain]  >> MIST B 0
+2026-09-27 21:03:27  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:04:44  [brain]  >> MIST A 0
+2026-09-27 21:04:44  [brain]  >> MIST B 0
+2026-09-27 21:04:44  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:05:54  [brain]  >> MIST A 1
+2026-09-27 21:05:54  [brain]  >> MIST B 0
+2026-09-27 21:05:54  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:10:59  [brain]  >> MIST A 0
+2026-09-27 21:10:59  [brain]  >> MIST B 0
+2026-09-27 21:10:59  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:12:09  [brain]  >> MIST A 1
+2026-09-27 21:12:09  [brain]  >> MIST B 0
+2026-09-27 21:12:09  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:17:14  [brain]  >> MIST A 0
+2026-09-27 21:17:14  [brain]  >> MIST B 0
+2026-09-27 21:17:14  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:18:24  [brain]  >> MIST A 1
+2026-09-27 21:18:24  [brain]  >> MIST B 0
+2026-09-27 21:18:24  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:23:29  [brain]  >> MIST A 0
+2026-09-27 21:23:29  [brain]  >> MIST B 0
+2026-09-27 21:23:29  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:24:46  [brain]  >> MIST A 1
+2026-09-27 21:24:46  [brain]  >> MIST B 0
+2026-09-27 21:24:46  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:29:50  [brain]  >> MIST A 0
+2026-09-27 21:29:50  [brain]  >> MIST B 0
+2026-09-27 21:29:50  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:31:01  [brain]  >> MIST A 1
+2026-09-27 21:31:01  [brain]  >> MIST B 0
+2026-09-27 21:31:01  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:33:26  [end]  >> MIST A 0
+2026-09-27 21:33:26  [end]  >> MIST B 0
+2026-09-27 21:33:26  [end]  >> MODE OFF
+2026-09-27 21:33:26  [end]  >> STATUS
+2026-09-27 21:33:26  [end]  << mist A=0 B=0 (manual)
+2026-09-27 21:33:26  [end]  << mode OFF
+2026-09-27 21:33:26  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:33:28  [end]  END brain block. weights now: 1.4698 0.0019 -0.1613 0.0000 0.0000 0.3556
+21:33:31 rule block 2
+live page: http://localhost:8765
+2026-09-27 21:33:31  [idle]  logger connected to COM3
+2026-09-27 21:33:31  [idle]  >> HEADER
+2026-09-27 21:33:31  [idle]  >> STATUS
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 21:33:32  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:33:35  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-2133.csv
+2026-09-27 21:33:35  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 21:33:35  [idle]  >> MODE RULES
+2026-09-27 21:33:35  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:33:35  [baseline-rules]  << mode RULES
+2026-09-27 21:36:27  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 21:41:27  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 21:44:37  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 21:49:37  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 21:52:37  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 21:57:37  [baseline-rules]  << mist A=0 B=0 (burst cap)
+   ����������������������������������������������������������������.58,69.20,1005.46,0,0,RULES,1,1,1
+2026-09-27 22:02:24  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 22:03:37  [end]  >> MIST A 0
+2026-09-27 22:03:37  [end]  >> MIST B 0
+2026-09-27 22:03:37  [end]  >> MODE OFF
+2026-09-27 22:03:37  [end]  >> STATUS
+2026-09-27 22:03:37  [end]  << mist A=0 B=0 (manual)
+2026-09-27 22:03:37  [end]  << mode OFF
+2026-09-27 22:03:37  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 22:03:39  [end]  END
+22:03:43 brain block 3 with dead-mister fault
+seeded from lab-step-2026-09-25-1910.csv (2892 steps): 1.6055 0.0027 -0.0362 0.0000 0.0000 0.1914
+live page: http://localhost:8765
+2026-09-27 22:03:43  [idle]  logger connected to COM3
+2026-09-27 22:03:43  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 22:03:43  [idle]  >> HEADER
+2026-09-27 22:03:43  [idle]  >> SET man=400
+2026-09-27 22:03:43  [idle]  >> MODE MANUAL
+   H,ms,t_in,rh_in,p_in,t_out,rh_out,p_out,mistA,mistB,mode,in_ok,out_ok,tank_ok
+2026-09-27 22:03:43  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 22:03:43  [idle]  << mode MANUAL
+2026-09-27 22:03:45  [brain]  >> MARK brain block start
+2026-09-27 22:03:45  [brain]  << MARK  brain block start
+2026-09-27 22:03:46  [brain]  >> MIST A 0
+2026-09-27 22:03:46  [brain]  >> MIST B 0
+2026-09-27 22:03:56  [brain]  >> MIST A 1
+2026-09-27 22:03:56  [brain]  >> MIST B 0
+2026-09-27 22:03:56  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 22:05:12  [brain]  >> MIST A 0
+2026-09-27 22:05:12  [brain]  >> MIST B 0
+2026-09-27 22:05:12  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 22:06:28  [brain]  >> MIST A 1
+2026-09-27 22:06:28  [brain]  >> MIST B 0
+2026-09-27 22:06:28  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 22:09:48  [brain]  >> MARK FAULT dead mister injected: mist commands dropped from now (brain does not know)
+2026-09-27 22:09:48  [brain]  >> MIST A 0
+2026-09-27 22:09:48  [brain]  >> MIST B 0
+2026-09-27 22:09:48  [brain]  << MARK  FAULT dead mister injected: mist commands dropped from now (brain does not know)
+2026-09-27 22:09:48  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 22:21:48  [brain]  >> MARK FAULT dead mister cleared: commands pass again
+2026-09-27 22:21:48  [brain]  >> MIST A 1
+2026-09-27 22:21:48  [brain]  >> MIST B 0
+2026-09-27 22:21:48  [brain]  << MARK  FAULT dead mister cleared: commands pass again
+2026-09-27 22:21:48  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 22:24:56  [brain]  >> MIST A 0
+2026-09-27 22:24:56  [brain]  >> MIST B 0
+2026-09-27 22:24:56  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 22:26:06  [brain]  >> MIST A 1
+2026-09-27 22:26:06  [brain]  >> MIST B 0
+2026-09-27 22:26:06  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 22:31:06  [brain]  >> MIST A 0
+2026-09-27 22:31:06  [brain]  >> MIST B 0
+2026-09-27 22:31:06  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 22:32:33  [brain]  >> MIST A 1
+2026-09-27 22:32:33  [brain]  >> MIST B 0
+2026-09-27 22:32:33  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 22:33:45  [end]  >> MIST A 0
+2026-09-27 22:33:45  [end]  >> MIST B 0
+2026-09-27 22:33:45  [end]  >> MODE OFF
+2026-09-27 22:33:45  [end]  >> STATUS
+2026-09-27 22:33:45  [end]  << mist A=0 B=0 (manual)
+2026-09-27 22:33:45  [end]  << mode OFF
+2026-09-27 22:33:45  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 22:33:47  [end]  END brain block. weights now: 1.3817 0.0065 -0.1273 0.0000 0.0000 0.2747
+22:33:48 session 3 finished

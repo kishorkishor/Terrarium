@@ -1,0 +1,50 @@
+2026-09-27 21:03:23  [idle]  logger connected to COM3
+2026-09-27 21:03:23  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 21:03:23  [idle]  >> HEADER
+2026-09-27 21:03:23  [idle]  >> SET man=400
+2026-09-27 21:03:23  [idle]  >> MODE MANUAL
+2026-09-27 21:03:24  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:03:24  [idle]  << mode MANUAL
+2026-09-27 21:03:26  [brain]  >> MARK brain block start
+2026-09-27 21:03:26  [brain]  << MARK  brain block start
+2026-09-27 21:03:27  [brain]  >> MIST A 1
+2026-09-27 21:03:27  [brain]  >> MIST B 0
+2026-09-27 21:03:27  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:04:44  [brain]  >> MIST A 0
+2026-09-27 21:04:44  [brain]  >> MIST B 0
+2026-09-27 21:04:44  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:05:54  [brain]  >> MIST A 1
+2026-09-27 21:05:54  [brain]  >> MIST B 0
+2026-09-27 21:05:54  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:10:59  [brain]  >> MIST A 0
+2026-09-27 21:10:59  [brain]  >> MIST B 0
+2026-09-27 21:10:59  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:12:09  [brain]  >> MIST A 1
+2026-09-27 21:12:09  [brain]  >> MIST B 0
+2026-09-27 21:12:09  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:17:14  [brain]  >> MIST A 0
+2026-09-27 21:17:14  [brain]  >> MIST B 0
+2026-09-27 21:17:14  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:18:24  [brain]  >> MIST A 1
+2026-09-27 21:18:24  [brain]  >> MIST B 0
+2026-09-27 21:18:24  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:23:29  [brain]  >> MIST A 0
+2026-09-27 21:23:29  [brain]  >> MIST B 0
+2026-09-27 21:23:29  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:24:46  [brain]  >> MIST A 1
+2026-09-27 21:24:46  [brain]  >> MIST B 0
+2026-09-27 21:24:46  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:29:50  [brain]  >> MIST A 0
+2026-09-27 21:29:50  [brain]  >> MIST B 0
+2026-09-27 21:29:50  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 21:31:01  [brain]  >> MIST A 1
+2026-09-27 21:31:01  [brain]  >> MIST B 0
+2026-09-27 21:31:01  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 21:33:26  [end]  >> MIST A 0
+2026-09-27 21:33:26  [end]  >> MIST B 0
+2026-09-27 21:33:26  [end]  >> MODE OFF
+2026-09-27 21:33:26  [end]  >> STATUS
+2026-09-27 21:33:26  [end]  << mist A=0 B=0 (manual)
+2026-09-27 21:33:26  [end]  << mode OFF
+2026-09-27 21:33:26  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:33:28  [end]  END brain block. weights now: 1.4698 0.0019 -0.1613 0.0000 0.0000 0.3556

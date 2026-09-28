@@ -1,0 +1,24 @@
+2026-09-27 20:33:12  [idle]  logger connected to COM3
+2026-09-27 20:33:12  [idle]  >> HEADER
+2026-09-27 20:33:12  [idle]  >> STATUS
+2026-09-27 20:33:12  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:33:15  [idle]  START protocol baseline -> C:\Users\kisho\Desktop\TERRARIUM\data\lab-baseline-2026-09-27-2033.csv
+2026-09-27 20:33:15  [idle]  >> SET lo=75 hi=90 max=300 cool=180 use=A
+2026-09-27 20:33:15  [idle]  >> MODE RULES
+2026-09-27 20:33:15  [baseline-rules]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:33:15  [baseline-rules]  << mode RULES
+2026-09-27 20:36:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:41:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 20:44:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:49:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 20:52:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 20:57:06  [baseline-rules]  << mist A=0 B=0 (burst cap)
+2026-09-27 21:00:06  [baseline-rules]  << mist A=1 B=0 (below lo)
+2026-09-27 21:03:18  [end]  >> MIST A 0
+2026-09-27 21:03:18  [end]  >> MIST B 0
+2026-09-27 21:03:18  [end]  >> MODE OFF
+2026-09-27 21:03:18  [end]  >> STATUS
+2026-09-27 21:03:18  [end]  << mist A=0 B=0 (manual)
+2026-09-27 21:03:18  [end]  << mode OFF
+2026-09-27 21:03:18  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 21:03:20  [end]  END

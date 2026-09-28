@@ -92,7 +92,7 @@ def main():
         for f in m['faults']:
             print(f"    fault: {f['injected']} at {f['at']} -> verdict '{f['verdict']}' after {f['delay_s']} s")
     out = files[0].rsplit('-', 1)[0] + '-session.json'
-    with open(os.path.join(os.path.dirname(files[0]), f"session-{all_rows[0]['t']:%Y-%m-%d}.json"), 'w') as f:
+    with open(os.path.join(os.path.dirname(files[0]), f"session-{all_rows[0]['t']:%Y-%m-%d-%H%M}.json"), 'w') as f:
         json.dump(blocks, f, indent=1)
 
     # figure
@@ -130,7 +130,7 @@ def main():
     faults = any('FAULT' in e for _, _, e in all_events)
     fig.suptitle(f"Lab session {t0:%Y-%m-%d}: old rule vs brain on the real box{', with injected faults' if faults else ', alternating 30 min blocks'} (blue = mist on)", x=0.01, ha='left')
     fig.tight_layout()
-    png = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'docs', 'figures', f'session-{t0:%Y-%m-%d}.png')
+    png = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'docs', 'figures', f'session-{t0:%Y-%m-%d-%H%M}.png')
     fig.savefig(png, dpi=140, facecolor='#fcfcfb'); print('figure:', os.path.normpath(png))
 
 

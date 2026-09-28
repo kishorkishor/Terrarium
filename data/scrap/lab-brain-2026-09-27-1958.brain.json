@@ -1,0 +1,68 @@
+{
+ "seed": [
+  1.605521296547168,
+  0.0027371975669390437,
+  -0.03623369725615062,
+  0.0,
+  0.0,
+  0.19141442570957617
+ ],
+ "final_slow": [
+  0.0,
+  13.449401507460287,
+  -1.8220821164337377,
+  0.0,
+  0.0,
+  1.6792840995917189
+ ],
+ "final_fast": [
+  0.0,
+  13.281103529185136,
+  -1.834817610306649,
+  0.0,
+  0.0,
+  1.7705777798362625
+ ],
+ "events": [
+  [
+   238.0,
+   "maintenance: main mister below 80 % of day-1 strength (clean or replace disc)"
+  ],
+  [
+   277.0,
+   "unexplained humidity gain"
+  ],
+  [
+   288.0,
+   "unexplained humidity gain"
+  ],
+  [
+   300.0,
+   "unexplained humidity gain"
+  ],
+  [
+   312.0,
+   "unexplained humidity gain"
+  ],
+  [
+   324.0,
+   "unexplained humidity gain"
+  ],
+  [
+   335.0,
+   "unexplained humidity gain"
+  ],
+  [
+   347.0,
+   "unexplained humidity gain"
+  ],
+  [
+   365.0,
+   "unexplained humidity gain"
+  ],
+  [
+   394.0,
+   "unexplained humidity gain"
+  ]
+ ]
+}

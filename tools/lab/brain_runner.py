@@ -43,6 +43,10 @@ def seed_from_csv(path, brain):
             prev = (features(ah, rh, mf1, mf2, 0.0), ah, t)
     for r in (brain.slow, brain.fast, brain.snapshot):
         r.theta = list(fit.theta)
+        # the seed is trusted: start with a small covariance so the first minutes of closed-loop
+        # data fine-tune the weights instead of overwriting them (a large p0 made the mister weight
+        # jump within 10 s and trip the wear warning at the start of a run)
+        r.P = [[(0.05 if i == j else 0.0) for j in range(N)] for i in range(N)]
     return fit.theta, n
 
 
@@ -53,6 +57,8 @@ def main():
     ap.add_argument('--seed', default=os.path.join(DATA, 'lab-step-2026-09-25-1910.csv'))
     ap.add_argument('--http', type=int, default=8765)
     ap.add_argument('--lo', type=float, default=75); ap.add_argument('--hi', type=float, default=90)
+    ap.add_argument('--dead-mister', nargs=2, type=float, metavar=('START_MIN', 'DUR_MIN'), default=None,
+                    help='software fault: from START_MIN for DUR_MIN the mist commands are dropped (mister effectively dead)')
     a = ap.parse_args()
     if stopped():
         os.remove(STOP_FILE)
@@ -76,6 +82,7 @@ def main():
                  'fault', 'z', 'sigma', 'mist_slow', 'mist_fast', 'leak_slow_per_s', 'leak_fast_per_s', 'active'])
     cmd_prev, last_ms, n_ev, t0 = None, None, 0, time.time()
     t_offset, last_t = 0.0, 0.0
+    dead_prev = False
     try:
         while not stopped() and time.time() - t0 < a.minutes * 60:
             b.pump(1)
@@ -96,9 +103,18 @@ def main():
                 continue                                    # need one good reading before the brain can run blind
             t = t_offset + ms / 1000.0; last_t = ms / 1000.0
             main, backup = brain.step(t, rh, temp, 0, lambda k: 0)
-            if (main, backup) != cmd_prev:
-                b.send(f'MIST A {main}'); b.send(f'MIST B {backup}')
-                cmd_prev = (main, backup)
+            # software fault injection: the brain commands the mist, but nothing reaches the box
+            el_min = (time.time() - t0) / 60
+            dead = a.dead_mister is not None and a.dead_mister[0] <= el_min < a.dead_mister[0] + a.dead_mister[1]
+            if dead and not dead_prev:
+                b.send('MARK FAULT dead mister injected: mist commands dropped from now (brain does not know)')
+            if dead_prev and not dead:
+                b.send('MARK FAULT dead mister cleared: commands pass again')
+            dead_prev = dead
+            phys = (0, 0) if dead else (main, backup)
+            if phys != cmd_prev:
+                b.send(f'MIST A {phys[0]}'); b.send(f'MIST B {phys[1]}')
+                cmd_prev = phys
             for when, text in brain.events[n_ev:]:
                 b.note(f'BRAIN: {text}')
             n_ev = len(brain.events)

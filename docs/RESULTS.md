@@ -1,4 +1,4 @@
-# Terrarium brain: everything so far (as of 2026-09-27 03:10)
+# Terrarium brain: everything so far (as of 2026-09-28 00:10)
 
 One file that holds the state of the project: what we are building, what has been measured on the real box, where every number lives, and what is left. Nothing in the results sections is simulated.
 
@@ -75,24 +75,37 @@ Lid 4 cm, wiring redone, 100 % good readings in all four blocks.
 
 Reading: with the gap and the water surface, the box settles at 78–80 %RH by itself, inside the band. The rule waits for 75 %, then mists a full 5 min to 88 % (the ceiling; 90 % is never reached), the box drains back in ~10 min, repeat. The brain plans a burst only when its model says one is needed; tonight it never was. Same box, alternating blocks, outside humidity drifting 73 → 71 %. One chip crash at 02:50 (interrupt watchdog); the laptop runner recovered it in a second, 6 s of data lost.
 
-Figure: `docs/figures/session-2026-09-27.png`. Metrics: `data/session-2026-09-27.json`.
+Figure: `docs/figures/session-2026-09-27-0055.png`. Metrics: `data/session-2026-09-27-0055.json`.
 
-### 3.4 Simulation (logic test only, not evidence)
+### 3.4 Rule vs brain on a dry, leaky box, with a dead-mister fault, 27 Sep 20:03–22:33 (`docs/lab-session-2026-09-27-evening.md`)
+Lid 4 cm, room 69 %RH, box 69 %RH at start; 100 % valid readings in all five blocks.
+
+| Block | In 75–90 % | Below 75 % | Mist min | Bursts |
+|---|---|---|---|---|
+| Brain (dry start) | 74.3 % | 25.7 % | 24.1 | 6 |
+| Rule | 65.6 % | 34.4 % | 18.2 | 4 |
+| Brain | **99.4 %** | 0.6 % | 24.0 | 6 |
+| Rule | 90.9 % | 9.1 % | 16.3 | 4 |
+| Brain, dead-mister fault 22:09–22:21 | 78.9 % | 21.1 % | 13.9 | 5 |
+
+Reading: the box's passive equilibrium is ~74 %RH and one mister tops out near 82 %, so both controllers mist most of the time. The brain leads both pairs (74.3 vs 65.6, 99.4 vs 90.9 % in band) by resting 60 s instead of 180 s, at ~40 % more mist. **Dead mister (software-injected, 12 min, 450 s of commanded mist lost): not detected.** The leak-corrected mister check has no discriminating power on a leaky box near equilibrium; an offline burst-onset check false-alarmed on healthy blocks and was not adopted. Figure `docs/figures/session-2026-09-27-2003.png`.
+
+### 3.5 Simulation (logic test only, not evidence)
 `tools/brain/run_demo.py`, 76 simulated hours with four faults, drift and a memory glitch: brain 99.2 % in band vs rules 93.1 %, 282 vs 353 mist-min/day, all faults named correctly on 7 random seeds, no false alarms. Constants in `sim_box.py` now use the measured mister strength (0.17 open / 0.10 closed) and decay. Figure `docs/figures/brain-sim-demo.png`.
 
 ## 4. What the results support, and what they do not
 
 **Supported by measured data**
 - One learned model, seeded from a 90 min step test, controls a real box and holds the target band as well as or better than the rule (100 % vs 99.4 % over the alternating hour; 95.4 % vs 96.5 % over the fault session where the brain also carried a fault).
-- It uses far less water: 0 vs 14.6 mist-min per hour (27 Sep); 1.1 vs 5.0 in the 26 Sep blocks.
+- Water: on a box that needs no misting it used none where the rule used 14.6 min/h (27 Sep night); on a dry leaky box it held the band more of the time than the rule (74 vs 66 %, 99 vs 91 %) but used ~40 % more mist (27 Sep evening).
 - It names a lid-open fault by itself (400 s) after suspecting it in 1 s, keeps controlling meanwhile, and clears its own false alarm by testing (6.5 min).
 - It re-fits its model when the box changes (leak weight 3.6× within 25 min of the gap).
 - The chip survives a wet sensor: bus lock-up → watchdog reboot → sensors back in 1 s.
 
 **Not yet supported**
-- Burst planning on the real box outside a fault: the brain never needed to mist in the alternating session. The only real-box bursts it planned were the three 35 s test bursts during the lid fault (26 Sep). A drier room or a fan schedule would exercise it.
+- Burst planning was exercised on a dry box (27 Sep evening): with the target unreachable the planner falls back to maximum bursts, which wins time-in-band at a water cost. A lower-edge holding mode is the obvious next improvement.
+- **Dead-mister detection failed on the real box** (27 Sep evening): humidity-only checks cannot see a dead mister on a leaky box near its passive equilibrium. Needs a direct actuator signal or a commissioning-time onset signature.
 - Running on the chip: the brain ran on the laptop over USB (5 s steps). The port is straightforward (6 weights, two 6×6 matrices) but not done.
-- Dead-mister fault and backup switchover: not injected on the real box.
 - Days-long behaviour, plants inside, more than one box: not tested.
 
 ## 5. Hardware lessons (worth a paragraph in methods)
@@ -107,14 +120,12 @@ Figure: `docs/figures/session-2026-09-27.png`. Metrics: `data/session-2026-09-27
 |---|---|---|
 | Port `brain.py` to C in `firmware/lab` and check it reproduces the laptop decisions on the recorded runs | Claude | none |
 | Root-cause the 02:50 interrupt-watchdog crash | Claude | none |
-| Optional: one session where the box needs misting (fan schedule or drier room), 2 h alternating | user starts it | 2 h |
-| Optional: dead-mister fault with the backup mister connected | user unplugs | 30 min |
 | Write the paper: methods, results (sections 3.1–3.3), limitations (section 4) | both | none |
 
 ## 7. Files
 - Data and index: `data/README.md`
-- Write-ups: `docs/lab-step-2026-09-25.md`, `docs/box-experiment-2026-09-25.md`, `docs/lab-session-2026-09-26.md`, `docs/lab-session-2026-09-27.md`
-- Figures: `docs/figures/lab-step-2026-09-25-1910.png`, `session-2026-09-26.png`, `session-2026-09-27.png`, `box-humidity-2026-09-25.png`, `brain-sim-demo.png`
+- Write-ups: `docs/lab-step-2026-09-25.md`, `docs/box-experiment-2026-09-25.md`, `docs/lab-session-2026-09-26.md`, `docs/lab-session-2026-09-27.md`, `docs/lab-session-2026-09-27-evening.md`
+- Figures: `docs/figures/lab-step-2026-09-25-1910.png`, `session-2026-09-26.png`, `session-2026-09-27-0055.png`, `session-2026-09-27-2003.png`, `box-humidity-2026-09-25.png`, `brain-sim-demo.png`
 - Plan and gap: `docs/publication-plan.md`, `docs/tinyml-esp32-gap-check.md`, `docs/self-healing-gap-check.md`
 - Code: `firmware/lab/`, `tools/lab/`, `tools/brain/`
 - Git: commits `d43efaf`, `eb78ab6`, `aa813b7` and this one, branch `main`, not pushed.

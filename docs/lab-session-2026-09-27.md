@@ -1,6 +1,6 @@
 # Lab session 2026-09-27, 00:55 to 02:55: old rule vs brain, alternating 30 min blocks
 
-Rig as on 26 Sep (`docs/lab-session-2026-09-26.md`) but with the lid propped **4 cm** and the sensor wiring redone (both sensors 100 % good in a 2 min check before the start). Brain on the laptop (`tools/lab/brain_runner.py`), pre-seeded from the 25 Sep step test, learning throughout. Data: `data/lab-baseline-2026-09-27-0055.csv`, `lab-brain-2026-09-27-0125.csv`, `lab-baseline-2026-09-27-0155.csv`, `lab-brain-2026-09-27-0225.csv` (+ `.brain.csv`, `.events.txt`). Figure `docs/figures/session-2026-09-27.png`. Metrics `data/session-2026-09-27.json`.
+Rig as on 26 Sep (`docs/lab-session-2026-09-26.md`) but with the lid propped **4 cm** and the sensor wiring redone (both sensors 100 % good in a 2 min check before the start). Brain on the laptop (`tools/lab/brain_runner.py`), pre-seeded from the 25 Sep step test, learning throughout. Data: `data/lab-baseline-2026-09-27-0055.csv`, `lab-brain-2026-09-27-0125.csv`, `lab-baseline-2026-09-27-0155.csv`, `lab-brain-2026-09-27-0225.csv` (+ `.brain.csv`, `.events.txt`). Figure `docs/figures/session-2026-09-27-0055.png`. Metrics `data/session-2026-09-27-0055.json`.
 
 | Block | Start | Minutes | In 75–90 % | Below 75 % | Mist min | Bursts | RH min | RH max |
 |---|---|---|---|---|---|---|---|---|

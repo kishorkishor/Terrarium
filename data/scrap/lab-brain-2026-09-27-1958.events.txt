@@ -1,0 +1,34 @@
+2026-09-27 19:58:34  [idle]  logger connected to COM3
+2026-09-27 19:58:34  [idle]  BRAIN runner: seed weights [1.6055, 0.0027, -0.0362, 0.0, 0.0, 0.1914] (mist 1.6055 g/m3 per step, leak 7.25e-03 /s)
+2026-09-27 19:58:34  [idle]  >> HEADER
+2026-09-27 19:58:34  [idle]  >> SET man=400
+2026-09-27 19:58:34  [idle]  >> MODE MANUAL
+2026-09-27 19:58:35  [idle]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 19:58:35  [idle]  << mode MANUAL
+2026-09-27 19:58:35  [idle]  >> MARK session 3 start: box dry, lid as left (4 cm), both sensors 100 percent
+2026-09-27 19:58:35  [idle]  << MARK  session 3 start: box dry, lid as left (4 cm), both sensors 100 percent
+2026-09-27 19:58:37  [brain]  >> MARK brain block start
+2026-09-27 19:58:37  [brain]  << MARK  brain block start
+2026-09-27 19:58:38  [brain]  >> MIST A 1
+2026-09-27 19:58:38  [brain]  >> MIST B 0
+2026-09-27 19:58:38  [brain]  << mist A=1 B=0 (manual)
+2026-09-27 19:58:48  [brain]  BRAIN: maintenance: main mister below 80 % of day-1 strength (clean or replace disc)
+2026-09-27 19:59:26  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 19:59:37  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 19:59:49  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:01  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:13  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:24  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:36  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:00:48  [brain]  >> MIST A 0
+2026-09-27 20:00:48  [brain]  >> MIST B 0
+2026-09-27 20:00:48  [brain]  << mist A=0 B=0 (manual)
+2026-09-27 20:00:54  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:01:23  [brain]  BRAIN: unexplained humidity gain
+2026-09-27 20:01:57  [end]  >> MIST A 0
+2026-09-27 20:01:57  [end]  >> MIST B 0
+2026-09-27 20:01:57  [end]  >> MODE OFF
+2026-09-27 20:01:57  [end]  >> STATUS
+2026-09-27 20:01:57  [end]  << mode OFF
+2026-09-27 20:01:57  [end]  << S,mode=OFF,lo=75.0,hi=90.0,max=300,cool=180,man=400,use=A,period=1,in=ok,out=ok,tank=ok,mistA=0,mistB=0
+2026-09-27 20:01:59  [end]  END brain block. weights now: 0.0000 13.4494 -1.8221 0.0000 0.0000 1.6793
