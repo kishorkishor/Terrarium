@@ -105,7 +105,7 @@ At 1 cm the box holds ~80 %RH by itself (room 64–66 %), above both controllers
 Reading: the brain's first bursts were model-sized (155 s, 120 s) against the rule's 300 s cap; in pair 1 it used half the mist and both ended near the box's own ~80 %. **Inconclusive about water:** the mister's delivered strength varied up to fivefold between cycles, weakest just after the tray was refilled before pair 2 (overfilled tray), so the rule faced a weak mister in pair 2 and the brain a weaker one in pair 1. The lid position may also have shifted between pairs (the sensor cable was re-taped). One cycle per controller per pair cannot separate controller from actuator variability.
 
 Two hardware findings from this run:
-- **Frozen humidity channel (17:07:48).** A bus glitch while the lid was moved cleared the BME280's ctrl_hum; the Adafruit library converted the chip's "not measured" value (raw 0x8000) into a steady ~61.3 % that drifted only with temperature, while the box was full of mist; the rule kept misting. Range checks and a 12-identical-readings stuck check both miss this. Firmware fix (commit 54b1661): read the raw humidity register every sample and reject 0x8000, and verify ctrl_hum after init. It caught a failed setup on the next glitch (17:36:40) and recovered.
+- **Frozen humidity channel (17:07:48).** A bus glitch while the lid was moved cleared the BME280's ctrl_hum; the Adafruit library converted the chip's "not measured" value (raw 0x8000) into a steady ~61.3 % that drifted only with temperature, while the box was full of mist; the rule kept misting. Range checks and a 12-identical-readings stuck check both miss this. Firmware fix (`readRawHum` in `firmware/lab/lab.ino`): read the raw humidity register every sample and reject 0x8000, and verify ctrl_hum after init. It caught a failed setup on the next glitch (17:36:40) and recovered.
 - **ESP32 restarts explained.** 27 Sep 02:50 and 28 Sep 16:06 share one signature (decoded with addr2line against the matching ELF): the Arduino loop task blocked in the ESP-IDF I2C master driver, the driver's ISR waited on a spinlock (`xQueueGenericSendFromISR` / `xQueueGiveFromISR`), the 15 s task watchdog fired, and its panic handler tripped the interrupt watchdog. Recovery ~20 s each time. The 16:06 one happened as the lid was about to be handled.
 
 ### 3.6 Simulation (logic test only, not evidence)
@@ -131,15 +131,16 @@ Two hardware findings from this run:
 1. The BME280 "179.4 °C / 100 %" state is the chip at power-on defaults: register writes fail on a marginal bus or after hot-replugging its clock wire, while single-byte reads still work. Power cycling does not fix it; solid SDA/SCL wiring does.
 2. Two sensors' SCL wires sharing one breadboard row failed intermittently for hours; a clean rewire gave 100 % good data for 3 h.
 3. Tearing the ESP32 I2C driver down and up in firmware (Wire.end/begin) crashed the chip (StoreProhibited); removed.
-4. A wet BME280 faults the bus. With the recovery routine removed, re-probing every 5 s plus the task watchdog handled later faults; one unexplained interrupt-watchdog restart remained (27 Sep 02:50).
+4. A wet BME280 faults the bus. With the recovery routine removed, re-probing every 5 s plus the task watchdog handled later faults. The two interrupt-watchdog restarts that remained (27 Sep 02:50, 28 Sep 16:06) were traced to the ESP-IDF I2C driver (3.5) and cost about 20 s each.
 5. Corrupted reads can pass naive sanity checks (100.00 %RH, 0 °C); the filter now requires plausible temperature, pressure and step size.
 
 ## 6. What is left
-| Item | Who | Box time |
-|---|---|---|
-| Port `brain.py` to C in `firmware/lab` and check it reproduces the laptop decisions on the recorded runs | Claude | none |
-| Root-cause the 02:50 interrupt-watchdog crash | Claude | none |
-| Write the paper: methods, results (sections 3.1–3.3), limitations (section 4) | both | none |
+| Item | Box time |
+|---|---|
+| Port `brain.py` to C in `firmware/lab` and check it reproduces the laptop decisions on the recorded runs | none |
+| Matched rule vs learning with a steady, measured mister output, several cycles each (the water question) | several hours |
+| Lid-off and dead-mister faults under the production rule, to measure what the brain's recovery saves | 1–2 h |
+| Dead-mister detection from a direct signal (mister current) or a commissioning-time onset signature | 1 h |
 
 ## 7. Files
 - Data and index: `data/README.md`
@@ -147,4 +148,4 @@ Two hardware findings from this run:
 - Figures: `docs/figures/lab-step-2026-09-25-1910.png`, `session-2026-09-26.png`, `session-2026-09-27-0055.png`, `session-2026-09-27-2003.png`, `box-humidity-2026-09-25.png`, `brain-sim-demo.png`
 - Plan and gap: `docs/publication-plan.md`, `docs/tinyml-esp32-gap-check.md`, `docs/self-healing-gap-check.md`
 - Code: `firmware/lab/`, `tools/lab/`, `tools/brain/`
-- Git: commits `d43efaf`, `eb78ab6`, `aa813b7` and this one, branch `main`, not pushed.
+- Paper: `docs/paper/` (built by `tools/paper/build_paper.js`, figures by `tools/paper/paper_figures.py`)
